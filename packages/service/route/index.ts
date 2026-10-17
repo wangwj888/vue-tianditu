@@ -1,4 +1,6 @@
-import { defineComponent, onBeforeMount, provide } from "vue-demi";
+import type { SharedComponent } from "../../types";
+import { defineComponent, provide } from "vue";
+import { useMapTask } from "../../use";
 import { h, fixMapPropagation } from "../../utils";
 import { useInit, useState, useWatch } from "./use";
 import { RouteMapView, RoutePlans, RoutePolicies, RouteSearch, RouteTypes } from "./components";
@@ -11,8 +13,8 @@ export const TdtRoute = defineComponent({
     const state = useState();
     provide("routeState", state);
 
-    onBeforeMount(async () => {
-      await useInit(state);
+    useMapTask((map, onCleanup) => {
+      onCleanup(useInit(state, map));
       useWatch(state);
     });
 
@@ -28,6 +30,6 @@ export const TdtRoute = defineComponent({
         [h(RouteTypes), h(RouteSearch), h(RoutePolicies), h(RoutePlans), h(RouteMapView)]
       );
   }
-});
+}) as unknown as SharedComponent;
 
 export type TdtRoute = InstanceType<typeof TdtRoute>;

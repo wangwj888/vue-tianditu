@@ -1,14 +1,15 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toBounds, toLngLat } from "../../utils";
-import { Props } from "./";
+import { Emit, Props } from "./";
 
-export function useWatch({ props, instance }: { props: Props; instance: T.Map }) {
+export function useWatch({ props, instance, emit }: { props: Props; instance: T.Map; emit: Emit }): () => void {
   watch(
     () => ({ center: props.center, zoom: props.zoom }),
     val => {
-      if (!val.center || !val.zoom) return;
+      if (val.center == null || val.zoom == null) return;
       instance.panTo(toLngLat(val.center), val.zoom);
-    }
+    },
+    { deep: true }
   );
   watch(
     () => props.drag,
@@ -52,26 +53,46 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Map })
   );
   watch(
     () => props.minZoom,
-    val => val && instance.setMinZoom(val)
+    val => val != null && instance.setMinZoom(val)
   );
   watch(
     () => props.maxZoom,
-    val => val && instance.setMaxZoom(val),
+    val => val != null && instance.setMaxZoom(val),
     { immediate: true }
   );
   watch(
     () => props.maxBounds,
-    val => val && instance.setMaxBounds(toBounds(val)),
-    { immediate: true }
+    val => val != null && instance.setMaxBounds(toBounds(val)),
+    { immediate: true, deep: true }
   );
   watch(
     () => props.viewport,
-    val => val && instance.setViewport(val?.map(lnglat => toLngLat(lnglat))),
-    { immediate: true }
+    val => val != null && instance.setViewport(val.map(lnglat => toLngLat(lnglat))),
+    { immediate: true, deep: true }
   );
   watch(
     () => props.mapStyle,
     val => (val ? instance.setStyle(val) : instance.removeStyle()),
     { immediate: true }
   );
+
+  // Keep v-model:center / v-model:zoom in sync with user interaction.
+  const syncCenter = () => {
+    const center = instance.getCenter();
+    const next: VT.LngLat = [center.lng, center.lat];
+    const current = props.center;
+    if (!current || current[0] !== next[0] || current[1] !== next[1]) {
+      emit("update:center", next);
+    }
+  };
+  const syncZoom = () => {
+    const zoom = instance.getZoom();
+    if (props.zoom !== zoom) emit("update:zoom", zoom);
+  };
+  instance.addEventListener("moveend", syncCenter);
+  instance.addEventListener("zoomend", syncZoom);
+  return () => {
+    instance.removeEventListener("moveend", syncCenter);
+    instance.removeEventListener("zoomend", syncZoom);
+  };
 }

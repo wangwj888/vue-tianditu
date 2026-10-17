@@ -2,10 +2,14 @@
 
 ## 示例
 
+<ClientOnly>
 <demo-marker-clusterer></demo-marker-clusterer>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-marker-clusterer/index.vue
+
+<<< @/.vitepress/components/demo-marker-clusterer/index.vue
+
 </code-details>
 
 ## 属性

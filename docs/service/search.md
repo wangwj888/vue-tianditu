@@ -14,17 +14,21 @@
 import "vue-tianditu/lib/style.css";
 ```
 
+<ClientOnly>
 <demo-search></demo-search>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-search/index.vue
+
+<<< @/.vitepress/components/demo-search/index.vue
+
 </code-details>
 
 ## 属性
 
 | 属性        | 类型    | 默认值           | 说明               |
 | ----------- | ------- | ---------------- | ------------------ |
-| placeholder | number  | "输入关键字搜索" | 显示在输入框的提示 |
+| placeholder | string  | "输入关键字搜索" | 显示在输入框的提示 |
 | searchBtn   | boolean | true             | 是否显示搜索按钮   |
 | routeBtn    | boolean | true             | 是否显示导航按钮   |
 

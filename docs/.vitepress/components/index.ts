@@ -1,11 +1,9 @@
-import { App } from "vue-demi";
-
-const components = import.meta.globEager("./**/*.vue");
-
+import type { App, Component } from "vue";
+const components = import.meta.glob<{ default: Component & { name?: string } }>("./**/*.vue", { eager: true });
 export default {
-  install: (app: App) => {
+  install(app: App) {
     Object.values(components).forEach(component => {
-      app.component(component.default.name, component.default);
+      if (component.default.name) app.component(component.default.name, component.default);
     });
   }
 };

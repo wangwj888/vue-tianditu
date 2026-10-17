@@ -1,7 +1,7 @@
-import { defineComponent, computed, watch, onBeforeMount, PropType } from "vue-demi";
+import { defineComponent, computed, watch, PropType } from "vue";
 import { TdtMarker, TdtInfowindow } from "../../../components";
 import { toLngLats, h } from "../../../utils";
-import { useMapRoot } from "../../../use";
+import { useMapTask } from "../../../use";
 
 export const SearchMapView = defineComponent({
   props: {
@@ -15,7 +15,7 @@ export const SearchMapView = defineComponent({
   emits: {
     /** 点击地图上的标点触发 */
     "poi-click": (e: T.LocalSearchPoi) => true,
-    "update-target": (e: VT.LngLat | null) => true
+    "update:target": (e: VT.LngLat | null) => true
   },
   setup(props, { emit }) {
     const markers = computed(() => {
@@ -27,9 +27,7 @@ export const SearchMapView = defineComponent({
       });
     });
 
-    onBeforeMount(async () => {
-      const tdtMap = await useMapRoot();
-
+    useMapTask(tdtMap => {
       watch(markers, () => {
         tdtMap?.setViewport(toLngLats(markers.value.map(e => e.position)));
       });
@@ -53,7 +51,7 @@ export const SearchMapView = defineComponent({
             minWidth: 150
           },
           on: {
-            "update:target": (e: VT.LngLat | null) => emit("update-target", e)
+            "update:target": (e: VT.LngLat | null) => emit("update:target", e)
           }
         })
       ]);

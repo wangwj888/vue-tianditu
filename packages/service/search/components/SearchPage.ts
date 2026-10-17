@@ -1,4 +1,4 @@
-import { defineComponent, computed } from "vue-demi";
+import { defineComponent, computed } from "vue";
 import { h } from "../../../utils";
 import "../styles/search-page.scss";
 

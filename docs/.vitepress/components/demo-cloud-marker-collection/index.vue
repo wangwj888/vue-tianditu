@@ -4,7 +4,7 @@
       <tdt-cloud-marker-collection
         :lnglats="state.lnglats"
         color="blue"
-        SizeType="small"
+        SizeType="SMALL"
         @click="onClick"
       ></tdt-cloud-marker-collection>
       <tdt-infowindow v-model:target="state.target" :content="state.content"></tdt-infowindow>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 import dataCollection from "./data";
 
 const state = reactive({
@@ -32,7 +32,7 @@ function onClick(e: any) {
 </script>
 
 <script lang="ts">
-export default { name: "demo-cloud-marker-collection" };
+export default { name: "DemoCloudMarkerCollection" };
 </script>
 
 <style scoped>

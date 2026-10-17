@@ -2,10 +2,14 @@
 
 ## 示例
 
+<ClientOnly>
 <demo-marker></demo-marker>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-marker/index.vue
+
+<<< @/.vitepress/components/demo-marker/index.vue
+
 </code-details>
 
 ## 属性

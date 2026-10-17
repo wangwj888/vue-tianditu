@@ -14,8 +14,12 @@
 import "vue-tianditu/lib/style.css";
 ```
 
+<ClientOnly>
 <demo-route></demo-route>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-route/index.vue
+
+<<< @/.vitepress/components/demo-route/index.vue
+
 </code-details>

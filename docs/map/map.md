@@ -4,11 +4,23 @@
 
 当参数 center 和 zoom 正确时地图才会正常显示
 
+<ClientOnly>
 <demo-map></demo-map>
+</ClientOnly>
 
 <code-details>
+
 <<< @/.vitepress/components/demo-map/index.vue
+
 </code-details>
+
+## 双向绑定
+
+用户拖动或缩放地图后，`v-model:center`、`v-model:zoom` 会把最新视野同步回父组件：
+
+```vue
+<tdt-map v-model:center="center" v-model:zoom="zoom" />
+```
 
 ## 属性
 
@@ -38,6 +50,8 @@
 | 事件 | 参数 | 描述 |
 | --- | --- | --- |
 | init | map | 地图初始化完成触发此事件 |
+| update:center | [lng, lat] | 地图中心点变化时触发（moveend），支持 `v-model:center` |
+| update:zoom | number | 地图缩放级别变化时触发（zoomend），支持 `v-model:zoom` |
 | click | ({type,target,lnglat,containerPoint}) | 左键单击地图时触发此事件 |
 | dblclick | ({type,target,lnglat,containerPoint}) | 鼠标双击地图时会触发此事件 |
 | contextmenu | ({type,target,lnglat,containerPoint}) | 右键单击地图时触发此事件 |

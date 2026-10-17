@@ -1,11 +1,12 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toIcon, toLngLat } from "../../../utils";
 import { Props } from "./";
 
 export function useWatch({ props, instance }: { props: Props; instance: T.Marker }) {
   watch(
     () => props.position,
-    val => val && instance.setLngLat(toLngLat(val))
+    val => val != null && instance.setLngLat(toLngLat(val)),
+    { deep: true }
   );
   watch(
     () => props.draggable,
@@ -18,12 +19,12 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Marker
   );
   watch(
     () => props.zIndexOffset,
-    val => val && instance.setZIndexOffset(val),
+    val => val != null && instance.setZIndexOffset(val),
     { immediate: true }
   );
   watch(
     () => props.opacity,
-    val => val && instance.setOpacity(val),
+    val => val != null && instance.setOpacity(val),
     { immediate: true }
   );
   watch(

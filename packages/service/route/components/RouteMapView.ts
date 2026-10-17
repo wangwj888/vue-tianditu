@@ -1,4 +1,4 @@
-import { defineComponent } from "vue-demi";
+import { defineComponent } from "vue";
 import { TdtMarker, TdtPolyline } from "../../../components";
 import { h } from "../../../utils";
 import { useState } from "../use";

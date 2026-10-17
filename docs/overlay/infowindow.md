@@ -2,10 +2,14 @@
 
 ## 示例
 
+<ClientOnly>
 <demo-infowindow></demo-infowindow>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-infowindow/index.vue
+
+<<< @/.vitepress/components/demo-infowindow/index.vue
+
 </code-details>
 
 ## 属性

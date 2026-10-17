@@ -1,5 +1,6 @@
-import { defineComponent, onBeforeMount, onUnmounted } from "vue-demi";
-import { useMapRoot, useEvent } from "../../use";
+import type { SharedComponent } from "../../types";
+import { defineComponent } from "vue";
+import { useMapTask, useEvent } from "../../use";
 import { useInit, useWatch, PROPS, EVENTS, NATIVE_EVENTS } from "./use";
 
 export const TdtTilelayerWms = defineComponent({
@@ -7,11 +8,9 @@ export const TdtTilelayerWms = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit, attrs }) {
-    onBeforeMount(async () => {
-      onUnmounted(() => tdtComponent && tdtMap?.removeLayer(tdtComponent));
-
-      const tdtMap = await useMapRoot();
+    useMapTask((tdtMap, onCleanup) => {
       const tdtComponent = useInit(props, attrs);
+      onCleanup(() => { tdtMap.removeLayer(tdtComponent); });
       tdtMap.addLayer(tdtComponent);
       useEvent({ events: NATIVE_EVENTS, emit, instance: tdtComponent });
       useWatch({ props, instance: tdtComponent });
@@ -20,6 +19,6 @@ export const TdtTilelayerWms = defineComponent({
 
     return () => {};
   }
-});
+}) as unknown as SharedComponent<typeof PROPS, typeof EVENTS>;
 
 export type TdtTilelayerWms = InstanceType<typeof TdtTilelayerWms>;

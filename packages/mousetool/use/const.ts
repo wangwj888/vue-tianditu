@@ -1,4 +1,4 @@
-import { PropType } from "vue-demi";
+import { PropType } from "vue";
 import { MarkToolOptions, PaintBrushToolOptions, ToolEvents, ToolInstances } from "../types";
 import { DefineEmits, DefineProps } from "../../types";
 

@@ -4,10 +4,14 @@
 
 实现在地图上叠加网格图层， 用户可以自定义格网的像素大小、边线颜色、边线宽度透明度等一系列参数
 
+<ClientOnly>
 <demo-gridline-layer></demo-gridline-layer>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-gridline-layer/index.vue
+
+<<< @/.vitepress/components/demo-gridline-layer/index.vue
+
 </code-details>
 
 ## 属性

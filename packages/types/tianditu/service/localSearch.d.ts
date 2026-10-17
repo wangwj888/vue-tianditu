@@ -1,4 +1,7 @@
 declare namespace T {
+  /** Search API query kind, returned as a number or string by the SDK. */
+  type QueryType = number | string;
+
   class LocalSearch {
     /** 创建一个搜索类实例用于位置检索、周边检索和范围检索 */
     constructor(map: Map, opts: LocalSearchOptions);

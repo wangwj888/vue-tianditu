@@ -8,9 +8,9 @@ declare namespace T {
     /** 检索公交路线 */
     getBusLine(busListItem: BusListItem): void;
     /** 设置公交列表查询后的回调函数 */
-    setGetBusListCompleteCallback(callback: Function): void;
+    setGetBusListCompleteCallback(callback: (result: BusListResult) => void): void;
     /** 设置公交线路查询后的回调函数 */
-    setGetBusLineCompleteCallback(callback: Function): void;
+    setGetBusLineCompleteCallback(callback: (result: BusLine) => void): void;
   }
 
   interface BusLineSearchOptions {

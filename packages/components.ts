@@ -17,3 +17,6 @@ export * from "./tilelayer/gridlineLayer";
 export * from "./service/search";
 export * from "./service/route";
 export * from "./extra/cartrack";
+
+export * from "./overlay/heatmap";
+export * from "./overlay/custom";

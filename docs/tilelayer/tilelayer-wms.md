@@ -4,10 +4,14 @@
 
 实现在地图上叠加自定义的地图图块层，自定义图层会叠加在基础地图上
 
+<ClientOnly>
 <demo-tilelayer-wms></demo-tilelayer-wms>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-tilelayer-wms/index.vue
+
+<<< @/.vitepress/components/demo-tilelayer-wms/index.vue
+
 </code-details>
 
 ## 属性

@@ -1,36 +1,38 @@
-## [2.7.6](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.5...v2.7.6) (2022-05-09)
+# 3.0.0
 
+- Vue 2 支持范围调整为 2.7.x，Vue 3 最低版本为 3.2.47；移除 vue-demi 和 Composition API 插件依赖。
+- 新增 TdtHeatmap，使用随应用打包的热力图内核。
+- 新增 TdtCustomOverlay，支持插槽 DOM、Vue 子组件、定位和交互。
+- 更新构建、声明生成、双版本消费示例和开发工具。
+- 加载器支持并发去重、追加插件、自托管地址、失败重试和 SSR 安全注册。
+- 补齐迁移指南、加载器文档及水波纹、热力图交互示例。
+
+## [2.7.6](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.5...v2.7.6) (2022-05-09)
 
 ### Bug Fixes
 
-* 地图拖拽冒泡 ([ce9a1e2](https://github.com/SoulLyoko/vue-tianditu/commit/ce9a1e2f3838f90e00524648d7530f69095eda9c))
-* **infowindow:** 解决vue2中content属性的html类型警告 ([15f5fac](https://github.com/SoulLyoko/vue-tianditu/commit/15f5fac80b532add916aff531a21ebefea3c5935))
-* **mousetool:** 修改marktool的鼠标事件 ([4456395](https://github.com/SoulLyoko/vue-tianditu/commit/4456395ee70d04eaee42c07c8e5610af733af933)), closes [#54](https://github.com/SoulLyoko/vue-tianditu/issues/54)
-
+- 地图拖拽冒泡 ([ce9a1e2](https://github.com/SoulLyoko/vue-tianditu/commit/ce9a1e2f3838f90e00524648d7530f69095eda9c))
+- **infowindow:** 解决vue2中content属性的html类型警告 ([15f5fac](https://github.com/SoulLyoko/vue-tianditu/commit/15f5fac80b532add916aff531a21ebefea3c5935))
+- **mousetool:** 修改marktool的鼠标事件 ([4456395](https://github.com/SoulLyoko/vue-tianditu/commit/4456395ee70d04eaee42c07c8e5610af733af933)), closes [#54](https://github.com/SoulLyoko/vue-tianditu/issues/54)
 
 ### Features
 
-* 新增搜索组件事件 ([b4ee795](https://github.com/SoulLyoko/vue-tianditu/commit/b4ee79541bf3e59ee17f503c7fe534855d95e3f1)), closes [#52](https://github.com/SoulLyoko/vue-tianditu/issues/52)
-
-
+- 新增搜索组件事件 ([b4ee795](https://github.com/SoulLyoko/vue-tianditu/commit/b4ee79541bf3e59ee17f503c7fe534855d95e3f1)), closes [#52](https://github.com/SoulLyoko/vue-tianditu/issues/52)
 
 ## [2.7.5](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.4...v2.7.5) (2022-03-25)
 
-
 ### Bug Fixes
 
-* 修复Copright控件不能添加的问题，并新增position属性 ([7fd3934](https://github.com/SoulLyoko/vue-tianditu/commit/7fd39340ee39ace508e4686a39729f79bf4ba496)), closes [#44](https://github.com/SoulLyoko/vue-tianditu/issues/44)
-
+- 修复Copright控件不能添加的问题，并新增position属性 ([7fd3934](https://github.com/SoulLyoko/vue-tianditu/commit/7fd39340ee39ace508e4686a39729f79bf4ba496)), closes [#44](https://github.com/SoulLyoko/vue-tianditu/issues/44)
 
 ### Features
 
-* 组件MarkerClusterer新增clusterclick事件 ([31211e2](https://github.com/SoulLyoko/vue-tianditu/commit/31211e2d5ab6ea5cccb53d4ab64095b0da0b6f6b)), closes [#36](https://github.com/SoulLyoko/vue-tianditu/issues/36)
-
-
+- 组件MarkerClusterer新增clusterclick事件 ([31211e2](https://github.com/SoulLyoko/vue-tianditu/commit/31211e2d5ab6ea5cccb53d4ab64095b0da0b6f6b)), closes [#36](https://github.com/SoulLyoko/vue-tianditu/issues/36)
 
 ## [2.7.4](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.3...v2.7.4) (2022-01-21)
 
 ## [2.7.3](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.2...v2.7.3) (2022-01-21)
+
 ### Features
 
 - 控件 MapType 支持 position ([dad1794](https://github.com/SoulLyoko/vue-tianditu/commit/dad17944788d0b97dac69b667b67d660b49919d0)), closes [#40](https://github.com/SoulLyoko/vue-tianditu/issues/40)
@@ -38,7 +40,6 @@
 ### Bug Fixes
 
 - 控件 MapType 的 mapTypes 属性失效问题 ([aa2f2d4](https://github.com/SoulLyoko/vue-tianditu/commit/aa2f2d4edfbb858d2659011bd3fe4c0e7576eb71)), closes [#40](https://github.com/SoulLyoko/vue-tianditu/issues/40)
-
 
 ## [2.7.2](https://github.com/SoulLyoko/vue-tianditu/compare/v2.7.1...v2.7.2) (2022-01-18)
 

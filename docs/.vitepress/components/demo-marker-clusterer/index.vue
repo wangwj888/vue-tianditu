@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 import { withBase } from "vitepress";
 
 const state = reactive({
@@ -70,7 +70,7 @@ function onClusterClick(e: any) {
 </script>
 
 <script lang="ts">
-export default { name: "demo-marker-clusterer" };
+export default { name: "DemoMarkerClusterer" };
 </script>
 
 <style scoped>

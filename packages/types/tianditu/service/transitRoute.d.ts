@@ -12,7 +12,7 @@ declare namespace T {
     /** 设置路线规划策略，参数为策略常量 */
     setPolicy(policy: TransitRouteOptions["policy"]): void;
     /** 设置检索结束后的回调函数 */
-    setSearchCompleteCallback(fun: Function): void;
+    setSearchCompleteCallback(fun: (result: TransitRouteResult) => void): void;
     /** 返回状态码 */
     getStatus(): TransitRouteResult["resultCode"];
   }

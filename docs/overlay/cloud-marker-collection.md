@@ -2,10 +2,14 @@
 
 ## 示例
 
+<ClientOnly>
 <demo-cloud-marker-collection></demo-cloud-marker-collection>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-cloud-marker-collection/index.vue
+
+<<< @/.vitepress/components/demo-cloud-marker-collection/index.vue
+
 </code-details>
 
 ## 属性

@@ -1,4 +1,4 @@
-import { PropType } from "vue-demi";
+import { PropType } from "vue";
 import { uuid } from "../../utils";
 import { DefineEmits, DefineProps } from "../../types";
 import { LoadConfig } from "../../use";
@@ -79,10 +79,16 @@ export const NATIVE_EVENTS: T.MapEvents = {
 };
 
 export const EXTRA_EVENTS = {
+  /** 地图 API 或初始化失败 */
+  error: (error: Error) => error instanceof Error,
   /** 地图初始化 */
   init: (e: T.Map) => e instanceof T.Map,
   /** 鹰眼视图控件的开合状态变化时触发事件 */
-  viewchange: (e: T.ControlOverviewMapEvent) => true
+  viewchange: (e: T.ControlOverviewMapEvent) => true,
+  /** 地图中心点变化，用于 v-model:center */
+  "update:center": (e: VT.LngLat) => Array.isArray(e),
+  /** 地图缩放级别变化，用于 v-model:zoom */
+  "update:zoom": (e: number) => typeof e === "number"
 };
 
 export const PROPS = { ...NATIVE_PROPS, ...EXTRA_PROPS };

@@ -1,4 +1,4 @@
-import { defineComponent } from "vue-demi";
+import { defineComponent } from "vue";
 import { h } from "../../../utils";
 import { useState } from "../use";
 import "../styles/route-policies.scss";

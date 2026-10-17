@@ -1,0 +1,24 @@
+name: Check
+on:
+  push:
+    branches: [master]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            examples/vue2/yarn.lock
+            examples/vue3/yarn.lock
+            examples/vue3-min/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn check:examples
+      - run: yarn docs:build

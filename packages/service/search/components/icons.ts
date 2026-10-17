@@ -1,4 +1,4 @@
-import { defineComponent } from "vue-demi";
+import { defineComponent } from "vue";
 import { h } from "../../../utils";
 
 export const IconSearch = defineComponent({

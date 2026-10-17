@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 
 const state = reactive({
   center: [113.280637, 23.125178],
@@ -18,7 +18,7 @@ const state = reactive({
 </script>
 
 <script lang="ts">
-export default { name: "demo-route" };
+export default { name: "DemoRoute" };
 </script>
 
 <style scoped>

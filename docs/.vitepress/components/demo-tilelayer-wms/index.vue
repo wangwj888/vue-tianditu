@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 
 const state = reactive({
   center: [116.40769, 39.89945],
@@ -24,7 +24,7 @@ const state = reactive({
 </script>
 
 <script lang="ts">
-export default { name: "demo-tilelayer-wms" };
+export default { name: "DemoTilelayerWms" };
 </script>
 
 <style scoped>

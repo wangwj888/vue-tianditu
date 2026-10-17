@@ -1,4 +1,10 @@
-import { ExtractPropTypes, EmitsOptions, SetupContext, ComponentPublicInstance } from "vue-demi";
+import type { ExtractPropTypes, SetupContext, ComponentPublicInstance, ComponentPropsOptions, DefineComponent } from "vue";
+
+export type EmitsOptions = string[] | Record<string, ((...args: any[]) => any) | null>;
+
+/** Only use the shared Vue 2.7 / Vue 3 public type parameter positions. */
+export type SharedComponent<P extends ComponentPropsOptions = {}, E extends EmitsOptions = {}, Exposed = {}> =
+  DefineComponent<P, Exposed, {}, {}, {}, {}, {}, E>;
 
 export type Data<V = any> = Record<string, V>;
 

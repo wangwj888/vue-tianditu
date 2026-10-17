@@ -7,24 +7,22 @@ declare namespace VT {
 
   type Point = number[];
 
-  interface IconOptions extends T.IconOptions {
+  interface IconOptions extends Omit<T.IconOptions, "iconSize" | "iconAnchor"> {
     iconSize?: Point;
     iconAnchor?: Point;
   }
 
-  interface MarkerOptions extends T.MarkerOptions {
+  interface MarkerOptions extends Omit<T.MarkerOptions, "icon"> {
     icon?: IconOptions | string;
   }
 
   type ControlName = "Zoom" | "Scale" | "Copyright" | "OverviewMap" | "MapType";
 
-  type ControlOptions = T.ControlZoomOptions &
-    T.ControlScaleOptions &
-    ControlCopyrightOptions &
-    T.ControlOverviewMapOptions &
-    ControlMapTypeOptions & {
-      name: ControlName;
-    };
+  type ControlOptions = Partial<
+    T.ControlZoomOptions & T.ControlScaleOptions & ControlCopyrightOptions & T.ControlOverviewMapOptions & ControlMapTypeOptions
+  > & {
+    name: ControlName;
+  };
 
   interface ControlMapTypeOptions {
     mapTypes?: {
@@ -39,11 +37,11 @@ declare namespace VT {
     }[];
   }
 
-  interface ControlCopyrightOptions extends T.ControlCopyrightOptions {
+  interface ControlCopyrightOptions extends Omit<T.ControlCopyrightOptions, "bounds"> {
     bounds: Bounds;
   }
 
-  interface MarkerClustererStyle extends T.MarkerClustererStyle {
+  interface MarkerClustererStyle extends Omit<T.MarkerClustererStyle, "offset"> {
     offset?: Point;
   }
 

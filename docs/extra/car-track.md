@@ -1,11 +1,15 @@
-# 搜索
+# 车辆轨迹
 
 ## 示例
 
+<ClientOnly>
 <demo-car-track></demo-car-track>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-car-track/index.vue
+
+<<< @/.vitepress/components/demo-car-track/index.vue
+
 </code-details>
 
 ## 属性
@@ -24,3 +28,9 @@
 | 事件 | 参数 | 描述 |
 | --- | --- | --- |
 | passOneNode | (lnglat: VT.LngLat, index: number, length: number) | 车辆移动一次时触发调用的方法。 lnglat：经过的坐标 index：节点序号 length:总节点数量 |
+
+## 方法
+
+通过组件 ref 调用 `start()`、`pause()`、`stop()`、`clear()`。Vue 2.7 与 Vue 3 的方法名一致。
+
+通过地图的 `loadConfig.plugins` 加载 `CarTrack` 扩展；默认扩展地址可在加载器中覆盖为自己的 HTTPS 服务。

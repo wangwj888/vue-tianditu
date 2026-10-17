@@ -1,4 +1,4 @@
-import { PropType } from "vue-demi";
+import { PropType } from "vue";
 import { DefineEmits, DefineProps } from "../../../types";
 
 export const NATIVE_PROPS = {
@@ -23,17 +23,21 @@ export const EXTRA_PROPS = {
   extData: { type: undefined as unknown as PropType<any> }
 };
 
-export const NATIVE_EVENTS: T.MakerEvents = {
-  click: () => true,
-  dblclick: () => true,
-  mousedown: () => true,
-  mouseup: () => true,
-  mouseout: () => true,
-  mouseover: () => true,
-  dragstart: () => true,
-  drag: () => true,
-  dragend: () => true,
-  remove: () => true
+/** useEvent forwards the marker's extData with every event. */
+type MarkerEventWithExtData = T.MarkerEvent & { extData: any };
+type DragEventWithExtData<E> = E & { extData: any };
+
+export const NATIVE_EVENTS = {
+  click: (_e: MarkerEventWithExtData) => true,
+  dblclick: (_e: MarkerEventWithExtData) => true,
+  mousedown: (_e: MarkerEventWithExtData) => true,
+  mouseup: (_e: MarkerEventWithExtData) => true,
+  mouseout: (_e: MarkerEventWithExtData) => true,
+  mouseover: (_e: MarkerEventWithExtData) => true,
+  dragstart: (_e: DragEventWithExtData<Pick<T.MarkerEvent, "type" | "target">>) => true,
+  drag: (_e: DragEventWithExtData<Pick<T.MarkerEvent, "type" | "target" | "lnglat">>) => true,
+  dragend: (_e: DragEventWithExtData<Pick<T.MarkerEvent, "type" | "target" | "lnglat">>) => true,
+  remove: (_e: MarkerEventWithExtData) => true
 };
 
 export const EXTRA_EVENTS = {

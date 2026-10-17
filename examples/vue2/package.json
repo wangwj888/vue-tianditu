@@ -1,0 +1,21 @@
+{
+  "name": "vue-tianditu-vue2-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "2.7.16",
+    "mitt": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue2": "^2.3.4",
+    "typescript": "~5.9.3",
+    "vite": "~7.3.7",
+    "vue-tsc": "3.0.11"
+  }
+}

@@ -1,11 +1,12 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toLngLat, toPoint } from "../../../utils";
 import { Props } from "./";
 
 export function useWatch({ props, instance }: { props: Props; instance: T.Label }) {
   watch(
     () => props.position,
-    val => val && instance.setLngLat(toLngLat(val))
+    val => val != null && instance.setLngLat(toLngLat(val)),
+    { deep: true }
   );
   watch(
     () => props.text,
@@ -13,7 +14,8 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Label 
   );
   watch(
     () => props.offset,
-    val => val && instance.setOffset(toPoint(val))
+    val => val != null && instance.setOffset(toPoint(val)),
+    { deep: true }
   );
   watch(
     () => props.title,
@@ -22,12 +24,12 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Label 
   );
   watch(
     () => props.zIndex,
-    val => val && instance.setZIndex(val),
+    val => val != null && instance.setZIndex(val),
     { immediate: true }
   );
   watch(
     () => props.fontSize,
-    val => val && instance.setFontSize(val),
+    val => val != null && instance.setFontSize(val),
     { immediate: true }
   );
   watch(
@@ -52,7 +54,7 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Label 
   );
   watch(
     () => props.opacity,
-    val => val && instance.setOpacity(val),
+    val => val != null && instance.setOpacity(val),
     { immediate: true }
   );
   watch(

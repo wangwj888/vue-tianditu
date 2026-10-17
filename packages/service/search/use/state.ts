@@ -1,4 +1,4 @@
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 import { SearchLocalState, SearchResultState, SearchViewState } from "../types";
 
 export function useState() {

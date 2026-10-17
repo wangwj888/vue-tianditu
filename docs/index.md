@@ -1,140 +1,112 @@
-<center>
+# VueTianditu
 
-<h1>VueTianditu</h1>
-<p>天地图 vue 组件库</p>
-<p>同时支持 Vue3 和 Vue2(composition-api)</p>
-<p>
-<a href="https://soullyoko.github.io/vue-tianditu/">文档</a>
-</p>
+VueTianditu 将天地图 JavaScript API 4.0 封装为 Vue 组件，同时支持 Vue 2.7 和 Vue 3。
 
-</center>
+除了基础地图、控件、覆盖物、瓦片图层、绘图工具、搜索与导航，还提供：
 
-# 快速开始
+- [热力图](/overlay/heatmap)：按经纬度和权重绘制 Canvas 热力图，支持动态数据和样式。
+- [自定义 DOM 覆盖物](/overlay/custom-overlay)：通过插槽编写水波纹、动态标签、卡片、按钮和 Vue 组件。
+- [API 加载器](/api-loader)：共享加载请求、按顺序加载扩展、配置自托管地址。
+- [3.x 迁移指南](/migration)：支持范围、导入方式、双向绑定和类型工具的变化。
 
-## 安装
+<ClientOnly>
+<demo-map></demo-map>
+</ClientOnly>
+
+## 安装与支持范围
+
+支持 **Vue 2.7.x 和 Vue 3.2.47+**，Vue 2 项目推荐使用 2.7.16。不再需要安装 Composition API 插件或版本切换工具。
 
 ```sh
-npm i vue-tianditu
-# or
-yarn add vue-tianditu
+npm install vue-tianditu
 ```
 
-## 全局引入
-
-全部引入，解放双手
+在应用入口引入样式：
 
 ```ts
-// main.ts
+import "vue-tianditu/style.css";
+```
+
+## Vue 3 全局注册
+
+```ts
 import { createApp } from "vue";
-import App from "./App.vue";
 import VueTianditu from "vue-tianditu";
+import "vue-tianditu/style.css";
+import App from "./App.vue";
 
-const app = createApp(App);
-app.use(VueTianditu, {
-  v: "4.0", //目前只支持4.0版本
-  tk: "your map token"
-});
-app.mount("#app");
+createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("#app");
 ```
 
-```html
-<!-- App.vue -->
-<template>
-  <div class="mapDiv">
-    <tdt-map :center="state.center" :zoom="state.zoom"></tdt-map>
-  </div>
-</template>
+## Vue 2.7 全局注册
 
-<script lang="ts" setup>
-  import { reactive } from "vue";
-  import { TdtMap } from "vue-tianditu";
-  const state = reactive({
-    center: [113.280637, 23.125178],
-    zoom: 12
-  });
-</script>
+```ts
+import Vue from "vue";
+import VueTianditu from "vue-tianditu";
+import "vue-tianditu/style.css";
+import App from "./App.vue";
 
-<style>
-  .mapDiv {
-    width: 100%;
-    height: 100%;
-  }
-</style>
-```
-
-### 类型提示
-
-在 tsconfig.json 中通过 compilerOptions.types 指定全局组件类型，需要使用 Volar 插件支持。
-
-```json
-// tsconfig.json
-{
-  "compilerOptions": {
-    // ...
-    "types": ["vue-tianditu/global"]
-  }
-}
+Vue.use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" });
+new Vue({ render: h => h(App) }).$mount("#app");
 ```
 
 ## 按需引入
 
-按需引入，优化包体积
+下面的单文件组件同时适用于 Vue 2.7 和 Vue 3。地图的父容器必须有明确高度；坐标数组顺序为经度、纬度。
 
-`App.vue`
-
-```html
+```vue
 <template>
-  <div class="mapDiv">
-    <tdt-map :center="state.center" :zoom="state.zoom" :loadConfig="loadConfig"></tdt-map>
+  <div class="map">
+    <TdtMap :center="center" :zoom="12" :load-config="loadConfig">
+      <TdtMarker :position="center" />
+    </TdtMap>
   </div>
 </template>
 
-<script lang="ts" setup>
-  import { reactive } from "vue";
-  import { TdtMap } from "vue-tianditu";
-  const loadConfig = { v: "4.0", tk: "your map token" };
-  const state = reactive({
-    center: [113.280637, 23.125178],
-    zoom: 12
-  });
+<script setup lang="ts">
+import { ref } from "vue";
+import { TdtMap, TdtMarker } from "vue-tianditu";
+import "vue-tianditu/style.css";
+
+const center = ref([113.280637, 23.125178]);
+const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 </script>
 
-<style>
-  .mapDiv {
-    width: 100%;
-    height: 100%;
-  }
+<style scoped>
+.map {
+  height: 400px;
+}
 </style>
 ```
 
-## API 加载器
+全局注册只保存默认加载配置，地图挂载后才请求 API。组件上明确传入的加载配置优先；其他字段继承全局配置。首次加载完成后还可以追加加载扩展。
 
-甚至可以把它当作无情的 API 加载工具
+## 原生 API 和类型
+
+组件的 `init` 事件返回对应天地图实例，也可以先等待 `useApiLoader()` 再调用原生 `T` API。包入口会引入天地图的 `T`、`VT` 全局类型声明。
 
 ```ts
-import { useApiLoader } from "vue-tianditu";
+import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-tianditu";
 
-useApiLoader({
-  v: "4.0",
-  tk: "your map token",
-  plugins: ["D3", "CarTrack", "HeatmapOverlay", "BufferTool", "ImageOverLayer"]
-}).then(() => {
-  new T.Map({...});
-});
+await useApiLoader({ tk: "你的天地图 Key" });
+const map = new T.Map("map-container");
+map.centerAndZoom(toLngLat([113.280637, 23.125178]), 12);
 ```
+
+加载器只在浏览器调用。SSR/SSG 中可导入并注册组件，但地图和 DOM 覆盖物应在客户端挂载；VitePress 中用 `ClientOnly` 包裹示例。
+
+## 样式和示例 Key
+
+搜索和导航的 UI 样式通过 `vue-tianditu/style.css` 引入。旧的 `vue-tianditu/lib/style.css` 路径仍保留兼容。
+
+文档示例使用演示 Key；本地文档可通过 `VITE_TDT_TOKEN` 配置自己的天地图 Key。演示 Key 绑定了文档站域名，未配置本地 Key 时瓦片请求会返回 403（域名不匹配）。部署时按天地图控制台要求配置可访问域名。
 
 ## 辅助函数
 
-```ts
-import { toLngLat, toLngLats, toBounds, toPoint, toIcon } from "vue-tianditu";
-```
-
-### 说明
-
-| 函数名 | 返回值 | 描述 |
-| --- | --- | --- |
-| toLngLat(lnglat:[number,number]) | T.LngLat | 转换为经纬度对象。<br>参数说明:<br>lnglat:经纬度数组 |
-| toLngLats(lnglats:[number,number][]) | T.LngLat[] | 转换为由经纬度对象构成数组。<br>参数说明:<br>lnglats:由经纬度数组构成的数组 |
-| toBounds(bounds:[[number,number],[number,number]]) | T.Bounds | 转换为地理范围对象。<br>参数说明:<br>bounds:地理范围数组 |
-| toPoint(point:[number,number]) | T.Point | 转换为像素坐标点对象。<br>参数说明:<br>point:像素坐标点数组 |
-| toIcon(icon:IconOption\|string) | T.Icon | 转换为图标对象。<br>参数说明:<br>`icon:string//图片地址` 或 `{iconUrl:string,//图片地址`<br>`iconSize:[number,number],//图片大小`<br>`iconAnchor:[number,number]//偏移}` |
+| 函数                     | 用途                             |
+| ------------------------ | -------------------------------- |
+| `toLngLat` / `toLngLats` | 将经纬度数组转换为天地图坐标对象 |
+| `toBounds`               | 将两点范围数组转换为地理边界     |
+| `toPoint`                | 将像素坐标数组转换为像素点       |
+| `toIcon`                 | 将图标 URL 或配置转换为图标对象  |
+| `toMarker`               | 将点标注配置转换为原生标注       |

@@ -1,15 +1,16 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toLngLat } from "../../../utils";
 import { Props } from "./";
 
 export function useWatch({ props, instance }: { props: Props; instance: T.Circle }) {
   watch(
     () => props.center,
-    val => val && instance.setCenter(toLngLat(val))
+    val => val != null && instance.setCenter(toLngLat(val)),
+    { deep: true }
   );
   watch(
     () => props.radius,
-    val => val && instance.setRadius(val)
+    val => val != null && instance.setRadius(val)
   );
   watch(
     () => props.color,
@@ -17,11 +18,11 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Circle
   );
   watch(
     () => props.opacity,
-    val => val && instance.setOpacity(val)
+    val => val != null && instance.setOpacity(val)
   );
   watch(
     () => props.weight,
-    val => val && instance.setWeight(val)
+    val => val != null && instance.setWeight(val)
   );
   watch(
     () => props.lineStyle,
@@ -33,7 +34,7 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Circle
   );
   watch(
     () => props.fillOpacity,
-    val => val && instance.setFillOpacity(val)
+    val => val != null && instance.setFillOpacity(val)
   );
   watch(
     () => props.edit,

@@ -4,10 +4,14 @@
 
 mousetool 组件初始化时会创建六个工具对象，分别对应标注工具、多边形工具、折线工具、矩形工具、画圆工具、画笔工具。使用默认配置时不需要传值，手动配置时传入相应工具的配置项参数即可。
 
+<ClientOnly>
 <demo-mousetool></demo-mousetool>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-mousetool/index.vue
+
+<<< @/.vitepress/components/demo-mousetool/index.vue
+
 </code-details>
 
 ## 属性

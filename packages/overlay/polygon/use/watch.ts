@@ -1,11 +1,12 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toLngLats } from "../../../utils";
 import { Props } from "./";
 
 export function useWatch({ props, instance }: { props: Props; instance: T.Polygon }) {
   watch(
     () => props.path,
-    val => val && instance.setLngLats(toLngLats(val))
+    val => val != null && instance.setLngLats(toLngLats(val)),
+    { deep: true }
   );
   watch(
     () => props.color,
@@ -13,11 +14,11 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Polygo
   );
   watch(
     () => props.opacity,
-    val => val && instance.setOpacity(val)
+    val => val != null && instance.setOpacity(val)
   );
   watch(
     () => props.weight,
-    val => val && instance.setWeight(val)
+    val => val != null && instance.setWeight(val)
   );
   watch(
     () => props.lineStyle,
@@ -29,7 +30,7 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Polygo
   );
   watch(
     () => props.fillOpacity,
-    val => val && instance.setFillOpacity(val)
+    val => val != null && instance.setFillOpacity(val)
   );
   watch(
     () => props.edit,

@@ -3,8 +3,13 @@ declare namespace T {
    * 自定义覆盖物的构造类
    */
   class Overlay {
-    constructor(opts: any);
-    extend(opts: OverlayExtendOptions): Overlay;
+    constructor(...args: any[]);
+    static extend(opts: OverlayExtendOptions): new (...args: any[]) => Overlay;
+    update(): void;
+    show(): void;
+    hide(): void;
+    isHidden(): boolean;
+    getElement(): HTMLElement;
   }
   /**
    * 自定义覆盖物构造类参数
@@ -13,7 +18,7 @@ declare namespace T {
     /** 构造函数时传递参数，对OverlayOptions属性值进行赋值 */
     initialize(...arg: any): void;
     /** 向地图上添加叠加物。当调用map.addOverLay时，API将调用此方法。自定义叠加物时需要实现此方法。自定义叠加物时需要将覆盖物对应的HTML元素返回 */
-    onAdd(map: Map): void;
+    onAdd(map: Map): HTMLElement | void;
     /** 移除叠加物，释放覆盖物对象所占用的内存。自定义叠加物时需要实现此方法 */
     onRemove(): void;
     /** 当地图状态发生变化时，由系统调用对覆盖物进行绘制。自定义覆盖物需要实现此方法 */
@@ -25,7 +30,7 @@ declare namespace T {
     /** 判断叠加层是否隐藏，返回 true 表示当前叠加层是隐藏的，否则是处于显示状态 */
     isHidden(): boolean;
     /** 对OverlayOptions属性值赋值 */
-    setOptions(opt: JSON): void;
+    setOptions?(opt: JSON): void;
     /** 返回叠加物所在的容器的标签 */
     getElement(): HTMLElement;
   }

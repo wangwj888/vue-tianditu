@@ -1,17 +1,15 @@
-import { ToolInstances } from "../types";
-import { Emit } from "./";
+import { useEvent as bindEvents } from "../../use";
+import type { ToolInstances } from "../types";
+import type { Emit } from "./";
 
 export function useEvent({ emit, instances }: { emit: Emit; instances: ToolInstances }): void {
-  instances.markTool?.addEventListener("mouseup", e => emit("mark-mouseup", e));
-
-  instances.polygonTool?.addEventListener("draw", e => emit("polygon-draw", e));
-  instances.polygonTool?.addEventListener("addpoint", e => emit("polygon-draw", e));
-
-  instances.polylineTool?.addEventListener("draw", e => emit("polyline-draw", e));
-  instances.polylineTool?.addEventListener("addpoint", e => emit("polyline-addpoint", e));
-
-  instances.rectangleTool?.addEventListener("draw", e => emit("rectangle-draw", e));
-
-  instances.circleTool?.addEventListener("draw", e => emit("circle-draw", e));
-  instances.circleTool?.addEventListener("drawend", e => emit("circle-drawend", e));
+  const bind = (instance: unknown, events: Record<string, string>) => {
+    if (!instance) return;
+    bindEvents({ events: Object.keys(events), instance, emit: (name: string, event: any) => (emit as any)(events[name], event) });
+  };
+  bind(instances.markTool, { mouseup: "mark-mouseup" });
+  bind(instances.polygonTool, { draw: "polygon-draw", addpoint: "polygon-addpoint" });
+  bind(instances.polylineTool, { draw: "polyline-draw", addpoint: "polyline-addpoint" });
+  bind(instances.rectangleTool, { draw: "rectangle-draw" });
+  bind(instances.circleTool, { draw: "circle-draw", drawend: "circle-drawend" });
 }

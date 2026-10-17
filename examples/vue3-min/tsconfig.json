@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": false,
+    "types": ["vite/client"],
+    "esModuleInterop": true
+  },
+  "vueCompilerOptions": {
+    "target": 3.2
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue"]
+}

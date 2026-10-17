@@ -2,10 +2,14 @@
 
 ## 示例
 
+<ClientOnly>
 <demo-polyline></demo-polyline>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-polyline/index.vue
+
+<<< @/.vitepress/components/demo-polyline/index.vue
+
 </code-details>
 
 ## 属性

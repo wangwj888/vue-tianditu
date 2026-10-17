@@ -5,3 +5,9 @@ dist
 dist-ssr
 *.local
 lib
+
+.artifacts
+coverage
+docs/.vitepress/cache
+docs/.vitepress/dist
+test-results/

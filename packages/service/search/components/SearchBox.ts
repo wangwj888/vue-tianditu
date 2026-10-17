@@ -1,6 +1,6 @@
-import { defineComponent, computed, isVue2 } from "vue-demi";
+import { defineComponent, computed } from "vue";
 import { IconClose } from "./icons";
-import { h, slot } from "../../../utils";
+import { h, slot, isVue2 } from "../../../utils";
 import "../styles/search-box.scss";
 
 export const SearchBox = defineComponent({

@@ -1,21 +1,30 @@
-import { useMapRoot } from "../../../use";
 import { RouteState } from "../types";
 import { useMethods } from ".";
+import { markRaw } from "vue";
 
-export async function useInit(state: RouteState) {
+export function useInit(state: RouteState, map: T.Map) {
+  let active = true;
   const { onSearchComplete, onDrivingComplete, onTransitComplete } = useMethods(state);
 
-  state.tdtMap = await useMapRoot();
-  state.localSearch = new T.LocalSearch(state.tdtMap, {
+  state.tdtMap = markRaw(map);
+  state.localSearch = markRaw(new T.LocalSearch(state.tdtMap, {
     pageCapacity: 10,
-    onSearchComplete
-  });
-  state.drivingRoute = new T.DrivingRoute(state.tdtMap, {
+    onSearchComplete: result => { if (active) onSearchComplete(result); }
+  }));
+  state.drivingRoute = markRaw(new T.DrivingRoute(state.tdtMap, {
     policy: state.drivingPolicy,
-    onSearchComplete: onDrivingComplete
-  });
-  state.transitRoute = new T.TransitRoute(state.tdtMap, {
+    onSearchComplete: result => { if (active) onDrivingComplete(result); }
+  }));
+  state.transitRoute = markRaw(new T.TransitRoute(state.tdtMap, {
     policy: state.transitPolicy,
-    onSearchComplete: onTransitComplete
-  });
+    onSearchComplete: result => { if (active) onTransitComplete(result); }
+  }));
+  return () => {
+    active = false;
+    state.localSearch?.clearResults();
+    state.drivingRoute?.clearResults();
+    state.transitRoute?.clearResults();
+    state.localSearch = state.drivingRoute = state.transitRoute = null;
+    state.tdtMap = null;
+  };
 }

@@ -1,0 +1,7 @@
+node_modules
+lib
+docs/.vitepress/cache
+docs/.vitepress/dist
+examples/*/dist
+.artifacts
+yarn.lock

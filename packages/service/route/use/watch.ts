@@ -1,4 +1,4 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { RouteState } from "../types";
 import { toLngLat, toLngLats } from "../../../utils";
 

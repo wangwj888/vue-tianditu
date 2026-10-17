@@ -1,179 +1,113 @@
 # vue-tianditu
 
-- 天地图 vue 组件库
+支持 Vue 2.7 和 Vue 3 的天地图组件库，采用 TypeScript 编写，提供地图、控件、图层、绘图工具、搜索、路线规划和车辆轨迹。
 
-- vue-tianditu v2 同时支持 Vue3 和 Vue2(composition-api)
+3.x 新增 **热力图 `TdtHeatmap`** 和 **自定义 DOM 覆盖物 `TdtCustomOverlay`**。自定义覆盖物可通过插槽编写水波纹点、标签、按钮和 Vue 组件。
 
-- [vue-tianditu v2 文档](https://soullyoko.github.io/vue-tianditu/)
+- [在线文档](https://soullyoko.github.io/vue-tianditu/)
+- [3.x 迁移指南](docs/migration.md)
+- [热力图](docs/overlay/heatmap.md)
+- [自定义 DOM 覆盖物](docs/overlay/custom-overlay.md)
 
-## 安装
+## 安装与支持范围
+
+支持 **Vue 2.7.x 和 Vue 3.2.47+**，Vue 2 项目推荐使用 2.7.16。不再需要安装 Composition API 插件或版本切换工具。
 
 ```sh
-npm i vue-tianditu
-# or
-yarn add vue-tianditu
+npm install vue-tianditu
 ```
 
-## 快速上手
-
-### 全局引入
-
-全部引入，解放双手
+在应用入口引入样式：
 
 ```ts
-// main.ts
+import "vue-tianditu/style.css";
+```
+
+## Vue 3 全局注册
+
+```ts
 import { createApp } from "vue";
-import App from "./App.vue";
 import VueTianditu from "vue-tianditu";
+import "vue-tianditu/style.css";
+import App from "./App.vue";
 
-const app = createApp(App);
-app.use(VueTianditu, {
-  v: "4.0", //目前只支持4.0版本
-  tk: "your map token"
-});
-app.mount("#app");
+createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("#app");
 ```
 
-```html
-<!-- App.vue -->
+## Vue 2.7 全局注册
+
+```ts
+import Vue from "vue";
+import VueTianditu from "vue-tianditu";
+import "vue-tianditu/style.css";
+import App from "./App.vue";
+
+Vue.use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" });
+new Vue({ render: h => h(App) }).$mount("#app");
+```
+
+## 按需引入
+
+下面的单文件组件同时适用于 Vue 2.7 和 Vue 3。地图的父容器必须有明确高度；坐标数组顺序为经度、纬度。
+
+```vue
 <template>
-  <div class="mapDiv">
-    <tdt-map :center="state.center" :zoom="state.zoom"></tdt-map>
+  <div class="map">
+    <TdtMap :center="center" :zoom="12" :load-config="loadConfig">
+      <TdtMarker :position="center" />
+    </TdtMap>
   </div>
 </template>
 
-<script lang="ts" setup>
-  import { reactive } from "vue";
-  import { TdtMap } from "vue-tianditu";
-  const state = reactive({
-    center: [113.280637, 23.125178],
-    zoom: 12
-  });
+<script setup lang="ts">
+import { ref } from "vue";
+import { TdtMap, TdtMarker } from "vue-tianditu";
+import "vue-tianditu/style.css";
+
+const center = ref([113.280637, 23.125178]);
+const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 </script>
 
-<style>
-  .mapDiv {
-    width: 100%;
-    height: 100%;
-  }
+<style scoped>
+.map {
+  height: 400px;
+}
 </style>
 ```
 
-### 按需引入
+全局注册只保存默认加载配置，地图挂载后才请求 API。组件上明确传入的加载配置优先；其他字段继承全局配置。首次加载完成后还可以追加加载扩展。
 
-按需引入，配合 ts 获得类型提示
+## 原生 API 和类型
 
-`App.vue`
-
-```html
-<template>
-  <div class="mapDiv">
-    <tdt-map :center="state.center" :zoom="state.zoom" :loadConfig="loadScript"></tdt-map>
-  </div>
-</template>
-
-<script lang="ts" setup>
-  import { reactive } from "vue";
-  import { TdtMap } from "vue-tianditu";
-  const loadConfig = { v: "4.0", tk: "your map token" };
-  const state = reactive({
-    center: [113.280637, 23.125178],
-    zoom: 12
-  });
-</script>
-
-<style>
-  .mapDiv {
-    width: 100%;
-    height: 100%;
-  }
-</style>
-```
-
-### API 加载器
-
-甚至可以把它当作无情的 API 加载工具
+组件的 `init` 事件返回对应天地图实例，也可以先等待 `useApiLoader()` 再调用原生 `T` API。包入口会引入天地图的 `T`、`VT` 全局类型声明。
 
 ```ts
-import { useApiLoader } from "vue-tianditu";
+import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-tianditu";
 
-useApiLoader({
-  v: "4.0",
-  tk: "your map token",
-  plugins: ["D3", "CarTrack", "HeatmapOverlay", "BufferTool", "ImageOverLayer"]
-}).then(() => {
-  new T.Map({...});
-});
+await useApiLoader({ tk: "你的天地图 Key" });
+const map = new T.Map("map-container");
+map.centerAndZoom(toLngLat([113.280637, 23.125178]), 12);
 ```
 
-## 辅助函数
+加载器只在浏览器调用。SSR/SSG 中可导入并注册组件，但地图和 DOM 覆盖物应在客户端挂载；VitePress 中用 `ClientOnly` 包裹示例。
 
-```ts
-import { toLngLat, toBounds, toPoint, toIcon } from "vue-tianditu";
-```
+## 开发与验证
 
-### 说明
+开发环境使用 Node.js 22.22.1+ 或 24+。使用仓库锁文件安装依赖，Vue 2.7 与 Vue 3 示例各自绑定对应的 Vue 运行时，不再通过安装命令切换根项目依赖。常用命令如下：
 
-| 函数名 | 返回值 | 描述 |
-| --- | --- | --- |
-| toLngLat(lnglat:[number,number]) | T.LngLat | 转换为经纬度对象。<br>参数说明:<br>lnglat:经纬度数组 |
-| toBounds(bounds:[[number,number],[number,number]]) | T.Bounds | 转换为地理范围对象。<br>参数说明:<br>bounds:地理范围数组 |
-| toPoint(point:[number,number]) | T.Point | 转换为像素坐标点对象。<br>参数说明:<br>point:像素坐标点数组 |
-| toIcon(icon:IconOption\|string) | T.Icon | 转换为图标对象。<br>参数说明:<br>`icon:string//图片地址` 或 `{iconUrl:string,//图片地址`<br>`iconSize:[number,number],//图片大小`<br>`iconAnchor:[number,number]//偏移}` |
+| 命令                                | 用途                                                  |
+| ----------------------------------- | ----------------------------------------------------- |
+| `yarn install --frozen-lockfile`    | 安装固定依赖                                          |
+| `yarn build`                        | 构建 ESM、UMD、CSS 和声明文件                         |
+| `yarn check:examples`               | 安装并检查 Vue 2.7、Vue 3.2.47、当前 Vue 3 的消费示例 |
+| `yarn dev` / `yarn dev2`            | 启动 Vue 3 开发页 / Vue 2.7 消费示例                  |
+| `yarn docs:dev` / `yarn docs:build` | 启动 / 构建文档                                       |
+| `yarn lint` / `yarn test`           | 静态检查 / 行为测试                                   |
 
-## 调用原生API
+消费示例首次启动前先运行 `yarn check:examples`，再在相应示例的 `.env.local` 中设置 `VITE_TDT_KEY`。根开发页和文档使用 `VITE_TDT_TOKEN`，可参考根目录 `.env.example`。
 
-由于API是通过`useApiLoader`异步加载的，所以需要在API加载完成后才能使用天地图原生的API，有以下三种方式:
+真实浏览器检查使用现有 Chrome/Edge（可通过 `BROWSER_EXECUTABLE` 指定路径）。启动文档后运行 `node tests/browser-smoke.mjs http://127.0.0.1:5173/vue-tianditu`；三套消费示例可运行 `node tests/consumer-browser-smoke.mjs`，并提供 `VITE_TDT_KEY`。浏览器检查需要网络和可用 Key。
 
-- 不使用组件，只使用API加载器
-```html
-<template>
-  <div id="mapContainer"></div>
-</template>
+## License
 
-<script>
-import { useApiLoader } from "vue-tianditu";
-// 加载API
-useApiLoader({
-  v: "4.0",
-  tk: "your map token",
-  plugins: ["D3", "CarTrack", "HeatmapOverlay", "BufferTool", "ImageOverLayer"]
-}).then(() => {
-  const map = new T.Map("mapContainer", {...});
-  const marker = new T.Marker({...});
-  map.addOverlay(marker);
-});
-</script>
-```
-- 使用组件，监听组件的初始化事件
-```html
-<template>
-  <tdt-map @init="mapInit"></tdt-map>
-</template>
-
-<script>
-function mapInit(map){
-  // 此时原生API中的T已存在window中
-  const marker = new T.Marker({...})
-  map.addOverlay(marker);
-}
-</script>
-```
-- 注册了组件，使用API加载器异步等待API加载完成
-```js
-// 不用传参数，异步等待之前注册组件时带参数加载的API加载完成
-useApiLoader({}).then(() => {
-  const marker = new T.Marker({...});
-});
-```
-如果项目中用到了eslint，则需要在eslintrc配置文件中加入
-```js
-{
-  ...
-  globals: {
-    ...
-    T: "readonly"
-  }
-}
-```
-
+MIT

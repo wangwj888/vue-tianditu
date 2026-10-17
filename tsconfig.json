@@ -3,18 +3,19 @@
     "baseUrl": ".",
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "dom.iterable"],
     "paths": {
       "@/*": ["src/*"],
       "~/*": ["packages/*"]
-    }
+    },
+    "types": ["vite/client", "node"]
   },
   "include": [
     "src/**/*.ts",
@@ -25,6 +26,8 @@
     "packages/**/*.vue",
     "docs/.vitepress/**/*.ts",
     "docs/.vitepress/**/*.d.ts",
-    "docs/.vitepress/**/*.vue"
-  ]
+    "docs/.vitepress/**/*.vue",
+    "vite.config.ts"
+  ],
+  "exclude": ["node_modules", "lib", "examples", "tests", "docs/.vitepress/cache", "docs/.vitepress/dist"]
 }

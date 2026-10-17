@@ -1,5 +1,6 @@
-import { defineComponent, onBeforeMount } from "vue-demi";
-import { useMapRoot } from "../../use";
+import type { SharedComponent } from "../../types";
+import { defineComponent, markRaw } from "vue";
+import { useMapTask } from "../../use";
 import { h, fixMapPropagation } from "../../utils";
 import { useState, useMethods } from "./use";
 import { SearchBox, SearchSuggests, SearchPois, SearchMapView, IconSearch, IconRoute, IconClose } from "./components";
@@ -7,27 +8,37 @@ import { TdtRoute } from "../route";
 import "./styles/tdt-search.scss";
 import "../../styles/tdt-icon.scss";
 
-export const TdtSearch = defineComponent({
-  name: "TdtSearch",
-  props: {
+const PROPS = {
     placeholder: { type: String, default: "输入关键字搜索" },
     searchBtn: { type: Boolean, default: true },
     routeBtn: { type: Boolean, default: true }
-  },
-  emits: {
+  };
+const EVENTS = {
     "poi-click": (poi: T.LocalSearchPoi) => true,
     "suggest-click": (suggest: T.LocalSearchSuggest) => true,
     "search-complete": (result: T.LocalSearchResult) => true
-  },
+  };
+
+export const TdtSearch = defineComponent({
+  name: "TdtSearch",
+  props: PROPS,
+  emits: EVENTS,
   setup(props, { emit }) {
     const state = useState();
     const { onSearchComplete, onPoiClick, onSuggestClick, onSearch, onPageChange } = useMethods(state, emit);
 
-    onBeforeMount(async () => {
-      state.tdtMap = await useMapRoot();
-      state.localSearch = new T.LocalSearch(state.tdtMap, {
+    useMapTask((tdtMap, onCleanup) => {
+      let active = true;
+      state.tdtMap = markRaw(tdtMap);
+      state.localSearch = markRaw(new T.LocalSearch(state.tdtMap, {
         pageCapacity: 10,
-        onSearchComplete
+        onSearchComplete: result => { if (active) onSearchComplete(result); }
+      }));
+      onCleanup(() => {
+        active = false;
+        state.localSearch?.clearResults();
+        state.localSearch = null;
+        state.tdtMap = null;
       });
     });
 
@@ -136,6 +147,6 @@ export const TdtSearch = defineComponent({
             ]
       );
   }
-});
+}) as unknown as SharedComponent<typeof PROPS, typeof EVENTS>;
 
 export type TdtSearch = InstanceType<typeof TdtSearch>;

@@ -1,10 +1,10 @@
-import { PropType } from "vue-demi";
+import { PropType } from "vue";
 import { DefineEmits, DefineProps } from "../../../types";
 import { Props as MarkerProps } from "../../marker/use/const";
 
 export const NATIVE_PROPS = {
-  /** 要聚合的标注点数组 */
-  markers: { type: Array as PropType<MarkerProps[]> },
+  /** 要聚合的标注点数组；未提供的字段使用天地图默认值 */
+  markers: { type: Array as PropType<Partial<MarkerProps>[]> },
   /** 聚合计算时网格的像素大小，默认60 */
   girdSize: { type: Number },
   /** 最大的聚合级别，大于该级别就不进行聚合 */

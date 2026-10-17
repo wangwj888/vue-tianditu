@@ -74,8 +74,8 @@ export const toIcon = (icon: VT.IconOptions | string) => {
  * 转换为点标注对象
  * @param option 点标注配置
  */
-export const toMarker = (option: MarkerProps) => {
-  const marker = useInitMarker(option);
+export const toMarker = (option: Partial<MarkerProps>) => {
+  const marker = useInitMarker(option as MarkerProps);
   option.icon && marker.setIcon(toIcon(option.icon));
   // @ts-ignore
   marker.extData = option.extData;

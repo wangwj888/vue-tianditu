@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-this-alias,prefer-rest-params */
+/* eslint-disable @typescript-eslint/no-this-alias */
+import { getCurrentScope, onScopeDispose } from "vue";
 /**
  * 防抖
  * @param {function} func 要进行debounce的函数
@@ -6,7 +7,8 @@
  * @param {boolean} immediate 是否立即执行
  */
 export function debounce<F extends () => void>(func: F, wait = 500, immediate = false) {
-  let timeout: NodeJS.Timeout | undefined;
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  if (getCurrentScope()) onScopeDispose(() => { if (timeout) clearTimeout(timeout); });
   return function (...args: Parameters<F>) {
     // @ts-ignore
     const context = this;

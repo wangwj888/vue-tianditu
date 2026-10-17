@@ -12,10 +12,14 @@ topleft：表示左上。topright：表示右上。bottomleft：表示左下。b
 
 :::
 
+<ClientOnly>
 <demo-control></demo-control>
+</ClientOnly>
 
 <code-details>
-<<< @/.vitepress/components/demo-control/index.vue
+
+<<< @/.vitepress/components/demo-control/index.vue
+
 </code-details>
 
 ## 自定义控件

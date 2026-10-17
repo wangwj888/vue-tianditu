@@ -1,21 +1,24 @@
-name: NPM Publish
+name: Publish package
 on:
   push:
-    branches:
-      - master
+    tags: ["v*"]
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install and Build
-        run: |
-          yarn 
-          yarn build
-
-      - name: Publish
-        uses: JS-DevTools/npm-publish@v1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          token: ${{ secrets.NPM_ACCESS_TOKEN }}
+          node-version: 24
+          cache: yarn
+          registry-url: https://registry.npmjs.org
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn check:examples
+      - run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}

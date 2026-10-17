@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from "vue-demi";
+import { defineComponent, PropType } from "vue";
 import { SearchPage } from "./SearchPage";
 import { h } from "../../../utils";
 import "../styles/search-pois.scss";

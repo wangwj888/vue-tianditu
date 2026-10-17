@@ -1,4 +1,4 @@
-import { reactive, inject } from "vue-demi";
+import { reactive, inject } from "vue";
 import { SearchState, DrivingState, TransitState, RouteState } from "../types";
 
 export function useState() {

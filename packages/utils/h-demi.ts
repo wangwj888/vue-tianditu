@@ -1,16 +1,19 @@
-import { h as hDemi, VNode as VNodeDemi, isVue2 } from "vue-demi";
+import { h as hDemi, version } from "vue";
+import type { VNode as VNodeDemi } from "vue";
+
+export const isVue2 = version.startsWith("2.");
 
 interface Options {
-  attrs: Object;
-  props?: Object;
-  domProps?: Object;
-  on?: Object;
+  attrs: object;
+  props?: object;
+  domProps?: object;
+  on?: object;
 }
 
 /** VNode.elm in Vue2 */
 type VNode = VNodeDemi & { el?: HTMLElement; elm?: HTMLElement };
 
-const adaptOnsV3 = (ons: Object) => {
+const adaptOnsV3 = (ons: object) => {
   if (!ons) return null;
   return Object.entries(ons).reduce((ret, [key, handler]) => {
     key = key.charAt(0).toUpperCase() + key.slice(1);

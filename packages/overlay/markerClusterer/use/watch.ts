@@ -1,22 +1,23 @@
-import { watch } from "vue-demi";
+import { watch } from "vue";
 import { toMarker, toPoint } from "../../../utils";
 import { Props } from "./";
 
 export function useWatch({ props, instance }: { props: Props; instance: T.MarkerClusterer }) {
   watch(
     () => props.girdSize,
-    val => val && instance.setGridSize(val)
+    val => val != null && instance.setGridSize(val)
   );
   watch(
     () => props.maxZoom,
-    val => val && instance.setMaxZoom(val)
+    val => val != null && instance.setMaxZoom(val)
   );
   watch(
     () => props.markers,
     val => {
       instance.clearMarkers();
       val?.length && instance.addMarkers(val.map(toMarker));
-    }
+    },
+    { deep: true }
   );
   watch(
     () => props.styles,

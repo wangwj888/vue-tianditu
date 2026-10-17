@@ -5,14 +5,14 @@
   <button @click="onBtnClick('stop')">stop</button>
   <button @click="state.Datas = []">clear</button>
   <div class="mapDiv">
-    <tdt-map :center="state.center" :zoom="state.zoom">
+    <tdt-map :center="state.center" :zoom="state.zoom" :load-config="{ plugins: ['CarTrack'] }">
       <tdt-car-track ref="carTrack" :Datas="state.Datas" :interval="5" :speed="10"></tdt-car-track>
     </tdt-map>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue-demi";
+import { reactive, ref } from "vue";
 import { data } from "./data";
 
 const state = reactive({
@@ -32,7 +32,7 @@ function onBtnClick(handle: string) {
 </script>
 
 <script lang="ts">
-export default { name: "demo-car-track" };
+export default { name: "DemoCarTrack" };
 </script>
 
 <style scoped>

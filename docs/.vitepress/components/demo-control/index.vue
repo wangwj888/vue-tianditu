@@ -11,12 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue-demi";
+import { reactive } from "vue";
 
-const state = reactive({
-  center: [113.280637, 23.125178],
-  zoom: 11,
-  controls: [
+const controls: (VT.ControlName | VT.ControlOptions)[] = [
     "Zoom",
     "Scale",
     {
@@ -65,14 +62,19 @@ const state = reactive({
         [113.03352, 23.03045]
       ]
     }
-  ],
+];
+
+const state = reactive({
+  center: [113.280637, 23.125178],
+  zoom: 11,
+  controls,
   visible: true,
   copyright: true
 });
 </script>
 
 <script lang="ts">
-export default { name: "demo-control" };
+export default { name: "DemoControl" };
 </script>
 
 <style scoped>
@@ -80,7 +82,7 @@ export default { name: "demo-control" };
   width: 100%;
   height: 300px;
 }
-::v-deep.hide-copyright .tdt-control-copyright.tdt-control > div:not(.tdt-control-copyright) {
+:deep(.hide-copyright .tdt-control-copyright.tdt-control > div:not(.tdt-control-copyright)) {
   display: none;
 }
 </style>

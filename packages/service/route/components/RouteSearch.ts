@@ -1,4 +1,4 @@
-import { defineComponent } from "vue-demi";
+import { defineComponent } from "vue";
 import { SearchBox, SearchPois } from "../../search/components";
 import { h } from "../../../utils";
 import { useState, useMethods } from "../use";
