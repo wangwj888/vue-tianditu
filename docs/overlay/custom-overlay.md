@@ -19,7 +19,7 @@
 ## 按需引入
 
 ```ts
-import { TdtMap, TdtCustomOverlay } from "vue-tianditu";
+import { TdtMap, TdtCustomOverlay } from "vue-map-tianditu";
 ```
 
 将覆盖物放在 `TdtMap` 内，在默认插槽编写内容。水波纹只是一种示例 CSS，组件不限制内容样式。

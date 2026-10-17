@@ -5,7 +5,7 @@
 全局注册时设置默认配置，也可以给 `TdtMap` 的 `loadConfig` 单独传参。直接调用 `useApiLoader()` 时继承之前注册的默认配置。插件名合并去重，`pluginUrls` 按扩展名覆盖；普通配置以调用处显式参数为准。注册本身不会发出网络请求。
 
 ```ts
-import { useApiLoader } from "vue-tianditu";
+import { useApiLoader } from "vue-map-tianditu";
 
 try {
   await useApiLoader({ v: "4.0", tk: "你的天地图 Key" });

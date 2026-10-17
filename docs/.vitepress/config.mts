@@ -10,7 +10,7 @@ export default defineConfig({
     css: { preprocessorOptions: { scss: { api: "modern" } } }
   },
   themeConfig: {
-    repo: "SoulLyoko/vue-tianditu",
+    repo: "wangwj888/vue-tianditu",
     nav: [
       { text: "3.x 迁移指南", link: "/migration" },
       { text: "天地图官网", link: "https://www.tianditu.gov.cn/" }

@@ -1,4 +1,4 @@
-# vue-tianditu
+# vue-map-tianditu
 
 支持 Vue 2.7 和 Vue 3 的天地图组件库，采用 TypeScript 编写，提供地图、控件、图层、绘图工具、搜索、路线规划和车辆轨迹。
 
@@ -14,21 +14,21 @@
 支持 **Vue 2.7.x 和 Vue 3.2.47+**，Vue 2 项目推荐使用 2.7.16。不再需要安装 Composition API 插件或版本切换工具。
 
 ```sh
-npm install vue-tianditu
+npm install vue-map-tianditu
 ```
 
 在应用入口引入样式：
 
 ```ts
-import "vue-tianditu/style.css";
+import "vue-map-tianditu/style.css";
 ```
 
 ## Vue 3 全局注册
 
 ```ts
 import { createApp } from "vue";
-import VueTianditu from "vue-tianditu";
-import "vue-tianditu/style.css";
+import VueTianditu from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 import App from "./App.vue";
 
 createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("#app");
@@ -38,8 +38,8 @@ createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("
 
 ```ts
 import Vue from "vue";
-import VueTianditu from "vue-tianditu";
-import "vue-tianditu/style.css";
+import VueTianditu from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 import App from "./App.vue";
 
 Vue.use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" });
@@ -61,8 +61,8 @@ new Vue({ render: h => h(App) }).$mount("#app");
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { TdtMap, TdtMarker } from "vue-tianditu";
-import "vue-tianditu/style.css";
+import { TdtMap, TdtMarker } from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 
 const center = ref([113.280637, 23.125178]);
 const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
@@ -82,7 +82,7 @@ const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 组件的 `init` 事件返回对应天地图实例，也可以先等待 `useApiLoader()` 再调用原生 `T` API。包入口会引入天地图的 `T`、`VT` 全局类型声明。
 
 ```ts
-import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-tianditu";
+import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-map-tianditu";
 
 await useApiLoader({ tk: "你的天地图 Key" });
 const map = new T.Map("map-container");

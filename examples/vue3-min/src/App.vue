@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { TdtMap, TdtHeatmap, TdtCustomOverlay, TdtControl, TdtMarker } from "vue-tianditu";
+import { TdtMap, TdtHeatmap, TdtCustomOverlay, TdtControl, TdtMarker } from "vue-map-tianditu";
 
 const tk = import.meta.env.VITE_TDT_KEY as string | undefined;
 const visible = ref(true);

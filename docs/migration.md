@@ -12,7 +12,7 @@ Vue 2.7 已自带 Composition API。项目中不再需要为了本组件库安�
 
 Vue 3 继续通过 `createApp(...).use(VueTianditu, config)` 注册；Vue 2.7 使用 `Vue.use(VueTianditu, config)` 和 `new Vue(...)` 挂载。
 
-推荐样式入口为 `vue-tianditu/style.css`；旧的 `vue-tianditu/lib/style.css` 仍可使用。
+推荐样式入口为 `vue-map-tianditu/style.css`；旧的 `vue-map-tianditu/lib/style.css` 仍可使用。
 
 注册插件只保存加载配置，首次挂载地图或显式调用 `useApiLoader` 时才加载脚本。需要在地图挂载前使用原生 `T` 时，请显式等待加载器。
 

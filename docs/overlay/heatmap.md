@@ -17,7 +17,7 @@
 ## 按需引入
 
 ```ts
-import { TdtMap, TdtHeatmap } from "vue-tianditu";
+import { TdtMap, TdtHeatmap } from "vue-map-tianditu";
 ```
 
 将热力图放在 `TdtMap` 内。数据项使用 `lng`（经度）、`lat`（纬度）、`count`（非负权重）。`radius` 单位为像素；地图缩放后坐标重新投影，半径保持屏幕像素大小。

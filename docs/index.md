@@ -18,21 +18,21 @@ VueTianditu 将天地图 JavaScript API 4.0 封装为 Vue 组件，同时支持 
 支持 **Vue 2.7.x 和 Vue 3.2.47+**，Vue 2 项目推荐使用 2.7.16。不再需要安装 Composition API 插件或版本切换工具。
 
 ```sh
-npm install vue-tianditu
+npm install vue-map-tianditu
 ```
 
 在应用入口引入样式：
 
 ```ts
-import "vue-tianditu/style.css";
+import "vue-map-tianditu/style.css";
 ```
 
 ## Vue 3 全局注册
 
 ```ts
 import { createApp } from "vue";
-import VueTianditu from "vue-tianditu";
-import "vue-tianditu/style.css";
+import VueTianditu from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 import App from "./App.vue";
 
 createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("#app");
@@ -42,8 +42,8 @@ createApp(App).use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" }).mount("
 
 ```ts
 import Vue from "vue";
-import VueTianditu from "vue-tianditu";
-import "vue-tianditu/style.css";
+import VueTianditu from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 import App from "./App.vue";
 
 Vue.use(VueTianditu, { v: "4.0", tk: "你的天地图 Key" });
@@ -65,8 +65,8 @@ new Vue({ render: h => h(App) }).$mount("#app");
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { TdtMap, TdtMarker } from "vue-tianditu";
-import "vue-tianditu/style.css";
+import { TdtMap, TdtMarker } from "vue-map-tianditu";
+import "vue-map-tianditu/style.css";
 
 const center = ref([113.280637, 23.125178]);
 const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
@@ -86,7 +86,7 @@ const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 组件的 `init` 事件返回对应天地图实例，也可以先等待 `useApiLoader()` 再调用原生 `T` API。包入口会引入天地图的 `T`、`VT` 全局类型声明。
 
 ```ts
-import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-tianditu";
+import { useApiLoader, toLngLat, toBounds, toPoint, toIcon } from "vue-map-tianditu";
 
 await useApiLoader({ tk: "你的天地图 Key" });
 const map = new T.Map("map-container");
@@ -97,7 +97,7 @@ map.centerAndZoom(toLngLat([113.280637, 23.125178]), 12);
 
 ## 样式和示例 Key
 
-搜索和导航的 UI 样式通过 `vue-tianditu/style.css` 引入。旧的 `vue-tianditu/lib/style.css` 路径仍保留兼容。
+搜索和导航的 UI 样式通过 `vue-map-tianditu/style.css` 引入。旧的 `vue-map-tianditu/lib/style.css` 路径仍保留兼容。
 
 文档示例使用演示 Key；本地文档可通过 `VITE_TDT_TOKEN` 配置自己的天地图 Key。演示 Key 绑定了文档站域名，未配置本地 Key 时瓦片请求会返回 403（域名不匹配）。部署时按天地图控制台要求配置可访问域名。
 

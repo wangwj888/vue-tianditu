@@ -11,7 +11,7 @@
 :::
 
 ```js
-import "vue-tianditu/lib/style.css";
+import "vue-map-tianditu/lib/style.css";
 ```
 
 <ClientOnly>
