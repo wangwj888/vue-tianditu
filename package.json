@@ -3,8 +3,11 @@
   "version": "3.0.0",
   "description": "vue-tianditu",
   "author": "SoulLyoko <519052532@qq.com>",
-  "repository": "https://github.com/SoulLyoko/vue-tianditu.git",
-  "homepage": "https://github.com/SoulLyoko/vue-tianditu#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangwj888/vue-tianditu.git"
+  },
+  "homepage": "https://github.com/wangwj888/vue-tianditu#readme",
   "private": false,
   "license": "MIT",
   "main": "./lib/vue-tianditu.umd.cjs",
