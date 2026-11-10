@@ -2,6 +2,10 @@ declare namespace T {
   class SVG {
     /** 根据传入padding参数创建用于绘制SVG标签的容器。 */
     constructor(opts?: SVGOptions);
+    /** 根 svg 元素 */
+    Ow: SVGSVGElement;
+    /** 用于绘制图形的 g 元素 */
+    _rootGroup: SVGGElement;
     /** 根据传入的字符串，只创建标准的SVG标签元素。 */
     create(name: string): SVGElement;
     /** 根据屏幕坐标的数组拼接类似的"M..L..L.."字符串，用于生成标签的路径数据。 */

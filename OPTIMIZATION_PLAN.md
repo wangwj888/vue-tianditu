@@ -1,8 +1,8 @@
-# vue-tianditu 优化计划
+# vue-map-tianditu 优化计划
 
-> 基于 3.0.0 当前代码库的全面分析。第一、二批已完成，第三批待开始。
+> 基于 3.0.0 当前代码库的全面分析。第一、二、三批均已完成。
 >
-> 最后更新：2026-11-07
+> 最后更新：2026-11-10
 
 ## 项目现状
 
@@ -103,8 +103,8 @@
 
 **修复**：新增 `GlobalComponents` 模块增强，覆盖全部 21 个组件。
 
-- [x] `packages/types/vue-tianditu/global.d.ts`
-- [x] `packages/types/vue-tianditu/index.d.ts`
+- [x] `packages/types/vue-map-tianditu/global.d.ts`
+- [x] `packages/types/vue-map-tianditu/index.d.ts`
 
 同时修复了类型增强后暴露出的既有类型问题：
 
@@ -204,34 +204,53 @@
 
 ---
 
-## 第三批：生态与工程质量（待开始）
+## 第三批：生态与工程质量（已完成）
 
 ### 12. 更多图层与工具组件
 
-- [ ] `TdtImageOverlay`（加载器已支持 `ImageOverLayer` 插件）
-- [ ] `TdtBufferTool`（加载器已支持 `BufferTool` 插件）
-- [ ] `TdtSvgOverlay` / `useSvg`（`T.SVG` 已有类型，可用于 D3 轨迹与海量图形）
-- [ ] `TdtContextMenu`（需先确认天地图 4.0 官方 API 支持范围）
+- [x] `TdtImageOverlay`：基于 `ImageOverlay` 扩展，支持 `url`、`bounds`、`opacity`（含 0）、`alt`、显隐和层级动态更新
+- [x] `TdtBufferTool`：基于 `BufferTool` 扩展，接收原生 `T.Polygon` / `T.Circle`，支持拖拽生成和调整缓冲区、样式、启用开关及 `drag-start` / `drag` / `drag-end`
+- [x] `TdtSvgOverlay` / `useSvg`：直接使用核心 `T.SVG` 图层，提供根 `<g>`、`lngLatToPoint`、`unitsPerMeter` 和缩放重绘；不依赖 CDN D3
+- [x] `TdtContextMenu`：确认天地图 4.0 无官方 `T.ContextMenu`，改为基于地图 `contextmenu` 事件实现可访问 DOM 菜单，支持菜单项、插槽、键盘导航和受控显隐
 
 ### 13. 主题与国际化
 
-- [ ] 搜索、路线 UI 的文案抽离为 locale 配置
-- [ ] 搜索、路线样式改用 CSS 变量，支持暗色主题与品牌色定制
+- [x] 搜索、路线 UI 文案抽离为 `LocaleMessages`，导出 `zhCN`、`enUS`、`formatMessage`
+- [x] `TdtSearch` / `TdtRoute` 新增 `locale` prop，支持 `"zh-CN"`、`"en-US"` 或局部覆盖对象；嵌套路线自动继承父级语言
+- [x] `configureLocale()` 支持运行时切换，`app.use(VueTianditu, { locale })` 可设置全局默认语言
+- [x] 搜索、路线、右键菜单样式改用 CSS 变量，新增 `theme.scss`、暗色主题（`data-tdt-theme="dark"` / `.tdt-dark` / `.dark`）和品牌色覆盖
 
 ### 14. 工具函数
 
-- [ ] 坐标转换：WGS84 / GCJ-02 / CGCS2000（注明合规使用边界）
+- [x] 新增 WGS84 / GCJ-02 / CGCS2000 转换、迭代反算、范围校验和 `convertCoordinateSystem`
+- [x] 明确 CORS、CGCS2000 与 WGS84 同基准处理、精度边界和测绘合规提示
 
 ### 15. 文档与类型
 
-- [ ] 由 `PROPS` / `EVENTS` 自动生成组件 API 表格，避免手写漂移
-- [ ] 为每个组件补充「动态更新」示例
-- [ ] 补充常见问题：Key 域名白名单、混合内容、SSR / Nuxt 用法
-- [ ] `VT.LngLat` 收紧为 `[number, number]`
+- [x] 新增 `scripts/gen-api-docs.mjs`，用 TypeScript AST 解析 `PROPS` / `EVENTS`（含对象展开），生成 `docs/.vitepress/generated/api.json` 与 `<ApiTable>` 组件；文档构建前自动刷新
+- [x] 为全部组件文档追加自动生成的属性和事件表，避免手写漂移
+- [x] 新增「动态更新」指南与综合示例，覆盖 `0` 值、数组原地修改、聚合差分和海量点合并
+- [x] 新增常见问题：Key 域名白名单 / 403（301007）、混合内容、SSR / Nuxt、容器高度、插件加载、主题和类型提示
+- [x] `VT.LngLat` 收紧为 `[number, number]`，`LngLats`、`Bounds`、`Point` 同步收紧；迁移指南补充写法
 
 ### 16. 工程质量
 
-- [ ] 为核心 hooks 增加覆盖率门槛
-- [ ] 大数据量场景的增量更新：`markerClusterer` 差分、`cloudMarkerCollection` 增量
-- [ ] 评估 `preserveModules` 或子路径导出，支持更细粒度的按需引入
-- [ ] 评估 `vue-docgen-api` 接入文档构建流程
+- [x] Vitest v8 覆盖率门槛：核心 hooks 全局 lines/statements/functions ≥ 70%，branches ≥ 60%；新增 `test:coverage`
+- [x] `markerClusterer` 基于稳定 `id` 差分增删改；缺少 id、id 重复或不可序列化时回退整组重建
+- [x] `cloudMarkerCollection` SDK 仅提供 `setLnglats`，实现同 tick 合并与相同快照跳过，避免流式数据重复重建画布
+- [x] 评估 `preserveModules` / 子路径导出：当前单 ESM 入口配合 `sideEffects: ["**/*.css"]` 已可被现代打包器 tree-shake；拆分 modules 会改变产物路径和声明引用，收益不足以抵消迁移成本，暂不启用
+- [x] 评估 `vue-docgen-api`：其运行时元数据提取会引入额外依赖并可能丢失 `PROPS` 展开信息；改用仓库内 TypeScript AST 生成器，零新增运行时依赖
+
+### 第三批验证结果
+
+| 检查项                         | 结果                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| `yarn typecheck`               | 通过                                                                    |
+| `yarn lint`                    | 0 error，20 warning（既有单文件多组件等提示）                           |
+| `yarn test`                    | 40/40 通过，新增坐标、locale、增量更新和右键菜单测试                    |
+| `yarn test:coverage`           | 通过门槛：statements 83.84%、branches 70.35%、functions 86.6%、lines 89% |
+| `yarn build`                   | 通过：ESM、UMD、CSS、类型声明                                           |
+| `yarn docs:build`              | 通过，构建前自动生成 29 个组件的 API 表                                 |
+| `yarn check:examples`          | 通过：发布包内容检查，Vue 2.7.16 / 3.2.47 / 3.5.44 类型检查与生产构建   |
+
+说明：上述验证覆盖静态检查、单元测试、构建和消费示例。图片覆盖物、SVG、缓冲区、右键菜单和主题/语言切换涉及真实天地图接口、插件 CDN 和浏览器交互，仍需在可用 Key 的浏览器环境中人工验收。

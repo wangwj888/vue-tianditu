@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-const base = (process.argv[2] || "http://127.0.0.1:5173/vue-tianditu").replace(/\/$/, "");
+const base = (process.argv[2] || "http://127.0.0.1:5173/vue-map-tianditu").replace(/\/$/, "");
 const output = path.resolve("test-results/browser");
 fs.mkdirSync(output, { recursive: true });
 const candidates = [

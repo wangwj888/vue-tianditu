@@ -39,3 +39,7 @@
 | mousedown | ({type,target,lnglat,containerPoint,extData}) | 鼠标在文本标注上按下触发此事件 |
 | mouseup   | ({type,target,lnglat,containerPoint,extData}) | 鼠标在文本标注释放触发此事件   |
 | mouseout  | ({type,target,lnglat,containerPoint,extData}) | 鼠标离开文本标注时触发此事件   |
+
+## API 表
+
+<ApiTable component="TdtLabel" />

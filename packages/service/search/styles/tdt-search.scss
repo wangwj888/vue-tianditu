@@ -1,6 +1,8 @@
 .tdt-search {
   width: min-content;
   position: relative;
+  color: var(--tdt-color-text);
+  font-family: var(--tdt-font-family);
   .tdt-search-route__close {
     position: absolute;
     right: 5px;
@@ -8,12 +10,13 @@
     cursor: pointer;
     border: 0;
     background: transparent;
+    color: inherit;
   }
   .tdt-search-status {
     min-width: 240px;
     padding: 10px;
-    background: #fff;
-    color: #555;
+    background: var(--tdt-color-bg);
+    color: var(--tdt-color-text-secondary);
     font-size: 13px;
   }
 }

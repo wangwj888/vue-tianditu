@@ -1,9 +1,10 @@
 .tdt-search-suggests {
   width: 100%;
-  background: #fff;
-  border-radius: 2px;
+  background: var(--tdt-color-bg);
+  color: var(--tdt-color-text);
+  border-radius: var(--tdt-radius);
   margin-top: 1px;
-  box-shadow: 2px 2px 2px rgb(0 0 0 / 15%);
+  box-shadow: var(--tdt-shadow);
 
   .search-suggests-item {
     text-align: left;
@@ -11,14 +12,14 @@
     padding: 0 10px;
     cursor: pointer;
     &:hover {
-      background: #eee;
+      background: var(--tdt-color-bg-hover);
     }
     .search-suggests-item__name {
-      font-size: 14px;
+      font-size: var(--tdt-font-size);
     }
     .search-suggests-item__address {
-      font-size: 12px;
-      color: #999;
+      font-size: var(--tdt-font-size-sm);
+      color: var(--tdt-color-text-muted);
       margin-left: 10px;
     }
   }

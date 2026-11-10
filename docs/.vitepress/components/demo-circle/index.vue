@@ -1,6 +1,8 @@
 <template>
-  <button @click="state.edit = !state.edit">editable:{{ state.edit }}</button>
-  <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  <div class="demo-toolbar">
+    <button @click="state.edit = !state.edit">editable:{{ state.edit }}</button>
+    <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  </div>
   <div class="mapDiv">
     <tdt-map :center="state.center" :zoom="state.zoom">
       <tdt-circle
@@ -19,7 +21,7 @@
 import { reactive } from "vue";
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11,
   edit: false,
   visible: true

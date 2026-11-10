@@ -4,7 +4,7 @@ import { Props as MarkerProps, useInit as useInitMarker } from "../overlay/marke
  * 转换为经纬度对象
  * @param lnglat 经纬度
  */
-export const toLngLat = (lnglat: VT.LngLat) => {
+export const toLngLat = (lnglat: readonly number[]) => {
   const [lng, lat] = lnglat;
   return new T.LngLat(lng, lat);
 };
@@ -13,7 +13,7 @@ export const toLngLat = (lnglat: VT.LngLat) => {
  * 转换为经纬度数组对象
  * @param lngLats 经纬度数组
  */
-export const toLngLats = (lnglats: VT.LngLats) => {
+export const toLngLats = (lnglats: readonly (readonly number[])[]) => {
   return lnglats.map(lnglat => {
     const [lng, lat] = lnglat;
     return new T.LngLat(lng, lat);
@@ -24,7 +24,7 @@ export const toLngLats = (lnglats: VT.LngLats) => {
  * 转换为地理范围对象
  * @param bounds 地理范围数组
  */
-export const toBounds = (bounds: VT.Bounds) => {
+export const toBounds = (bounds: readonly (readonly number[])[]) => {
   const [[lng1, lat1], [lng2, lat2]] = bounds;
   return new T.LngLatBounds(new T.LngLat(lng1, lat1), new T.LngLat(lng2, lat2));
 };

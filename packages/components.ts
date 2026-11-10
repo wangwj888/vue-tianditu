@@ -20,6 +20,10 @@ export * from "./extra/cartrack";
 
 export * from "./overlay/heatmap";
 export * from "./overlay/custom";
+export * from "./overlay/imageOverlay";
+export * from "./overlay/svgOverlay";
+export * from "./bufferTool";
+export * from "./contextMenu";
 export * from "./layerGroup";
 export * from "./layerSwitcher";
 export { TdtGeolocation } from "./service/geolocation";

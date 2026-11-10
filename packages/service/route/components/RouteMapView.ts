@@ -13,9 +13,9 @@ export const RouteMapView = defineComponent({
         state.startMarker.length
           ? h(TdtMarker, {
               props: {
-                position: state.startMarker,
+                position: state.startMarker as VT.LngLat,
                 icon: {
-                  iconUrl: "http://lbs.tianditu.gov.cn/images/bus/start.png",
+                  iconUrl: "https://lbs.tianditu.gov.cn/images/bus/start.png",
                   iconSize: [44, 34],
                   iconAnchor: [12, 31]
                 }
@@ -26,9 +26,9 @@ export const RouteMapView = defineComponent({
         state.endMarker.length
           ? h(TdtMarker, {
               props: {
-                position: state.endMarker,
+                position: state.endMarker as VT.LngLat,
                 icon: {
-                  iconUrl: "http://lbs.tianditu.gov.cn/images/bus/end.png",
+                  iconUrl: "https://lbs.tianditu.gov.cn/images/bus/end.png",
                   iconSize: [44, 34],
                   iconAnchor: [12, 31]
                 }
@@ -77,7 +77,7 @@ export const RouteMapView = defineComponent({
             props: {
               position,
               icon: {
-                iconUrl: "http://lbs.tianditu.gov.cn/images/bus/map_bus.png",
+                iconUrl: "https://lbs.tianditu.gov.cn/images/bus/map_bus.png",
                 iconSize: [23, 23],
                 iconAnchor: [12, 12]
               }
@@ -90,7 +90,7 @@ export const RouteMapView = defineComponent({
             props: {
               position,
               icon: {
-                iconUrl: "http://lbs.tianditu.gov.cn/images/bus/map_metro.png",
+                iconUrl: "https://lbs.tianditu.gov.cn/images/bus/map_metro.png",
                 iconSize: [23, 23],
                 iconAnchor: [12, 12]
               }

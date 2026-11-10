@@ -1,16 +1,16 @@
 {
   "name": "vue-map-tianditu",
   "version": "3.0.0",
-  "description": "vue-tianditu",
+  "description": "vue-map-tianditu",
   "author": "SoulLyoko <519052532@qq.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wangwj888/vue-tianditu.git"
+    "url": "git+https://github.com/wangwj888/vue-map-tianditu.git"
   },
-  "homepage": "https://github.com/wangwj888/vue-tianditu#readme",
+  "homepage": "https://github.com/wangwj888/vue-map-tianditu#readme",
   "private": false,
   "license": "MIT",
-  "main": "./lib/vue-tianditu.umd.cjs",
+  "main": "./lib/vue-map-tianditu.umd.cjs",
   "types": "./lib/index.d.ts",
   "keywords": [
     "vue",
@@ -24,13 +24,16 @@
     "dev2": "yarn --cwd examples/vue2 dev",
     "build": "node scripts/build.js",
     "serve": "vite preview",
-    "docs:dev": "vitepress dev docs --host 127.0.0.1",
+    "docs:api": "node scripts/gen-api-docs.mjs",
+    "check:api": "node scripts/gen-api-docs.mjs --check",
+    "docs:dev": "node scripts/gen-api-docs.mjs && vitepress dev docs --host 127.0.0.1",
     "docs:build": "node scripts/docs_build.js",
     "docs:serve": "vitepress preview docs",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "check:examples": "node scripts/check-examples.js",
     "prepare": "husky",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
@@ -50,6 +53,7 @@
     "@eslint/js": "^10.0.0",
     "@types/node": "^22.0.0",
     "@vitejs/plugin-vue": "^6.0.10",
+    "@vitest/coverage-v8": "^4.1.0",
     "@vue/compiler-sfc": "3.5.44",
     "conventional-changelog-cli": "^5.0.0",
     "eslint": "^10.13.0",
@@ -83,12 +87,12 @@
     ]
   },
   "type": "module",
-  "module": "./lib/vue-tianditu.js",
+  "module": "./lib/vue-map-tianditu.js",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "import": "./lib/vue-tianditu.js",
-      "require": "./lib/vue-tianditu.umd.cjs"
+      "import": "./lib/vue-map-tianditu.js",
+      "require": "./lib/vue-map-tianditu.umd.cjs"
     },
     "./style.css": "./lib/style.css",
     "./lib/style.css": "./lib/style.css",

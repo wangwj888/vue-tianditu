@@ -1,9 +1,11 @@
 <template>
-  <button @click="getData()">getData</button>
-  <button @click="onBtnClick('start')">start</button>
-  <button @click="onBtnClick('pause')">pause</button>
-  <button @click="onBtnClick('stop')">stop</button>
-  <button @click="state.Datas = []">clear</button>
+  <div class="demo-toolbar">
+    <button @click="getData()">getData</button>
+    <button @click="onBtnClick('start')">start</button>
+    <button @click="onBtnClick('pause')">pause</button>
+    <button @click="onBtnClick('stop')">stop</button>
+    <button @click="state.Datas = []">clear</button>
+  </div>
   <div class="mapDiv">
     <tdt-map :center="state.center" :zoom="state.zoom" :load-config="{ plugins: ['CarTrack'] }">
       <tdt-car-track ref="carTrack" :Datas="state.Datas" :interval="5" :speed="10"></tdt-car-track>
@@ -16,13 +18,13 @@ import { reactive, ref } from "vue";
 import { data } from "./data";
 
 const state = reactive({
-  center: [116.31809, 39.92027],
+  center: [116.31809, 39.92027] as [number, number],
   zoom: 13,
-  Datas: [] as number[][]
+  Datas: [] as [number, number][]
 });
 
 function getData() {
-  state.Datas = data.features.map(feature => feature.geometry.coordinates);
+  state.Datas = data.features.map(feature => feature.geometry.coordinates as [number, number]);
 }
 
 const carTrack = ref();

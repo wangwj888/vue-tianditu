@@ -1,16 +1,17 @@
 import { defineConfig } from "vitepress";
 export default defineConfig({
-  base: "/vue-tianditu/",
+  base: "/vue-map-tianditu/",
   lang: "zh-CN",
   title: "VueTianditu",
   description: "支持 Vue 2.7 和 Vue 3 的天地图组件库",
+  head: [["link", { rel: "icon", type: "image/svg+xml", href: "/vue-map-tianditu/favicon.svg" }]],
   vite: {
     // 文档的 Vite root 是 docs 目录，把 envDir 指回仓库根目录，复用根目录 .env.local
     envDir: "../",
     css: { preprocessorOptions: { scss: { api: "modern" } } }
   },
   themeConfig: {
-    repo: "wangwj888/vue-tianditu",
+    repo: "wangwj888/vue-map-tianditu",
     nav: [
       { text: "3.x 迁移指南", link: "/migration" },
       { text: "天地图官网", link: "https://www.tianditu.gov.cn/" }
@@ -22,10 +23,20 @@ export default defineConfig({
       { text: "API 加载器", link: "/api-loader" },
       { text: "更新日志", link: "/CHANGELOG" },
       {
+        text: "指南",
+        items: [
+          { text: "动态更新", link: "/guide/dynamic-updates" },
+          { text: "主题与国际化", link: "/guide/theme-locale" },
+          { text: "坐标系转换", link: "/guide/coordinates" },
+          { text: "常见问题", link: "/guide/faq" }
+        ]
+      },
+      {
         text: "地图",
         items: [
           { text: "基础地图", link: "/map/map" },
           { text: "控件", link: "/map/control" },
+          { text: "右键菜单", link: "/map/context-menu" },
           { text: "地图工具", link: "/mousetool/mousetool" }
         ]
       },
@@ -44,6 +55,8 @@ export default defineConfig({
         text: "覆盖物",
         items: [
           { text: "自定义 DOM 覆盖物", link: "/overlay/custom-overlay" },
+          { text: "图片覆盖物", link: "/overlay/image-overlay" },
+          { text: "SVG 覆盖物", link: "/overlay/svg-overlay" },
           { text: "热力图", link: "/overlay/heatmap" },
           { text: "文本标注", link: "/overlay/label" },
           { text: "点标注", link: "/overlay/marker" },
@@ -65,7 +78,13 @@ export default defineConfig({
           { text: "公交线路查询", link: "/service/bus-line-search" }
         ]
       },
-      { text: "扩展", items: [{ text: "车辆轨迹", link: "/extra/car-track" }] }
+      {
+        text: "扩展",
+        items: [
+          { text: "车辆轨迹", link: "/extra/car-track" },
+          { text: "缓冲区分析", link: "/extra/buffer-tool" }
+        ]
+      }
     ]
   }
 });

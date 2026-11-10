@@ -39,3 +39,7 @@
 | mouseout  | ({type,target,lnglat,containerPoint,extData}) | 鼠标离开圆时触发此事件         |
 | mouseover | ({type,target,lnglat,containerPoint,extData}) | 当鼠标进入圆区域时会触发此事件 |
 | remove    | ({type,target,extData})                       | 移除圆时触发                   |
+
+## API 表
+
+<ApiTable component="TdtCircle" />

@@ -1,27 +1,28 @@
 .tdt-search-pois {
   width: 100%;
-  background: #fff;
-  border-radius: 2px;
+  background: var(--tdt-color-bg);
+  color: var(--tdt-color-text);
+  border-radius: var(--tdt-radius);
   margin-top: 1px;
   max-height: 400px;
   overflow-y: auto;
-  box-shadow: 2px 2px 2px rgb(0 0 0 / 15%);
+  box-shadow: var(--tdt-shadow);
 
   .search-pois-item {
     text-align: left;
     line-height: 2;
     padding: 0 10px;
     cursor: pointer;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--tdt-color-border);
     &:hover {
-      background: #f5f5f5;
+      background: var(--tdt-color-bg-hover);
     }
     .search-pois-item__name {
-      font-size: 14px;
+      font-size: var(--tdt-font-size);
     }
     .search-pois-item__address {
-      font-size: 12px;
-      color: #999;
+      font-size: var(--tdt-font-size-sm);
+      color: var(--tdt-color-text-muted);
     }
   }
 }

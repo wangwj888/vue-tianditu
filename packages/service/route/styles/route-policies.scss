@@ -5,15 +5,15 @@
   padding: 5px 0;
   .route-policies-item {
     width: 100%;
-    color: #333;
+    color: var(--tdt-color-text);
     text-align: center;
     cursor: pointer;
     &:not(:last-child) {
-      border-right: 1px solid #aaa;
+      border-right: 1px solid var(--tdt-color-divider);
     }
     &:hover,
     &.active {
-      color: #2c64a7;
+      color: var(--tdt-color-primary);
     }
   }
 }

@@ -5,12 +5,16 @@ VueTianditu 将天地图 JavaScript API 4.0 封装为 Vue 组件，同时支持 
 除了基础地图、控件、覆盖物、瓦片图层、绘图工具、搜索与导航，还提供：
 
 - [热力图](/overlay/heatmap)：按经纬度和权重绘制 Canvas 热力图，支持动态数据和样式。
-- [自定义 DOM 覆盖物](/overlay/custom-overlay)：通过插槽编写水波纹、动态标签、卡片、按钮和 Vue 组件。
+- [自定义 DOM 覆盖物](/overlay/custom-overlay)、[图片覆盖物](/overlay/image-overlay)与 [SVG 覆盖物](/overlay/svg-overlay)：卡槽内容、图片范围和批量 SVG 图形。
+- [右键菜单](/map/context-menu)：基于地图 `contextmenu` 事件的可访问菜单，支持菜单项与完全自定义。
 - [图层分组](/tilelayer/layer-group)与[图层切换](/tilelayer/layer-switcher)：统一控制图层显隐，切换底图并管理业务图层。
 - [定位](/service/geolocation)：用户触发定位、精度圈、错误反馈和自动回中。
-- [搜索](/service/search)与[路线规划](/service/route)：受控查询参数、自定义搜索结果和规划事件。
+- [搜索](/service/search)与[路线规划](/service/route)：受控查询参数、自定义搜索结果和规划事件；支持中英文与 CSS 变量主题。
 - [公交线路查询](/service/bus-line-search)：查询公交候选线路及站点、轨迹。
+- [缓冲区分析](/extra/buffer-tool)：拖动多边形/圆生成缓冲区并调整半径。
 - [地图实例与状态插槽](/map/map)：通过 ref 读取地图实例，自定义加载与初始化错误界面。
+- [坐标系转换](/guide/coordinates)：WGS84、GCJ-02、CGCS2000 互转。
+- [动态更新](/guide/dynamic-updates)、[主题与国际化](/guide/theme-locale)与[常见问题](/guide/faq)。
 - [API 加载器](/api-loader)：共享加载请求、按顺序加载扩展、配置自托管地址。
 - [3.x 迁移指南](/migration)：支持范围、导入方式、双向绑定和类型工具的变化。
 
@@ -73,7 +77,7 @@ import { ref } from "vue";
 import { TdtMap, TdtMarker } from "vue-map-tianditu";
 import "vue-map-tianditu/style.css";
 
-const center = ref([113.280637, 23.125178]);
+const center = ref<[number, number]>([113.280637, 23.125178]);
 const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 </script>
 

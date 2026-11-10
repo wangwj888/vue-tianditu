@@ -1,18 +1,21 @@
 # vue-map-tianditu
 
-支持 Vue 2.7 和 Vue 3 的天地图组件库，采用 TypeScript 编写，提供地图、控件、图层、绘图工具、搜索、路线规划和车辆轨迹。
+支持 Vue 2.7 和 Vue 3 的天地图组件库，采用 TypeScript 编写，提供地图、控件、图层、绘图工具、搜索、路线规划、缓冲区分析和车辆轨迹。
 
-3.x 新增 **热力图 `TdtHeatmap`** 和 **自定义 DOM 覆盖物 `TdtCustomOverlay`**。自定义覆盖物可通过插槽编写水波纹点、标签、按钮和 Vue 组件。
+3.x 新增 **热力图 `TdtHeatmap`**、**自定义 DOM 覆盖物 `TdtCustomOverlay`**、**图片覆盖物 `TdtImageOverlay`**、**SVG 覆盖物 `TdtSvgOverlay`** 和 **右键菜单 `TdtContextMenu`**。
 
-组件能力补全包括图层分组与切换、动态控件、定位、公交线路查询，以及搜索和路线规划的受控参数与自定义界面。地图组件支持通过 ref 读取原生实例，并提供加载和初始化错误插槽。
+组件能力补全包括图层分组与切换、动态控件、定位、公交线路查询、缓冲区分析和坐标转换，以及搜索和路线规划的受控参数、中英文文案与 CSS 变量主题。地图组件支持通过 ref 读取原生实例，并提供加载和初始化错误插槽。
 
-- [在线文档](https://soullyoko.github.io/vue-tianditu/)
+- [在线文档](https://soullyoko.github.io/vue-map-tianditu/)
 - [3.x 迁移指南](docs/migration.md)
-- [热力图](docs/overlay/heatmap.md)
-- [自定义 DOM 覆盖物](docs/overlay/custom-overlay.md)
+- [热力图](docs/overlay/heatmap.md) / [自定义 DOM 覆盖物](docs/overlay/custom-overlay.md)
+- [图片覆盖物](docs/overlay/image-overlay.md) / [SVG 覆盖物](docs/overlay/svg-overlay.md)
+- [右键菜单](docs/map/context-menu.md) / [缓冲区分析](docs/extra/buffer-tool.md)
 - [图层分组](docs/tilelayer/layer-group.md) / [图层切换](docs/tilelayer/layer-switcher.md)
 - [定位](docs/service/geolocation.md) / [公交线路查询](docs/service/bus-line-search.md)
 - [搜索](docs/service/search.md) / [路线规划](docs/service/route.md)
+- [动态更新](docs/guide/dynamic-updates.md) / [主题与国际化](docs/guide/theme-locale.md)
+- [坐标系转换](docs/guide/coordinates.md) / [常见问题](docs/guide/faq.md)
 - [地图实例与状态插槽](docs/map/map.md)
 
 ## 安装与支持范围
@@ -70,7 +73,7 @@ import { ref } from "vue";
 import { TdtMap, TdtMarker } from "vue-map-tianditu";
 import "vue-map-tianditu/style.css";
 
-const center = ref([113.280637, 23.125178]);
+const center = ref<[number, number]>([113.280637, 23.125178]);
 const loadConfig = { v: "4.0", tk: "你的天地图 Key" };
 </script>
 
@@ -107,12 +110,14 @@ map.centerAndZoom(toLngLat([113.280637, 23.125178]), 12);
 | `yarn build`                        | 构建 ESM、UMD、CSS 和声明文件                         |
 | `yarn check:examples`               | 安装并检查 Vue 2.7、Vue 3.2.47、当前 Vue 3 的消费示例 |
 | `yarn dev` / `yarn dev2`            | 启动 Vue 3 开发页 / Vue 2.7 消费示例                  |
-| `yarn docs:dev` / `yarn docs:build` | 启动 / 构建文档                                       |
+| `yarn docs:dev` / `yarn docs:build` | 启动 / 构建文档（自动生成 API 表）                    |
+| `yarn docs:api` / `yarn check:api`  | 生成 / 校验自动 API 表                                |
 | `yarn lint` / `yarn test`           | 静态检查 / 行为测试                                   |
+| `yarn test:coverage`                | 运行测试并检查核心 hooks 覆盖率门槛                   |
 
 消费示例首次启动前先运行 `yarn check:examples`，再在相应示例的 `.env.local` 中设置 `VITE_TDT_KEY`。根开发页和文档使用 `VITE_TDT_TOKEN`，可参考根目录 `.env.example`。
 
-真实浏览器检查使用现有 Chrome/Edge（可通过 `BROWSER_EXECUTABLE` 指定路径）。启动文档后运行 `node tests/browser-smoke.mjs http://127.0.0.1:5173/vue-tianditu`；三套消费示例可运行 `node tests/consumer-browser-smoke.mjs`，并提供 `VITE_TDT_KEY`。浏览器检查需要网络和可用 Key。
+真实浏览器检查使用现有 Chrome/Edge（可通过 `BROWSER_EXECUTABLE` 指定路径）。启动文档后运行 `node tests/browser-smoke.mjs http://127.0.0.1:5173/vue-map-tianditu`；三套消费示例可运行 `node tests/consumer-browser-smoke.mjs`，并提供 `VITE_TDT_KEY`。浏览器检查需要网络和可用 Key。
 
 ## License
 

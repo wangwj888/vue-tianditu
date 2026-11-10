@@ -44,6 +44,34 @@ Vue 2.7 与 Vue 3 的模板语法仍有差异。例如信息窗口的 `target`�
 
 - [TdtHeatmap](/overlay/heatmap)：经纬度权重数据、半径、渐变、透明度和动态更新。
 - [TdtCustomOverlay](/overlay/custom-overlay)：自定义 DOM、Vue 组件、定位锚点和鼠标交互。
+- [TdtImageOverlay](/overlay/image-overlay)：按地理范围显示图片。
+- [TdtSvgOverlay](/overlay/svg-overlay)：`T.SVG` 图层与 `useSvg`，适合批量图形和 D3。
+- [TdtContextMenu](/map/context-menu)：基于地图 `contextmenu` 事件的右键菜单。
+- [TdtBufferTool](/extra/buffer-tool)：多边形/圆的缓冲区分析。
+- 搜索、路线规划支持 [中英文与主题变量](/guide/theme-locale)，新增 [坐标系转换工具](/guide/coordinates)。
+
+## 类型收紧
+
+3.x 将公开坐标类型收紧为定长元组：
+
+```ts
+type LngLat = [number, number];
+type LngLats = LngLat[];
+type Bounds = [LngLat, LngLat];
+type Point = [number, number];
+```
+
+直接传入 `number[]` 变量会触发类型错误，因为其长度不确定：
+
+```ts
+// 类型错误：number[] 不能赋给 [number, number]
+const center = ref([113.28, 23.12]);
+
+// 推荐：显式标注元组
+const center = ref<[number, number]>([113.28, 23.12]);
+```
+
+字面量直接写在模板或 props 中通常可以正确推导；从接口或 `JSON.parse()` 得到的数组请在使用前校验长度并断言为元组。运行时不新增校验，行为保持不变。
 
 ## 类型和开发工具
 

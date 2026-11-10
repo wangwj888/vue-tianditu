@@ -1,11 +1,13 @@
 import { defineComponent } from "vue";
 import { h } from "../../../utils";
+import { formatMessage, useLocale } from "../../../locale";
 import { useState } from "../use";
 import "../styles/route-plans.scss";
 
 export const RoutePlans = defineComponent({
   setup() {
     const state = useState();
+    const messages = useLocale();
 
     return () =>
       h(
@@ -19,8 +21,9 @@ export const RoutePlans = defineComponent({
             ? h(
                 "div",
                 null,
-                state.drivingPlans.map((plan, planIndex) =>
-                  h(
+                state.drivingPlans.map((plan, planIndex) => {
+                  const title = formatMessage(messages.value.route.planTitle, { index: planIndex + 1 });
+                  return h(
                     "details",
                     {
                       on: {
@@ -30,13 +33,25 @@ export const RoutePlans = defineComponent({
                       }
                     },
                     [
-                      h("summary", null, `方案${planIndex + 1}: ${plan.duration} 秒 | ${plan.distance} 公里`),
+                      h(
+                        "summary",
+                        null,
+                        formatMessage(messages.value.route.drivingSummary, {
+                          title,
+                          duration: plan.duration,
+                          distance: plan.distance
+                        })
+                      ),
                       ...(plan.routes?.item || []).map((item, itemIndex) => {
-                        return h("div", null, `${itemIndex + 1}.${item.strguide}`);
+                        return h(
+                          "div",
+                          null,
+                          formatMessage(messages.value.route.step, { index: itemIndex + 1, guide: item.strguide })
+                        );
                       })
                     ]
-                  )
-                )
+                  );
+                })
               )
             : "",
           // 公交方案
@@ -44,45 +59,58 @@ export const RoutePlans = defineComponent({
             ? h(
                 "div",
                 null,
-                state.transitPlans.map((plan, planIndex) =>
-                  h(
+                state.transitPlans.map((plan, planIndex) => {
+                  const title = formatMessage(messages.value.route.planTitle, { index: planIndex + 1 });
+                  return h(
                     "details",
                     {
                       on: {
                         click: () => {
                           state.transitPlanIndex = planIndex;
                         }
-                      },
-                      style: { backgroundColor: "#fff" }
+                      }
                     },
                     [
-                      h("summary", null, `方案${planIndex + 1}: ${plan.lineName}`),
+                      h(
+                        "summary",
+                        null,
+                        formatMessage(messages.value.route.transitSummary, { title, lineName: plan.lineName })
+                      ),
                       (plan.segments || [])
-                        .map((segment, segmentIndex) => {
+                        .map(segment => {
                           const segmentLine = segment.segmentLine?.[0];
 
                           //经过的公交或地铁的站数
                           if (!segmentLine) return "";
-                          const stationCount = segmentLine.segmentStationCount
-                            ? "，经过" + segmentLine.segmentStationCount + "站"
+                          const stations = segmentLine.segmentStationCount
+                            ? formatMessage(messages.value.route.stations, {
+                                count: segmentLine.segmentStationCount
+                              })
                             : "";
 
                           switch (segment.segmentType) {
                             case 1:
-                              return "步行约" + segmentLine.segmentDistance + "米，到达" + segment.stationEnd.name;
+                              return formatMessage(messages.value.route.walk, {
+                                distance: segmentLine.segmentDistance,
+                                station: segment.stationEnd.name
+                              });
                             case 2:
                             case 3:
-                              return "乘坐" + segmentLine.direction + stationCount + "，到达" + segment.stationEnd.name;
+                              return formatMessage(messages.value.route.ride, {
+                                direction: segmentLine.direction,
+                                stations,
+                                station: segment.stationEnd.name
+                              });
                             case 4:
-                              return "站内换乘";
+                              return messages.value.route.transfer;
                             default:
                               return "";
                           }
                         })
-                        .join("，") + "终点"
+                        .join(messages.value.route.separator) + messages.value.route.destination
                     ]
-                  )
-                )
+                  );
+                })
               )
             : ""
         ]

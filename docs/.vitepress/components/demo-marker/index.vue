@@ -1,6 +1,8 @@
 <template>
-  <button @click="state.draggable = !state.draggable">draggable:{{ state.draggable }}</button>
-  <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  <div class="demo-toolbar">
+    <button @click="state.draggable = !state.draggable">draggable:{{ state.draggable }}</button>
+    <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  </div>
   <div class="mapDiv">
     <tdt-map :center="state.center" :zoom="state.zoom">
       <tdt-marker :position="state.marker1" :draggable="state.draggable" :visible="state.visible"></tdt-marker>
@@ -14,16 +16,16 @@ import { withBase } from "vitepress";
 import { reactive } from "vue";
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11,
   draggable: false,
   visible: true,
-  marker1: [113.280637, 23.125178],
-  marker2: [113.300037, 23.125178],
+  marker1: [113.280637, 23.125178] as [number, number],
+  marker2: [113.300037, 23.125178] as [number, number],
   icon: {
     iconUrl: withBase("/marker_red.png"),
-    iconSize: [18, 26],
-    iconAnchor: [9, 26]
+    iconSize: [18, 26] as [number, number],
+    iconAnchor: [9, 26] as [number, number]
   }
 });
 </script>

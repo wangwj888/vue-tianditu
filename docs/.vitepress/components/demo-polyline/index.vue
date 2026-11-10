@@ -1,6 +1,8 @@
 <template>
-  <button @click="state.edit = !state.edit">editable:{{ state.edit }}</button>
-  <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  <div class="demo-toolbar">
+    <button @click="state.edit = !state.edit">editable:{{ state.edit }}</button>
+    <button @click="state.visible = !state.visible">visible:{{ state.visible }}</button>
+  </div>
   <div class="mapDiv">
     <tdt-map :center="state.center" :zoom="state.zoom">
       <tdt-polyline
@@ -18,13 +20,13 @@
 import { reactive } from "vue";
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11,
   path: [
     [113.32839, 23.14352],
     [113.280637, 23.125178],
     [113.3332, 23.11889]
-  ],
+  ] as [number, number][],
   edit: false,
   visible: true
 });

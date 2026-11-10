@@ -13,7 +13,7 @@ export const NATIVE_PROPS = {
   /** 图层的显示顺序 */
   zIndex: { type: Number },
   /** 设置指定范围内显示瓦片 */
-  bounds: { type: Array as PropType<VT.Bounds>, default: () => [] },
+  bounds: { type: Array as unknown as PropType<VT.Bounds>, default: () => [] },
   /** 图层服务地址 */
   url: { type: String, default: "" }
 };

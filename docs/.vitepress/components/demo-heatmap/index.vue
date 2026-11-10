@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
-const center = [113.280637, 23.125178];
+const center = [113.280637, 23.125178] as [number, number];
 let generation = 0;
 function createData() {
   return Array.from({ length: 80 }, (_, index) => ({

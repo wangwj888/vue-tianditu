@@ -17,9 +17,9 @@ import { reactive } from "vue";
 import dataCollection from "./data";
 
 const state = reactive({
-  center: [108.95, 34.27],
+  center: [108.95, 34.27] as [number, number],
   zoom: 4,
-  lnglats: dataCollection.data,
+  lnglats: dataCollection.data as [number, number][],
   target: null,
   content: ""
 });

@@ -145,3 +145,7 @@ function readCenter() {
 | 事件 | 参数       | 描述                     |
 | ---- | ---------- | ------------------------ |
 | init | 创建的实例 | 组件初始化完成触发此事件 |
+
+## API 表
+
+<ApiTable component="TdtMap" />

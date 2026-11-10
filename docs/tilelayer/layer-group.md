@@ -64,3 +64,7 @@
 SDK 服务实例本身，以及信息窗口、点聚合、绘图工具、车辆轨迹等不自动加入分组。搜索/路线组件生成的普通 `TdtMarker`、`TdtPolyline` 若位于分组的组件后代中，仍按普通覆盖物继承分组策略。嵌套 `TdtMap` 会使用自己的图层宿主，不继承外部地图的分组。
 
 原生接口参考：[天地图 LayerGroup](https://lbs.tianditu.gov.cn/api/js4.0/pages-class/LayerGroup.html)。
+
+## API 表
+
+<ApiTable component="TdtLayerGroup" />

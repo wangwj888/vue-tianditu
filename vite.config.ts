@@ -15,7 +15,7 @@ export default defineConfig({
       entry: fileURLToPath(new URL("./packages/index.ts", import.meta.url)),
       name: "VueTianditu",
       formats: ["es", "umd"],
-      fileName: format => (format === "es" ? "vue-tianditu.js" : "vue-tianditu.umd.cjs"),
+      fileName: format => (format === "es" ? "vue-map-tianditu.js" : "vue-map-tianditu.umd.cjs"),
       cssFileName: "style"
     },
     outDir: "lib",

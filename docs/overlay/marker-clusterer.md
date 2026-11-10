@@ -96,3 +96,7 @@
 | dragend      | ({type,target,layer,lnglat})                | 当用户停止拖动标注图标时触发。         |
 | remove       | ({type,target,layer})                       | 移除标注图标时触发。                   |
 | clusterclick`(v2.7.5)` | ({type,target,layer,lnglat,containerPoint}) | 点击聚合点图标后会触发此事件。         |
+
+## API 表
+
+<ApiTable component="TdtMarkerClusterer" />

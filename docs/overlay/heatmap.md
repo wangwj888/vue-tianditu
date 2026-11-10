@@ -53,3 +53,7 @@ import { TdtMap, TdtHeatmap } from "vue-map-tianditu";
 地图移动、缩放、容器尺寸变化时重绘；尺寸变化时重建画布并恢复当前数据。空数据清空画面，`visible` 控制显隐；卸载时清理画布、监听器和待执行的绘制任务。绘制只在客户端执行。
 
 热力数据较多时应避免同时创建大量 DOM 覆盖物。涉及逐点展示的场景可以使用点聚合或海量点组件。
+
+## API 表
+
+<ApiTable component="TdtHeatmap" />

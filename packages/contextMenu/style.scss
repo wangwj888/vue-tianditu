@@ -1,0 +1,70 @@
+.tdt-context-menu-anchor {
+  pointer-events: none;
+}
+
+.tdt-context-menu {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 4px 0;
+  pointer-events: auto;
+  background: var(--tdt-color-bg, #fff);
+  color: var(--tdt-color-text, #333);
+  border: 1px solid var(--tdt-color-border, #eee);
+  border-radius: var(--tdt-radius, 2px);
+  box-shadow: var(--tdt-shadow, 2px 2px 2px rgb(0 0 0 / 15%));
+  font: var(--tdt-font-size, 14px) / 1.5 var(--tdt-font-family, inherit);
+  outline: none;
+}
+
+.tdt-context-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: var(--tdt-color-bg-hover, #f5f5f5);
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  &--danger {
+    color: #c62828;
+  }
+}
+
+.tdt-context-menu__icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.tdt-context-menu__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tdt-context-menu__divider {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--tdt-color-border, #eee);
+}
+
+.tdt-context-menu__custom {
+  padding: 4px 12px;
+}

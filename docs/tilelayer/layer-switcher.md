@@ -70,3 +70,7 @@ const controls = ref<(VT.ControlName | VT.ControlOptions)[]>(["Zoom"]);
 controls.value.push({ name: "Scale", position: "bottomleft" });
 controls.value = []; // 移除由 controls 创建的全部控件
 ```
+
+## API 表
+
+<ApiTable component="TdtLayerSwitcher" />

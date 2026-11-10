@@ -31,9 +31,11 @@ export interface SearchState {
   tdtMap: T.Map | null;
   localSearch: T.LocalSearch | null;
   startKeyword: string;
-  startMarker: VT.LngLat;
+  /** 未选择时为 []；非空时包含两个坐标分量 */
+  startMarker: number[];
   endKeyword: string;
-  endMarker: VT.LngLat;
+  /** 未选择时为 []；非空时包含两个坐标分量 */
+  endMarker: number[];
   routeType: RouteType;
   routeTypes: RouteType[];
   poiType: "start" | "end";

@@ -10,7 +10,7 @@
 import { reactive } from "vue";
 
 const state = reactive({
-  center: [116.40769, 39.89945],
+  center: [116.40769, 39.89945] as [number, number],
   zoom: 6,
   option: {
     url: "http://gisserver.tianditu.com/tiandituService/wms",

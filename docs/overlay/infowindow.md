@@ -40,3 +40,7 @@
 | 名称    | 说明                           |
 | ------- | ------------------------------ |
 | default | 传入默认插槽则作为信息窗口显示 |
+
+## API 表
+
+<ApiTable component="TdtInfowindow" />

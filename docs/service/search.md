@@ -68,3 +68,7 @@ Vue 3 使用 `v-model:keyword` / `v-model:page`；Vue 2.7 使用 `:keyword.sync`
 | getSearch()      | 最近使用的 `T.LocalSearch`，地图未就绪时为 null |
 
 SDK 范围、分页接口见[天地图 LocalSearch 类参考](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/LocalSearch.html)。
+
+## API 表
+
+<ApiTable component="TdtSearch" />

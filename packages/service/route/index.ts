@@ -2,6 +2,7 @@ import type { SharedComponent } from "../../types";
 import { defineComponent, provide, watch, type PropType } from "vue";
 import { useMapTask } from "../../use";
 import { h, fixMapPropagation } from "../../utils";
+import { provideLocale, type LocaleInput } from "../../locale";
 import { coordinates } from "../utils";
 import { useInit, useState, useWatch } from "./use";
 import type {
@@ -28,16 +29,28 @@ export type {
   RouteExposed
 } from "./types";
 const PROPS = {
+  /** 起点坐标 */
   start: { type: Array as unknown as PropType<readonly number[]>, default: () => [] },
+  /** 终点坐标 */
   end: { type: Array as unknown as PropType<readonly number[]>, default: () => [] },
+  /** 起点关键字 */
   startKeyword: { type: String, default: "" },
+  /** 终点关键字 */
   endKeyword: { type: String, default: "" },
+  /** 当前出行方式：0 驾车、1 公交、2 步行 */
   routeType: { type: Number as PropType<RouteType>, default: 0 },
+  /** 允许的出行方式列表 */
   routeTypes: { type: Array as PropType<readonly RouteType[]>, default: () => [0, 1, 2] },
+  /** 驾车策略：0 最少时间、1 最短距离、2 避开高速 */
   drivingPolicy: { type: Number as PropType<DrivingPolicy>, default: 0 },
+  /** 公交策略：1 最少时间、2 最少换乘、4 最少步行、8 不乘地铁 */
   transitPolicy: { type: Number as PropType<TransitPolicy>, default: 1 },
+  /** 规划完成后是否自动调整地图视野 */
   autoViewport: { type: Boolean, default: true },
-  queryTimeout: { type: Number, default: 15000 }
+  /** 查询超时，单位毫秒 */
+  queryTimeout: { type: Number, default: 15000 },
+  /** 组件级语言；可传 "zh-CN"、"en-US" 或局部文案覆盖对象 */
+  locale: { type: [String, Object] as PropType<LocaleInput> }
 };
 const EVENTS = {
   "route-complete": (_event: RouteCompleteEvent) => true,
@@ -54,6 +67,7 @@ export const TdtRoute = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit, expose }) {
+    const messages = provideLocale(() => props.locale);
     const state = useState(false);
     provide("routeState", state);
     state.onRouteComplete = event => emit("route-complete", event);
@@ -165,14 +179,16 @@ export const TdtRoute = defineComponent({
     });
     useMapTask((map, onCleanup) => {
       onCleanup(useInit(state, map));
-      useWatch(state);
+      useWatch(state, () => messages.value);
     });
     return () =>
       h("div", { class: "tdt-route", on: fixMapPropagation(state.tdtMap) }, [
         h(RouteTypes),
         h(RouteSearch),
         h(RoutePolicies),
-        state.loading ? h("div", { attrs: { role: "status" }, class: "tdt-route-status" }, "路线规划中…") : null,
+        state.loading
+          ? h("div", { attrs: { role: "status" }, class: "tdt-route-status" }, messages.value.route.planning)
+          : null,
         state.error ? h("div", { attrs: { role: "alert" }, class: "tdt-route-status" }, state.error.message) : null,
         h(RoutePlans),
         h(RouteMapView)

@@ -1,18 +1,21 @@
 <template>
-  <button @click="openTool('markTool')">标点</button>
-  <button @click="openTool('polygonTool')">画面</button>
-  <button @click="openTool('polylineTool')">画线</button>
-  <button @click="openTool('rectangleTool')">画矩形</button>
-  <button @click="openTool('circleTool')">画圆</button>
-  <button @click="openTool('paintBrushTool')">画笔</button>
-  <br />
-  <button @click="clearTool('markTool')">清除标点</button>
-  <button @click="clearTool('polygonTool')">清除面</button>
-  <button @click="clearTool('polylineTool')">清除线</button>
-  <button @click="clearTool('rectangleTool')">清除矩形</button>
-  <button @click="clearTool('circleTool')">清除圆</button>
-  <button @click="clearTool('paintBrushTool')">清除画笔</button>
-  <button @click="clearTool()">清除全部</button>
+  <div class="demo-toolbar">
+    <button @click="openTool('markTool')">标点</button>
+    <button @click="openTool('polygonTool')">画面</button>
+    <button @click="openTool('polylineTool')">画线</button>
+    <button @click="openTool('rectangleTool')">画矩形</button>
+    <button @click="openTool('circleTool')">画圆</button>
+    <button @click="openTool('paintBrushTool')">画笔</button>
+  </div>
+  <div class="demo-toolbar">
+    <button @click="clearTool('markTool')">清除标点</button>
+    <button @click="clearTool('polygonTool')">清除面</button>
+    <button @click="clearTool('polylineTool')">清除线</button>
+    <button @click="clearTool('rectangleTool')">清除矩形</button>
+    <button @click="clearTool('circleTool')">清除圆</button>
+    <button @click="clearTool('paintBrushTool')">清除画笔</button>
+    <button @click="clearTool()">清除全部</button>
+  </div>
   <div class="mapDiv">
     <tdt-map :center="state.center" :zoom="state.zoom">
       <tdt-mousetool ref="mousetoolRef" :mark-tool="{ follow: true }" @mark-mouseup="onMarkMouseup"></tdt-mousetool>
@@ -24,7 +27,7 @@
 import { reactive, ref } from "vue";
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11
 });
 

@@ -85,7 +85,7 @@ export default defineComponent({
     }
     const loadConfig = { tk: token || "7f013d0186775b063d6a046977bbefc6" };
     const state = reactive({
-      center: [113.280637, 23.125178],
+      center: [113.280637, 23.125178] as [number, number],
       zoom: 12,
       errorMessage: "",
       overlayClicks: 0,
@@ -97,23 +97,23 @@ export default defineComponent({
       polylinePath: [
         [113.280637, 23.125178],
         [113.290637, 23.135178]
-      ],
+      ] as [number, number][],
       polygonPath: [
         [113.280637, 23.125178],
         [113.290637, 23.125178],
         [113.290637, 23.115178],
         [113.280637, 23.115178]
-      ],
+      ] as [number, number][],
       bounds: [
         [113.280637, 23.125178],
         [113.270637, 23.115178]
-      ],
+      ] as [[number, number], [number, number]],
       markers: [
         { name: "marker1", position: [113.280637, 23.125178] },
         { name: "marker2", position: [113.290637, 23.125178] },
         { name: "marker3", position: [113.290637, 23.115178] },
         { name: "marker4", position: [113.280637, 23.115178] }
-      ],
+      ] as { name: string; position: [number, number] }[],
       infowindow: {
         target: null as any,
         content: ""

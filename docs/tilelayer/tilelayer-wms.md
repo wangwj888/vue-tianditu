@@ -39,3 +39,7 @@
 | tileload      | ({type,target,coords,tile}) | 在加载瓦片时触发                                      |
 | tileunload    | ({type,target,coords,tile}) | 在瓦片被移除时触发（比如打开了 unloadInvisibleTiles） |
 | tileerror     | ({type,target,coords,tile}) | 瓦片错误时触发                                        |
+
+## API 表
+
+<ApiTable component="TdtTilelayerWms" />

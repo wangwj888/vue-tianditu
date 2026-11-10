@@ -7,7 +7,7 @@ export interface LayerHost {
   zIndex: ComputedRef<number | undefined>;
   register(layer: LayerInstance): () => void;
 }
-export const LAYER_HOST = "vue-tianditu-layer-host";
+export const LAYER_HOST = "vue-map-tianditu-layer-host";
 export interface LayerRegistrationOptions {
   kind?: LayerKind;
   visible?: () => boolean;

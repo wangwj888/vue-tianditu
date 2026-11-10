@@ -1,0 +1,2574 @@
+{
+  "TdtMap": {
+    "source": "packages/map/use/const.ts",
+    "props": [
+      {
+        "name": "projection",
+        "type": "string",
+        "default": "`EPSG:900913`",
+        "description": "EPSG:900913(墨卡托投影)，EPSG:4326(大地平面投影)"
+      },
+      {
+        "name": "minZoom",
+        "type": "number",
+        "default": "1",
+        "description": "地图允许展示的最小级别"
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "default": "18",
+        "description": "地图允许展示的最大级别"
+      },
+      {
+        "name": "center",
+        "type": "VT.LngLat",
+        "default": "`[0, 0]`",
+        "description": "地图的初始化中心点"
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "default": "1",
+        "description": "地图的初始化级别"
+      },
+      {
+        "name": "drag",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用地图拖拽，默认启用"
+      },
+      {
+        "name": "scrollWheelZoom",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用滚轮放大缩小，默认启用"
+      },
+      {
+        "name": "doubleClickZoom",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用双击放大，默认启用"
+      },
+      {
+        "name": "keyboard",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用键盘操作，默认启用"
+      },
+      {
+        "name": "inertia",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用地图惯性拖拽，默认启用"
+      },
+      {
+        "name": "continuousZoom",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用连续缩放效果，默认启用"
+      },
+      {
+        "name": "pinchToZoom",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用双指操作缩放，默认启用"
+      },
+      {
+        "name": "autoResize",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "启用自动适应容器尺寸变化，默认启用"
+      },
+      {
+        "name": "maxBounds",
+        "type": "VT.Bounds",
+        "default": "—",
+        "description": "当这个选项被设置后，地图被限制在给定的地理边界内，当用户平移将地图拖动到视图以外的范围时会出现弹回的效果，并且也不允许缩小视图到给定范围以外的区域（这取决于地图的尺寸）。使用setMaxBounds方法可以动态地设置这种约束"
+      },
+      {
+        "name": "viewport",
+        "type": "VT.LngLat[]",
+        "default": "—",
+        "description": "根据提供的坐标点数组设置地图视野，调整后的视野会保证包含提供的坐标点"
+      },
+      {
+        "name": "mapStyle",
+        "type": "\"black\" | \"indigo\"",
+        "default": "—",
+        "description": "地图样式，原天地图api的style，分别为black，indigo"
+      },
+      {
+        "name": "mid",
+        "type": "string",
+        "default": "`uuid()`",
+        "description": "地图容器id"
+      },
+      {
+        "name": "controls",
+        "type": "(VT.ControlName | VT.ControlOptions)[]",
+        "default": "`[]`",
+        "description": "控件"
+      },
+      {
+        "name": "loadConfig",
+        "type": "LoadConfig",
+        "default": "—",
+        "description": "加载Api的配置"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "contextmenu",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousemove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "movestart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "move",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "moveend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "zoomstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "zoomend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "addoverlay",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "removeoverlay",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "addcontrol",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "removecontrol",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "clearoverlays",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dragstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "drag",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dragend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "layeradd",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "layerremove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "load",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "resize",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "levels",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "touchstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "touchmove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "touchend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "longpress",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": "地图 API 或初始化失败"
+      },
+      {
+        "name": "init",
+        "params": "T.Map",
+        "description": "地图初始化"
+      },
+      {
+        "name": "viewchange",
+        "params": "T.ControlOverviewMapEvent",
+        "description": "鹰眼视图控件的开合状态变化时触发事件"
+      },
+      {
+        "name": "update:center",
+        "params": "VT.LngLat",
+        "description": "地图中心点变化，用于 v-model:center"
+      },
+      {
+        "name": "update:zoom",
+        "params": "number",
+        "description": "地图缩放级别变化，用于 v-model:zoom"
+      }
+    ]
+  },
+  "TdtControl": {
+    "source": "packages/control/use/const.ts",
+    "props": [
+      {
+        "name": "position",
+        "type": "T.ControlPosition",
+        "default": "`topright`",
+        "description": "控件的停靠位置"
+      },
+      {
+        "name": "offset",
+        "type": "VT.Point",
+        "default": "—",
+        "description": "设置控件停靠的偏移量"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.Control",
+        "description": ""
+      }
+    ]
+  },
+  "TdtMousetool": {
+    "source": "packages/mousetool/use/const.ts",
+    "props": [
+      {
+        "name": "markTool",
+        "type": "MarkToolOptions",
+        "default": "`{  }`",
+        "description": "标点的配置项"
+      },
+      {
+        "name": "polygonTool",
+        "type": "T.PolygonToolOptions",
+        "default": "`{  }`",
+        "description": "多边形的配置项"
+      },
+      {
+        "name": "polylineTool",
+        "type": "T.PolylineToolOptions",
+        "default": "`{  }`",
+        "description": "折线的配置项"
+      },
+      {
+        "name": "rectangleTool",
+        "type": "T.RectangleToolOptions",
+        "default": "`{  }`",
+        "description": "矩形的配置项"
+      },
+      {
+        "name": "circleTool",
+        "type": "T.CircleToolOptions",
+        "default": "`{  }`",
+        "description": "圆形的配置项"
+      },
+      {
+        "name": "paintBrushTool",
+        "type": "PaintBrushToolOptions",
+        "default": "`{  }`",
+        "description": "画笔的配置项"
+      }
+    ],
+    "events": [
+      {
+        "name": "mark-mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "polygon-draw",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "polygon-addpoint",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "polyline-draw",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "polyline-addpoint",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "rectangle-draw",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "circle-draw",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "circle-drawend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "ToolInstances",
+        "description": ""
+      }
+    ]
+  },
+  "TdtMarker": {
+    "source": "packages/overlay/marker/use/const.ts",
+    "props": [
+      {
+        "name": "icon",
+        "type": "VT.IconOptions | string",
+        "default": "—",
+        "description": "图标类用来表达注记。default:T.Icon.Default()"
+      },
+      {
+        "name": "draggable",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "决定注记是否可被鼠标或触摸拖动"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "默认情况下，注记图片的叠置顺序由纬度自动设置。如果你想将某一注记放置于其他之上可用这个选项，设置一个较大的值即可，比如1000（或是相反地设置一个较大的负值）"
+      },
+      {
+        "name": "zIndexOffset",
+        "type": "number",
+        "default": "0",
+        "description": "设置z-index"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "1",
+        "description": "设置标注透明度"
+      },
+      {
+        "name": "position",
+        "type": "VT.LngLat",
+        "default": "`[0, 0]`",
+        "description": "经纬度"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "dragstart",
+        "params": "DragEventWithExtData<Pick<T.MarkerEvent, \"type\" | \"target\">>",
+        "description": ""
+      },
+      {
+        "name": "drag",
+        "params": "DragEventWithExtData<Pick<T.MarkerEvent, \"type\" | \"target\" | \"lnglat\">>",
+        "description": ""
+      },
+      {
+        "name": "dragend",
+        "params": "DragEventWithExtData<Pick<T.MarkerEvent, \"type\" | \"target\" | \"lnglat\">>",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "MarkerEventWithExtData",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Marker",
+        "description": ""
+      }
+    ]
+  },
+  "TdtLabel": {
+    "source": "packages/overlay/label/use/const.ts",
+    "props": [
+      {
+        "name": "text",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "文本标注的内容"
+      },
+      {
+        "name": "offset",
+        "type": "VT.Point",
+        "default": "`[0, 0]`",
+        "description": "文本标注的位置偏移值"
+      },
+      {
+        "name": "position",
+        "type": "VT.LngLat",
+        "default": "`[0, 0]`",
+        "description": "文本标注的地理位置"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "default": "—",
+        "description": "设置文本的提示内容"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "设置z-index"
+      },
+      {
+        "name": "fontSize",
+        "type": "number",
+        "default": "—",
+        "description": "设置文本的文本内容字体大小"
+      },
+      {
+        "name": "fontColor",
+        "type": "string",
+        "default": "—",
+        "description": "设置文本的文本的字体颜色"
+      },
+      {
+        "name": "backgroundColor",
+        "type": "string",
+        "default": "—",
+        "description": "设置文本的背景色"
+      },
+      {
+        "name": "borderLine",
+        "type": "number",
+        "default": "—",
+        "description": "设置文本的边框线宽"
+      },
+      {
+        "name": "borderColor",
+        "type": "string",
+        "default": "—",
+        "description": "设置文本的边框颜色"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "—",
+        "description": "设置文本的透明度"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Label",
+        "description": ""
+      }
+    ]
+  },
+  "TdtPolyline": {
+    "source": "packages/overlay/polyline/use/const.ts",
+    "props": [
+      {
+        "name": "color",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "折线颜色"
+      },
+      {
+        "name": "weight",
+        "type": "number",
+        "default": "3",
+        "description": "折线的宽度，以像素为单位"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "0.5",
+        "description": "折线的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "lineStyle",
+        "type": "\"solid\" | \"dashed\"",
+        "default": "`solid`",
+        "description": "拆线的样式（solid或dashed）"
+      },
+      {
+        "name": "edit",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "启用/禁用编辑功能"
+      },
+      {
+        "name": "path",
+        "type": "VT.LngLat[]",
+        "default": "`[]`",
+        "description": "坐标数组"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Polyline",
+        "description": ""
+      }
+    ]
+  },
+  "TdtPolygon": {
+    "source": "packages/overlay/polygon/use/const.ts",
+    "props": [
+      {
+        "name": "color",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "多边形边线颜色"
+      },
+      {
+        "name": "weight",
+        "type": "number",
+        "default": "3",
+        "description": "多边形边线的宽度，以像素为单位"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "0.5",
+        "description": "多边形边线的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "lineStyle",
+        "type": "\"solid\" | \"dashed\"",
+        "default": "`solid`",
+        "description": "多边形边线的样式（solid或dashed）"
+      },
+      {
+        "name": "fillColor",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "多边形填充颜色。当参数为空时，折线覆盖物将没有填充效果"
+      },
+      {
+        "name": "fillOpacity",
+        "type": "number",
+        "default": "0.2",
+        "description": "多边形填充的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "edit",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "启用/禁用编辑功能"
+      },
+      {
+        "name": "path",
+        "type": "VT.LngLat[]",
+        "default": "`[]`",
+        "description": "坐标数组"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Polygon",
+        "description": ""
+      }
+    ]
+  },
+  "TdtRectangle": {
+    "source": "packages/overlay/rectangle/use/const.ts",
+    "props": [
+      {
+        "name": "color",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "矩形边线颜色"
+      },
+      {
+        "name": "weight",
+        "type": "number",
+        "default": "3",
+        "description": "矩形边线的宽度，以像素为单位"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "0.5",
+        "description": "矩形边线的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "lineStyle",
+        "type": "\"solid\" | \"dashed\"",
+        "default": "`solid`",
+        "description": "矩形边线的样式（solid或dashed）"
+      },
+      {
+        "name": "fillColor",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "矩形填充颜色。当参数为空时，折线覆盖物将没有填充效果"
+      },
+      {
+        "name": "fillOpacity",
+        "type": "number",
+        "default": "0.2",
+        "description": "矩形填充的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "edit",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "启用/禁用编辑功能"
+      },
+      {
+        "name": "bounds",
+        "type": "VT.Bounds",
+        "default": "`[]`",
+        "description": "矩形地理范围"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Rectangle",
+        "description": ""
+      }
+    ]
+  },
+  "TdtCircle": {
+    "source": "packages/overlay/circle/use/const.ts",
+    "props": [
+      {
+        "name": "color",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "圆边线颜色"
+      },
+      {
+        "name": "weight",
+        "type": "number",
+        "default": "3",
+        "description": "圆边线的宽度，以像素为单位"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "0.5",
+        "description": "圆边线的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "lineStyle",
+        "type": "\"solid\" | \"dashed\"",
+        "default": "`solid`",
+        "description": "圆边线的样式（solid或dashed）"
+      },
+      {
+        "name": "fillColor",
+        "type": "string",
+        "default": "`#0000ff`",
+        "description": "圆填充颜色。当参数为空时，折线覆盖物将没有填充效果"
+      },
+      {
+        "name": "fillOpacity",
+        "type": "number",
+        "default": "0.2",
+        "description": "圆填充的透明度（范围0-1 之间）"
+      },
+      {
+        "name": "edit",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "启用/禁用编辑功能"
+      },
+      {
+        "name": "center",
+        "type": "VT.LngLat",
+        "default": "`[0, 0]`",
+        "description": "圆的中心点"
+      },
+      {
+        "name": "radius",
+        "type": "number",
+        "default": "0",
+        "description": "圆的半径"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "extData",
+        "type": "any",
+        "default": "—",
+        "description": "自定义属性"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.Circle",
+        "description": ""
+      }
+    ]
+  },
+  "TdtInfowindow": {
+    "source": "packages/overlay/infowindow/use/const.ts",
+    "props": [
+      {
+        "name": "minWidth",
+        "type": "number",
+        "default": "50",
+        "description": "弹出框的最小宽度"
+      },
+      {
+        "name": "maxWidth",
+        "type": "number",
+        "default": "300",
+        "description": "弹出框的最大宽度"
+      },
+      {
+        "name": "maxHeight",
+        "type": "number",
+        "default": "`null`",
+        "description": "设置后，如果内容超过弹出窗口的给定高度则产生一个可以滚动的容器"
+      },
+      {
+        "name": "autoPan",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "是否开启信息窗口打开时地图自动移动（默认关闭）"
+      },
+      {
+        "name": "closeButton",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "控制弹出窗口中出现的关闭按钮"
+      },
+      {
+        "name": "offset",
+        "type": "VT.Point",
+        "default": "`[0, 7]`",
+        "description": "弹出窗口位置的补偿值。在同一图层中打开弹出窗口时对于控制锚点比较有用"
+      },
+      {
+        "name": "autoPanPadding",
+        "type": "VT.Point",
+        "default": "`[5, 5]`",
+        "description": "在地图视图自动平移产生后弹出窗口和地图视图之间的边缘"
+      },
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "是否开启点击地图关闭信息窗口（默认关闭）"
+      },
+      {
+        "name": "content",
+        "type": "string | HTMLElement",
+        "default": "`\"\"`",
+        "description": "信息浮窗的显示 HTML 内容"
+      },
+      {
+        "name": "target",
+        "type": "T.OverlayBase<any> | VT.LngLat | null",
+        "default": "`null`",
+        "description": "打开信息浮窗的覆盖物或信息浮窗所指向的地理位置坐标"
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "open",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "clickclose",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.InfoWindow",
+        "description": ""
+      },
+      {
+        "name": "update:target",
+        "params": "any",
+        "description": ""
+      }
+    ]
+  },
+  "TdtMarkerClusterer": {
+    "source": "packages/overlay/markerClusterer/use/const.ts",
+    "props": [
+      {
+        "name": "markers",
+        "type": "ClusterMarker[]",
+        "default": "—",
+        "description": "要聚合的标注点数组；未提供的字段使用天地图默认值。建议为每项提供稳定 id 以启用差分更新"
+      },
+      {
+        "name": "girdSize",
+        "type": "number",
+        "default": "—",
+        "description": "聚合计算时网格的像素大小，默认60"
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "default": "—",
+        "description": "最大的聚合级别，大于该级别就不进行聚合"
+      },
+      {
+        "name": "styles",
+        "type": "VT.MarkerClustererStyle[]",
+        "default": "—",
+        "description": "自定义聚合后的图标风格"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "clusterclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dragstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "drag",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "dragend",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "remove",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.MarkerClusterer",
+        "description": ""
+      }
+    ]
+  },
+  "TdtCloudMarkerCollection": {
+    "source": "packages/overlay/cloudMarkerCollection/use/const.ts",
+    "props": [
+      {
+        "name": "ShapeType",
+        "type": "T.CloudMarkerCollectionOptions[\"ShapeType\"]",
+        "default": "`CIRCLE`",
+        "description": "海量点的预设形状"
+      },
+      {
+        "name": "SizeType",
+        "type": "T.CloudMarkerCollectionOptions[\"SizeType\"]",
+        "default": "`TINY`",
+        "description": "海量点的预设尺寸"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "default": "`#fa937e`",
+        "description": "海量点的颜色，默认为'#fa937e'"
+      },
+      {
+        "name": "lnglats",
+        "type": "VT.LngLat[]",
+        "default": "`[]`",
+        "description": "在地图上展示的点坐标集合"
+      }
+    ],
+    "events": [
+      {
+        "name": "click",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.CloudMarkerCollection",
+        "description": ""
+      }
+    ]
+  },
+  "TdtHeatmap": {
+    "source": "packages/overlay/heatmap/index.ts",
+    "props": [
+      {
+        "name": "data",
+        "type": "readonly HeatmapPoint[]",
+        "default": "`[]`",
+        "description": ""
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "radius",
+        "type": "number",
+        "default": "40",
+        "description": ""
+      },
+      {
+        "name": "gradient",
+        "type": "Record<number, string>",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "blur",
+        "type": "number",
+        "default": "0.85",
+        "description": ""
+      },
+      {
+        "name": "minOpacity",
+        "type": "number",
+        "default": "0",
+        "description": ""
+      },
+      {
+        "name": "maxOpacity",
+        "type": "number",
+        "default": "1",
+        "description": ""
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "HeatmapHandle",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": ""
+      }
+    ]
+  },
+  "TdtCustomOverlay": {
+    "source": "packages/overlay/custom/index.ts",
+    "props": [
+      {
+        "name": "position",
+        "type": "readonly number[]",
+        "default": "必填",
+        "description": ""
+      },
+      {
+        "name": "offset",
+        "type": "readonly number[]",
+        "default": "`[0, 0]`",
+        "description": ""
+      },
+      {
+        "name": "anchor",
+        "type": "CustomOverlayAnchor",
+        "default": "`center`",
+        "description": ""
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "0",
+        "description": ""
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "stopPropagation",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "extData",
+        "type": "unknown",
+        "default": "—",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "CustomOverlayHandle",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": ""
+      },
+      {
+        "name": "click",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      },
+      {
+        "name": "dblclick",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      },
+      {
+        "name": "mousedown",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      },
+      {
+        "name": "mouseup",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      },
+      {
+        "name": "mouseover",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      },
+      {
+        "name": "mouseout",
+        "params": "CustomOverlayEvent",
+        "description": ""
+      }
+    ]
+  },
+  "TdtImageOverlay": {
+    "source": "packages/overlay/imageOverlay/use/const.ts",
+    "props": [
+      {
+        "name": "url",
+        "type": "string",
+        "default": "必填",
+        "description": "图片地址"
+      },
+      {
+        "name": "bounds",
+        "type": "VT.Bounds",
+        "default": "必填",
+        "description": "图片覆盖的地理范围"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "1",
+        "description": "图片透明度，范围 0-1"
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "图片替代文本"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否可见"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "覆盖物层级；天地图按元素 z-index 生效"
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.ImageOverlay",
+        "description": "图片覆盖物创建完成"
+      }
+    ]
+  },
+  "TdtSvgOverlay": {
+    "source": "packages/overlay/svgOverlay/index.ts",
+    "props": [
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否显示 SVG 图层"
+      },
+      {
+        "name": "padding",
+        "type": "number",
+        "default": "0.1",
+        "description": "SVG 容器相对地图视图扩展的比例，仅初始化时生效"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "SVG 根元素的层级"
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "SvgOverlayHandle",
+        "description": "SVG 图层创建完成"
+      },
+      {
+        "name": "redraw",
+        "params": "SvgOverlayContext",
+        "description": "初始化后、缩放结束或容器尺寸变化时触发"
+      }
+    ]
+  },
+  "TdtTilelayer": {
+    "source": "packages/tilelayer/tilelayer/use/const.ts",
+    "props": [
+      {
+        "name": "minZoom",
+        "type": "number",
+        "default": "—",
+        "description": "此图层的最低缩放级别"
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "default": "—",
+        "description": "此图层的最高缩放级别"
+      },
+      {
+        "name": "errorTileUrl",
+        "type": "string",
+        "default": "—",
+        "description": "当没有瓦片时所显示的错误图片地址"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "—",
+        "description": "设置图层的透明度（0.0-1.0）。默认值为 1.0不透明"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "图层的显示顺序"
+      },
+      {
+        "name": "bounds",
+        "type": "VT.Bounds",
+        "default": "`[]`",
+        "description": "设置指定范围内显示瓦片"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "图层服务地址"
+      }
+    ],
+    "events": [
+      {
+        "name": "loading",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "load",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileloadstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileunload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileerror",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.TileLayer",
+        "description": ""
+      }
+    ]
+  },
+  "TdtTilelayerTdt": {
+    "source": "packages/tilelayer/tdt/use/const.ts",
+    "props": [
+      {
+        "name": "minZoom",
+        "type": "number",
+        "default": "—",
+        "description": "此图层的最低缩放级别"
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "default": "—",
+        "description": "此图层的最高缩放级别"
+      },
+      {
+        "name": "errorTileUrl",
+        "type": "string",
+        "default": "—",
+        "description": "当没有瓦片时所显示的错误图片地址"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "—",
+        "description": "设置图层的透明度（0.0-1.0）。默认值为 1.0不透明"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "图层的显示顺序"
+      },
+      {
+        "name": "bounds",
+        "type": "VT.Bounds",
+        "default": "`[]`",
+        "description": "设置指定范围内显示瓦片"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "图层服务地址"
+      }
+    ],
+    "events": [
+      {
+        "name": "loading",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "load",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileloadstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileunload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileerror",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.TileLayer.TDT",
+        "description": ""
+      }
+    ]
+  },
+  "TdtTilelayerWms": {
+    "source": "packages/tilelayer/wms/use/const.ts",
+    "props": [
+      {
+        "name": "layers",
+        "type": "string",
+        "default": "—",
+        "description": "用\",\"分隔的多个图层列表"
+      },
+      {
+        "name": "styles",
+        "type": "string",
+        "default": "—",
+        "description": "每个请求图层的用\",\"分隔的描述样式"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "default": "—",
+        "description": "输出图像的类型"
+      },
+      {
+        "name": "transparent",
+        "type": "boolean",
+        "default": "—",
+        "description": "输出图像背景是否透明"
+      },
+      {
+        "name": "version",
+        "type": "string",
+        "default": "—",
+        "description": "请求服务的版本"
+      },
+      {
+        "name": "srs",
+        "type": "string",
+        "default": "—",
+        "description": "地图投影类型"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "图层服务地址"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "—",
+        "description": "设置图层的透明度（0.0-1.0）。默认值为 1.0不透明"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "图层的显示顺序"
+      }
+    ],
+    "events": [
+      {
+        "name": "loading",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "load",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileloadstart",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileunload",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "tileerror",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.TileLayer.WMS",
+        "description": ""
+      }
+    ]
+  },
+  "TdtGridlineLayer": {
+    "source": "packages/tilelayer/gridlineLayer/use/const.ts",
+    "props": [
+      {
+        "name": "tileSize",
+        "type": "number",
+        "default": "256",
+        "description": "设置格网图层的网格大小，单位是像素。default:256"
+      },
+      {
+        "name": "minZoom",
+        "type": "number",
+        "default": "0",
+        "description": "显示格网图层的最小层级。default:0"
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "default": "18",
+        "description": "显示格网图层的最大层级。default:18"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "default": "1",
+        "description": "设置格网图层的透明度。default:1"
+      },
+      {
+        "name": "outlineSize",
+        "type": "T.GridlineLayerOptions[\"outlineSize\"]",
+        "default": "`{ width: 1, style: solid, color: #999 }`",
+        "description": "设置格网图层边线的颜色、宽度、线样式。default:{width:1, style:'solid', color:'#999'}"
+      },
+      {
+        "name": "textSize",
+        "type": "T.GridlineLayerOptions[\"textSize\"]",
+        "default": "`{ display: false, fontSize: 14, fontWeight: true, color: black }`",
+        "description": "设置格网图层文字的样式，图层文字表现网格的行号、列号、层级。default:{display:false, fontSize:'14', fontWeight:true, color:'black'}"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": "图层的叠放顺序"
+      }
+    ],
+    "events": [
+      {
+        "name": "loading",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "load",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "init",
+        "params": "T.GridlineLayer",
+        "description": ""
+      }
+    ]
+  },
+  "TdtLayerGroup": {
+    "source": "packages/layerGroup/index.ts",
+    "props": [
+      {
+        "name": "id",
+        "type": "string",
+        "default": "``layer-group-${uuid()}``",
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": ""
+      },
+      {
+        "name": "type",
+        "type": "LayerGroupRole",
+        "default": "`overlay`",
+        "description": ""
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "layers",
+        "type": "readonly LayerInstance[]",
+        "default": "`[]`",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.LayerGroup",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": ""
+      },
+      {
+        "name": "update:visible",
+        "params": "boolean",
+        "description": ""
+      },
+      {
+        "name": "update:zIndex",
+        "params": "number | undefined",
+        "description": ""
+      }
+    ]
+  },
+  "TdtLayerSwitcher": {
+    "source": "packages/layerSwitcher/index.ts",
+    "props": [
+      {
+        "name": "position",
+        "type": "T.ControlPosition",
+        "default": "`topright`",
+        "description": ""
+      },
+      {
+        "name": "offset",
+        "type": "VT.Point",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "default": "`图层`",
+        "description": ""
+      },
+      {
+        "name": "baseLayers",
+        "type": "readonly BaseLayerOption[]",
+        "default": "`[]`",
+        "description": ""
+      },
+      {
+        "name": "baseLayer",
+        "type": "string",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "zIndexControls",
+        "type": "boolean",
+        "default": "`false`",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.Map",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": ""
+      },
+      {
+        "name": "update:baseLayer",
+        "params": "string | undefined",
+        "description": ""
+      },
+      {
+        "name": "base-change",
+        "params": "string | undefined",
+        "description": ""
+      },
+      {
+        "name": "visibility-change",
+        "params": "{ id: string; visible: boolean }",
+        "description": ""
+      },
+      {
+        "name": "z-index-change",
+        "params": "{ id: string; zIndex: number | undefined }",
+        "description": ""
+      },
+      {
+        "name": "change",
+        "params": "LayerSelection",
+        "description": ""
+      }
+    ]
+  },
+  "TdtSearch": {
+    "source": "packages/service/search/index.ts",
+    "props": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "default": "—",
+        "description": "受控关键字；变化时自动发起搜索"
+      },
+      {
+        "name": "defaultKeyword",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "初始关键字，仅初始化时使用"
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "default": "—",
+        "description": "受控页码；变化时跳转到对应页"
+      },
+      {
+        "name": "pageCapacity",
+        "type": "number",
+        "default": "10",
+        "description": "每页结果数量，范围 1-100"
+      },
+      {
+        "name": "adminCode",
+        "type": "number",
+        "default": "0",
+        "description": "行政区代码；0 表示不限制"
+      },
+      {
+        "name": "queryTimeout",
+        "type": "number",
+        "default": "15000",
+        "description": "查询超时，单位毫秒"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "default": "—",
+        "description": "输入框提示；不传时使用语言配置"
+      },
+      {
+        "name": "searchBtn",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否显示搜索按钮"
+      },
+      {
+        "name": "routeBtn",
+        "type": "boolean | SearchRouteButtons",
+        "default": "`true`",
+        "description": "是否显示路线规划按钮，可按出行方式细分"
+      },
+      {
+        "name": "locale",
+        "type": "LocaleInput",
+        "default": "—",
+        "description": "组件级语言；可传 \"zh-CN\"、\"en-US\" 或局部文案覆盖对象"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:keyword",
+        "params": "string",
+        "description": ""
+      },
+      {
+        "name": "update:page",
+        "params": "number",
+        "description": ""
+      },
+      {
+        "name": "poi-click",
+        "params": "T.LocalSearchPoi",
+        "description": ""
+      },
+      {
+        "name": "suggest-click",
+        "params": "T.LocalSearchSuggest",
+        "description": ""
+      },
+      {
+        "name": "search-complete",
+        "params": "T.LocalSearchResult",
+        "description": ""
+      },
+      {
+        "name": "search-error",
+        "params": "Error",
+        "description": ""
+      }
+    ]
+  },
+  "TdtRoute": {
+    "source": "packages/service/route/index.ts",
+    "props": [
+      {
+        "name": "start",
+        "type": "readonly number[]",
+        "default": "`[]`",
+        "description": "起点坐标"
+      },
+      {
+        "name": "end",
+        "type": "readonly number[]",
+        "default": "`[]`",
+        "description": "终点坐标"
+      },
+      {
+        "name": "startKeyword",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "起点关键字"
+      },
+      {
+        "name": "endKeyword",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": "终点关键字"
+      },
+      {
+        "name": "routeType",
+        "type": "RouteType",
+        "default": "0",
+        "description": "当前出行方式：0 驾车、1 公交、2 步行"
+      },
+      {
+        "name": "routeTypes",
+        "type": "readonly RouteType[]",
+        "default": "`[0, 1, 2]`",
+        "description": "允许的出行方式列表"
+      },
+      {
+        "name": "drivingPolicy",
+        "type": "DrivingPolicy",
+        "default": "0",
+        "description": "驾车策略：0 最少时间、1 最短距离、2 避开高速"
+      },
+      {
+        "name": "transitPolicy",
+        "type": "TransitPolicy",
+        "default": "1",
+        "description": "公交策略：1 最少时间、2 最少换乘、4 最少步行、8 不乘地铁"
+      },
+      {
+        "name": "autoViewport",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "规划完成后是否自动调整地图视野"
+      },
+      {
+        "name": "queryTimeout",
+        "type": "number",
+        "default": "15000",
+        "description": "查询超时，单位毫秒"
+      },
+      {
+        "name": "locale",
+        "type": "LocaleInput",
+        "default": "—",
+        "description": "组件级语言；可传 \"zh-CN\"、\"en-US\" 或局部文案覆盖对象"
+      }
+    ],
+    "events": [
+      {
+        "name": "route-complete",
+        "params": "RouteCompleteEvent",
+        "description": ""
+      },
+      {
+        "name": "route-error",
+        "params": "RouteErrorEvent",
+        "description": ""
+      },
+      {
+        "name": "plan-change",
+        "params": "RoutePlanChangeEvent",
+        "description": ""
+      },
+      {
+        "name": "update:routeType",
+        "params": "RouteType",
+        "description": ""
+      },
+      {
+        "name": "update:start",
+        "params": "number[]",
+        "description": ""
+      },
+      {
+        "name": "update:end",
+        "params": "number[]",
+        "description": ""
+      },
+      {
+        "name": "update:drivingPolicy",
+        "params": "DrivingPolicy",
+        "description": ""
+      },
+      {
+        "name": "update:transitPolicy",
+        "params": "TransitPolicy",
+        "description": ""
+      }
+    ]
+  },
+  "TdtGeolocation": {
+    "source": "packages/service/geolocation/index.ts",
+    "props": [
+      {
+        "name": "autoLocate",
+        "type": "boolean",
+        "default": "`false`",
+        "description": ""
+      },
+      {
+        "name": "autoCenter",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "enableHighAccuracy",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "default": "10000",
+        "description": ""
+      },
+      {
+        "name": "maximumAge",
+        "type": "number",
+        "default": "0",
+        "description": ""
+      },
+      {
+        "name": "showMarker",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "showAccuracy",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "markerIcon",
+        "type": "VT.IconOptions | string",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "accuracyStyle",
+        "type": "T.CircleOptions",
+        "default": "`{  }`",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "GeolocationHandle",
+        "description": ""
+      },
+      {
+        "name": "locating",
+        "params": "—",
+        "description": ""
+      },
+      {
+        "name": "success",
+        "params": "GeolocationResult",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "GeolocationError",
+        "description": ""
+      },
+      {
+        "name": "clear",
+        "params": "—",
+        "description": ""
+      }
+    ]
+  },
+  "TdtBusLineSearch": {
+    "source": "packages/service/busLineSearch/index.ts",
+    "props": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "default": "—",
+        "description": ""
+      },
+      {
+        "name": "defaultKeyword",
+        "type": "string",
+        "default": "`\"\"`",
+        "description": ""
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "default": "`输入公交线路，例如 850`",
+        "description": ""
+      },
+      {
+        "name": "autoSelect",
+        "type": "boolean",
+        "default": "`false`",
+        "description": ""
+      },
+      {
+        "name": "autoViewport",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "showLine",
+        "type": "boolean",
+        "default": "`true`",
+        "description": ""
+      },
+      {
+        "name": "queryTimeout",
+        "type": "number",
+        "default": "15000",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.BusLineSearch",
+        "description": ""
+      },
+      {
+        "name": "update:keyword",
+        "params": "string",
+        "description": ""
+      },
+      {
+        "name": "list-complete",
+        "params": "T.BusListItem[], T.BusListResult",
+        "description": ""
+      },
+      {
+        "name": "line-complete",
+        "params": "T.BusLine",
+        "description": ""
+      },
+      {
+        "name": "line-select",
+        "params": "T.BusListItem",
+        "description": ""
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": ""
+      }
+    ]
+  },
+  "TdtCarTrack": {
+    "source": "packages/extra/cartrack/use/const.ts",
+    "props": [
+      {
+        "name": "interval",
+        "type": "number",
+        "default": "1000",
+        "description": "从当前节点到下一节点的时间间隔"
+      },
+      {
+        "name": "speed",
+        "type": "number",
+        "default": "0",
+        "description": "一个时间间隔移动的距离，单位是米。注：speed为0时，按照Datas数组中每个元素的坐标移动"
+      },
+      {
+        "name": "dynamicLine",
+        "type": "boolean",
+        "default": "`false`",
+        "description": "为true时轨迹线随车移动，而变化。false时，车辆运动轨迹提前画好且无动态变化"
+      },
+      {
+        "name": "Datas",
+        "type": "VT.LngLats",
+        "default": "`[]`",
+        "description": "数据来源"
+      },
+      {
+        "name": "carstyle",
+        "type": "T.CarOverlayOptions[\"carstyle\"]",
+        "default": "—",
+        "description": "车辆样式"
+      },
+      {
+        "name": "polylinestyle",
+        "type": "T.CarOverlayOptions[\"polylinestyle\"]",
+        "default": "—",
+        "description": "车辆轨迹线样式"
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.CarTrack",
+        "description": ""
+      },
+      {
+        "name": "passOneNode",
+        "params": "VT.LngLat, number, number",
+        "description": "车辆移动一次时触发调用的方法 @param lnglat 经过的坐标 @param index 节点序号 @param length 总节点数量"
+      }
+    ]
+  },
+  "TdtBufferTool": {
+    "source": "packages/bufferTool/use/const.ts",
+    "props": [
+      {
+        "name": "layers",
+        "type": "readonly T.BufferToolLayer[]",
+        "default": "`[]`",
+        "description": "参与缓冲区分析的图形实例；同一实例不应同时由其他组件管理"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否启用拖拽生成/调整缓冲区"
+      },
+      {
+        "name": "style",
+        "type": "T.BufferToolStyle",
+        "default": "`{ ...DEFAULT_BUFFER_STYLE }`",
+        "description": "缓冲区样式"
+      }
+    ],
+    "events": [
+      {
+        "name": "init",
+        "params": "T.BufferTool",
+        "description": "缓冲区工具初始化完成"
+      },
+      {
+        "name": "drag-start",
+        "params": "T.BufferToolEvent",
+        "description": "开始拖动图形或缓冲区"
+      },
+      {
+        "name": "drag",
+        "params": "T.BufferToolEvent",
+        "description": "拖动中，radius 为当前缓冲区半径"
+      },
+      {
+        "name": "drag-end",
+        "params": "T.BufferToolEvent",
+        "description": "拖动结束，radius 为最终缓冲区半径"
+      },
+      {
+        "name": "error",
+        "params": "Error",
+        "description": "初始化或同步失败"
+      }
+    ]
+  },
+  "TdtContextMenu": {
+    "source": "packages/contextMenu/index.ts",
+    "props": [
+      {
+        "name": "items",
+        "type": "readonly ContextMenuEntry[]",
+        "default": "`[]`",
+        "description": "菜单项；也可以通过默认插槽完全自定义"
+      },
+      {
+        "name": "enabled",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "是否响应地图右键"
+      },
+      {
+        "name": "visible",
+        "type": "boolean",
+        "default": "—",
+        "description": "受控显隐；不传时由组件内部管理"
+      },
+      {
+        "name": "offset",
+        "type": "VT.Point",
+        "default": "`[0, 0]`",
+        "description": "相对鼠标位置的偏移"
+      },
+      {
+        "name": "closeOnSelect",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "点击菜单项后是否自动关闭"
+      },
+      {
+        "name": "closeOnMove",
+        "type": "boolean",
+        "default": "`true`",
+        "description": "地图平移或缩放时是否自动关闭"
+      },
+      {
+        "name": "minWidth",
+        "type": "number",
+        "default": "160",
+        "description": ""
+      },
+      {
+        "name": "maxWidth",
+        "type": "number",
+        "default": "320",
+        "description": ""
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "default": "1200",
+        "description": ""
+      }
+    ],
+    "events": [
+      {
+        "name": "open",
+        "params": "ContextMenuContext",
+        "description": "菜单打开，参数包含经纬度、容器像素坐标和原始鼠标事件"
+      },
+      {
+        "name": "close",
+        "params": "—",
+        "description": "菜单关闭"
+      },
+      {
+        "name": "select",
+        "params": "ContextMenuItem, ContextMenuContext",
+        "description": "点击菜单项，参数为菜单项和打开位置"
+      },
+      {
+        "name": "update:visible",
+        "params": "boolean",
+        "description": "显隐变化，可用于 v-model:visible"
+      }
+    ]
+  }
+}

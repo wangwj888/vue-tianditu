@@ -19,6 +19,10 @@ declare module "vue" {
     TdtMarkerClusterer: typeof import("../../overlay/markerClusterer").TdtMarkerClusterer;
     TdtHeatmap: typeof import("../../overlay/heatmap").TdtHeatmap;
     TdtCustomOverlay: typeof import("../../overlay/custom").TdtCustomOverlay;
+    TdtImageOverlay: typeof import("../../overlay/imageOverlay").TdtImageOverlay;
+    TdtSvgOverlay: typeof import("../../overlay/svgOverlay").TdtSvgOverlay;
+    TdtBufferTool: typeof import("../../bufferTool").TdtBufferTool;
+    TdtContextMenu: typeof import("../../contextMenu").TdtContextMenu;
     TdtTilelayer: typeof import("../../tilelayer/tilelayer").TdtTilelayer;
     TdtTilelayerTdt: typeof import("../../tilelayer/tdt").TdtTilelayerTdt;
     TdtTilelayerWms: typeof import("../../tilelayer/wms").TdtTilelayerWms;

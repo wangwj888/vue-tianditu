@@ -39,3 +39,7 @@
 | drag      | ({type,target,lnglat,extData})                | 当用户拖动标注图标时不断触发         |
 | dragend   | ({type,target,lnglat,extData})                | 当用户停止拖动标注图标时触发         |
 | remove    | ({type,target,extData})                       | 移除标注图标时触发                   |
+
+## API 表
+
+<ApiTable component="TdtMarker" />

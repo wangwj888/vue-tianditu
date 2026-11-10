@@ -9,7 +9,7 @@ export const SearchMapView = defineComponent({
     /** 显示在地图上的点数组 */
     pois: { type: Array as PropType<T.LocalSearchPoi[]>, default: () => [] },
     /** 显示信息窗口的坐标 */
-    target: { type: Array as PropType<VT.LngLat | null>, default: () => null },
+    target: { type: Array as unknown as PropType<VT.LngLat | null>, default: () => null },
     /** 信息窗口的内容 */
     content: { type: String, default: "" }
   },
@@ -20,14 +20,10 @@ export const SearchMapView = defineComponent({
   },
   setup(props, { emit }) {
     const markers = computed(() => {
-      return props.pois
-        .map(poi => {
-          return {
-            position: coordinates(poi.lonlat),
-            extData: poi
-          };
-        })
-        .filter(marker => marker.position.length === 2);
+      return props.pois.flatMap(poi => {
+        const position = coordinates(poi.lonlat);
+        return position.length === 2 ? [{ position: [position[0], position[1]] as VT.LngLat, extData: poi }] : [];
+      });
     });
 
     useMapTask(tdtMap => {

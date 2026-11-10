@@ -152,3 +152,7 @@ paintBrushTool 在地图容器中，创建一个可以随意画线的画笔工�
 | color       | String  | "#0000FF" | 画笔颜色。                      |
 | weight      | Number  | 3         | 画笔的宽度，以像素为单位。      |
 | opacity     | Number  | 0.5       | 画笔的透明度（范围 0-1 之间）。 |
+
+## API 表
+
+<ApiTable component="TdtMousetool" />

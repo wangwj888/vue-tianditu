@@ -1,9 +1,11 @@
 import { markRaw, onScopeDispose, watch } from "vue";
 import type { RouteState } from "../types";
+import type { LocaleMessages } from "../../../locale";
+import { formatMessage } from "../../../locale";
 import { toLngLat, toLngLats } from "../../../utils";
 import { coordinates, lineCoordinates, requestTimeout, toServiceError } from "../../utils";
 
-export function useWatch(state: RouteState) {
+export function useWatch(state: RouteState, messages: () => LocaleMessages) {
   let generation = 0;
   let disposed = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -55,10 +57,7 @@ export function useWatch(state: RouteState) {
         state.onRouteComplete({ routeType, start, end, result });
       };
       try {
-        timer = setTimeout(
-          () => fail(new Error("路线规划请求超时，请检查网络和天地图服务权限。")),
-          requestTimeout(state.queryTimeout)
-        );
+        timer = setTimeout(() => fail(new Error(messages().route.timeoutError)), requestTimeout(state.queryTimeout));
         if (routeType === 1) {
           const instance = markRaw(
             new T.TransitRoute(state.tdtMap, {
@@ -68,7 +67,7 @@ export function useWatch(state: RouteState) {
                 try {
                   const code = Number(result?.resultCode || 0);
                   if (code !== 0) {
-                    fail(new Error(`公交规划失败，状态码：${code}`), code);
+                    fail(new Error(formatMessage(messages().route.transitFailed, { code })), code);
                     return;
                   }
                   const plans =
@@ -91,7 +90,7 @@ export function useWatch(state: RouteState) {
                         })
                       : []);
                   if (!plans.length) {
-                    fail(new Error("未找到可用公交方案。"));
+                    fail(new Error(messages().route.noTransitPlans));
                     return;
                   }
                   state.transitPlans = plans;
@@ -136,7 +135,7 @@ export function useWatch(state: RouteState) {
                         })
                       : [];
                   if (!plans.length) {
-                    fail(new Error("未找到可用路线。"));
+                    fail(new Error(messages().route.noPlans));
                     return;
                   }
                   state.drivingPlans = plans;
@@ -180,9 +179,10 @@ export function useWatch(state: RouteState) {
           if (segment.segmentType === 1 || segment.segmentType === 4) state.walkLines.push(...lines);
           else {
             state.busLines.push(...lines);
-            const markers = [segment.stationStart, segment.stationEnd]
-              .map(station => coordinates(station?.lonlat))
-              .filter(point => point.length);
+            const markers = [segment.stationStart, segment.stationEnd].flatMap(station => {
+              const point = coordinates(station?.lonlat);
+              return point.length === 2 ? [[point[0], point[1]] as VT.LngLat] : [];
+            });
             (segment.segmentType === 3 ? state.metroMarkers : state.busMarkers).push(...markers);
           }
         });

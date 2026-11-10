@@ -1,5 +1,6 @@
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { h } from "../../../utils";
+import { useLocale } from "../../../locale";
 import { useState } from "../use";
 import "../styles/route-policies.scss";
 import type { DrivingPolicy, TransitPolicy } from "../types";
@@ -7,8 +8,16 @@ import type { DrivingPolicy, TransitPolicy } from "../types";
 export const RoutePolicies = defineComponent({
   setup() {
     const state = useState();
-    const drivingPolicies = { 0: "最少时间", 1: "最短距离", 2: "避开高速" };
-    const transitPolicies = { 1: "最少时间", 2: "最少换乘", 4: "最少步行", 8: "不乘地铁" };
+    const messages = useLocale();
+    const drivingPolicies = computed(() =>
+      messages.value.route.drivingPolicies.map((label, value) => ({ value, label }))
+    );
+    const transitPolicies = computed(() =>
+      Object.entries(messages.value.route.transitPolicies).map(([value, label]) => ({
+        value: Number(value),
+        label
+      }))
+    );
 
     return () =>
       h(
@@ -18,30 +27,30 @@ export const RoutePolicies = defineComponent({
         },
         [
           ...(state.routeType === 0
-            ? Object.entries(drivingPolicies).map(([key, value]) =>
+            ? drivingPolicies.value.map(({ value: key, label }) =>
                 h(
                   "div",
                   {
-                    class: "route-policies-item" + (state.drivingPolicy == Number(key) ? " active" : ""),
+                    class: "route-policies-item" + (state.drivingPolicy == key ? " active" : ""),
                     on: {
-                      click: () => (state.drivingPolicy = Number(key) as DrivingPolicy)
+                      click: () => (state.drivingPolicy = key as DrivingPolicy)
                     }
                   },
-                  value
+                  label
                 )
               )
             : []),
           ...(state.routeType === 1
-            ? Object.entries(transitPolicies).map(([key, value]) =>
+            ? transitPolicies.value.map(({ value: key, label }) =>
                 h(
                   "div",
                   {
-                    class: "route-policies-item" + (state.transitPolicy == Number(key) ? " active" : ""),
+                    class: "route-policies-item" + (state.transitPolicy == key ? " active" : ""),
                     on: {
-                      click: () => (state.transitPolicy = Number(key) as TransitPolicy)
+                      click: () => (state.transitPolicy = key as TransitPolicy)
                     }
                   },
-                  value
+                  label
                 )
               )
             : [])

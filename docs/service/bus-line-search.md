@@ -74,3 +74,7 @@ Vue 2.7 双向绑定使用 `:keyword.sync`。普通输入更新关键字，按�
 依照[天地图 BusLineSearch](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/BusLineSearch.html)、[BusListResult](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/BusListResult.html) 和 [BusLine](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/BusLine.html) 官方参考封装。SDK 没有公布取消请求/销毁接口，因此组件在清空或卸载时清理自身折线、计时器，并忽略后续回调。
 
 V2 搜索的线路结果格式见[天地图搜索 V2](http://lbs.tianditu.gov.cn/server/search2.html)。
+
+## API 表
+
+<ApiTable component="TdtBusLineSearch" />

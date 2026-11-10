@@ -68,3 +68,7 @@ interface RoutePlanChangeEvent {
 ## 实例方法
 
 通过组件 ref 调用 `search()`，用当前端点和策略重新规划；可用导出的 `RouteExposed` 标注 ref 类型。缺少有效端点时不会发出路线请求。
+
+## API 表
+
+<ApiTable component="TdtRoute" />

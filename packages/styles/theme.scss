@@ -1,0 +1,35 @@
+// Public theme tokens for the built-in search and route UI.
+// Override any variable on :root, a container, or a single component.
+:root {
+  --tdt-color-primary: #2c64a7;
+  --tdt-color-primary-active: #1f4f86;
+  --tdt-color-text: #333;
+  --tdt-color-text-secondary: #555;
+  --tdt-color-text-muted: #999;
+  --tdt-color-bg: #fff;
+  --tdt-color-bg-hover: #f5f5f5;
+  --tdt-color-border: #eee;
+  --tdt-color-divider: #aaa;
+  --tdt-radius: 2px;
+  --tdt-shadow: 2px 2px 2px rgb(0 0 0 / 15%);
+  --tdt-font-family: inherit;
+  --tdt-font-size: 14px;
+  --tdt-font-size-sm: 12px;
+  --tdt-font-size-xs: 10px;
+  --tdt-control-height: 30px;
+}
+
+[data-tdt-theme="dark"],
+.tdt-dark,
+.dark {
+  --tdt-color-primary: #7aa7e0;
+  --tdt-color-primary-active: #a3c4ef;
+  --tdt-color-text: #e8e8e8;
+  --tdt-color-text-secondary: #c2c2c2;
+  --tdt-color-text-muted: #9a9a9a;
+  --tdt-color-bg: #1b1b1f;
+  --tdt-color-bg-hover: #2b2b31;
+  --tdt-color-border: #3a3a40;
+  --tdt-color-divider: #55555c;
+  --tdt-shadow: 0 2px 8px rgb(0 0 0 / 55%);
+}

@@ -16,11 +16,12 @@ export function coordinates(value: string | readonly number[] | undefined | null
     ? point.slice(0, 2)
     : [];
 }
-export function lineCoordinates(value: string): number[][] {
+export function lineCoordinates(value: string): VT.LngLat[] {
   return (value || "")
     .split(";")
     .map(coordinates)
-    .filter(point => point.length === 2);
+    .filter(point => point.length === 2)
+    .map(point => [point[0], point[1]] as VT.LngLat);
 }
 export function escapeHtml(value: string): string {
   return String(value || "").replace(

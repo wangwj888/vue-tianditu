@@ -117,3 +117,7 @@ async function locateFromUserAction() {
 同时提供 `T.Geolocation`、`T.GeolocationResult` 类型供使用原生天地图 API 的项目使用。SDK 的 `getStatus()` 和浏览器的错误 code 含义不同；组件自身的 `GeolocationResult` 也与 SDK 结果区分。
 
 已核对的 SDK 接口见[天地图 Geolocation 类参考](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/Geolocation.html)、[GeolocationResult 类参考](http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/GeolocationResult.html)和[官方 H5 定位示例](http://lbs.tianditu.gov.cn/api/js4.0/APIExample/mapGeolocation.html)。
+
+## API 表
+
+<ApiTable component="TdtGeolocation" />

@@ -12,7 +12,7 @@ import { reactive } from "vue";
 const tk = import.meta.env.VITE_TDT_TOKEN || "7f013d0186775b063d6a046977bbefc6";
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11,
   url: `https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tk}`
 });

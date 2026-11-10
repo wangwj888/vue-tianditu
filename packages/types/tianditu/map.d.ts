@@ -280,6 +280,8 @@ declare namespace T {
     lnglat: LngLat;
     /** xy坐标 */
     containerPoint: Point;
+    /** 浏览器原始事件，部分 SDK 版本可能不提供 */
+    originalEvent?: MouseEvent;
   }
 
   interface MapPanes {

@@ -1,6 +1,7 @@
 import "./circle";
 import "./cloudMarkerCollection";
 import "./icon";
+import "./imageOverlay";
 import "./infowindow";
 import "./label";
 import "./marker";

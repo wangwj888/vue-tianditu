@@ -1,11 +1,14 @@
 declare namespace VT {
-  type LngLat = number[];
+  /** [经度, 纬度] */
+  type LngLat = [number, number];
 
-  type LngLats = number[][];
+  type LngLats = LngLat[];
 
-  type Bounds = number[][];
+  /** [[西南角经度, 西南角纬度], [东北角经度, 东北角纬度]] */
+  type Bounds = [LngLat, LngLat];
 
-  type Point = number[];
+  /** [x, y] */
+  type Point = [number, number];
 
   interface IconOptions extends Omit<T.IconOptions, "iconSize" | "iconAnchor"> {
     iconSize?: Point;
@@ -19,7 +22,11 @@ declare namespace VT {
   type ControlName = "Zoom" | "Scale" | "Copyright" | "OverviewMap" | "MapType";
 
   type ControlOptions = Partial<
-    T.ControlZoomOptions & T.ControlScaleOptions & ControlCopyrightOptions & T.ControlOverviewMapOptions & ControlMapTypeOptions
+    T.ControlZoomOptions &
+      T.ControlScaleOptions &
+      ControlCopyrightOptions &
+      T.ControlOverviewMapOptions &
+      ControlMapTypeOptions
   > & {
     name: ControlName;
   };
@@ -29,11 +36,7 @@ declare namespace VT {
       title: string;
       icon: string;
       layer:
-        | "TMAP_NORMAL_MAP"
-        | "TMAP_SATELLITE_MAP"
-        | "TMAP_HYBRID_MAP"
-        | "TMAP_TERRAIN_MAP"
-        | "TMAP_TERRAIN_HYBRID_MAP";
+        "TMAP_NORMAL_MAP" | "TMAP_SATELLITE_MAP" | "TMAP_HYBRID_MAP" | "TMAP_TERRAIN_MAP" | "TMAP_TERRAIN_HYBRID_MAP";
     }[];
   }
 

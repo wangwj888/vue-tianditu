@@ -2,6 +2,7 @@ import type { SharedComponent } from "../../types";
 import { computed, defineComponent, markRaw, watch, type PropType } from "vue";
 import { useMapTask } from "../../use";
 import { h, fixMapPropagation } from "../../utils";
+import { provideLocale, type LocaleInput } from "../../locale";
 import { useState, useMethods } from "./use";
 import { SearchBox, SearchSuggests, SearchPois, SearchMapView, IconSearch, IconRoute, IconClose } from "./components";
 import { TdtRoute } from "../route";
@@ -13,15 +14,26 @@ import "../../styles/tdt-icon.scss";
 
 export type { SearchExposed, SearchRouteButtons, SearchItemSlot } from "./types";
 const PROPS = {
+  /** 受控关键字；变化时自动发起搜索 */
   keyword: { type: String, default: undefined },
+  /** 初始关键字，仅初始化时使用 */
   defaultKeyword: { type: String, default: "" },
+  /** 受控页码；变化时跳转到对应页 */
   page: { type: Number, default: undefined },
+  /** 每页结果数量，范围 1-100 */
   pageCapacity: { type: Number, default: 10 },
+  /** 行政区代码；0 表示不限制 */
   adminCode: { type: Number, default: 0 },
+  /** 查询超时，单位毫秒 */
   queryTimeout: { type: Number, default: 15000 },
-  placeholder: { type: String, default: "输入关键字搜索" },
+  /** 输入框提示；不传时使用语言配置 */
+  placeholder: { type: String },
+  /** 是否显示搜索按钮 */
   searchBtn: { type: Boolean, default: true },
-  routeBtn: { type: [Boolean, Object] as PropType<boolean | SearchRouteButtons>, default: true }
+  /** 是否显示路线规划按钮，可按出行方式细分 */
+  routeBtn: { type: [Boolean, Object] as PropType<boolean | SearchRouteButtons>, default: true },
+  /** 组件级语言；可传 "zh-CN"、"en-US" 或局部文案覆盖对象 */
+  locale: { type: [String, Object] as PropType<LocaleInput> }
 };
 const EVENTS = {
   "update:keyword": (_keyword: string) => true,
@@ -36,12 +48,14 @@ export const TdtSearch = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit, slots, expose }) {
+    const messages = provideLocale(() => props.locale);
     const state = useState();
     state.keyword = props.keyword ?? props.defaultKeyword;
     const methods = useMethods(state, emit, {
       pageCapacity: () => props.pageCapacity,
       adminCode: () => props.adminCode,
-      timeout: () => props.queryTimeout
+      timeout: () => props.queryTimeout,
+      messages: () => messages.value
     });
     expose({
       search: (keyword = state.keyword) => methods.search(1, keyword),
@@ -94,12 +108,18 @@ export const TdtSearch = defineComponent({
         { class: "tdt-search", on: fixMapPropagation(state.tdtMap) },
         state.showRoute
           ? [
-              h(TdtRoute, { props: { routeTypes: routeTypes.value, routeType: routeTypes.value[0] || 0 } }),
+              h(TdtRoute, {
+                props: {
+                  routeTypes: routeTypes.value,
+                  routeType: routeTypes.value[0] || 0,
+                  locale: props.locale
+                }
+              }),
               h(
                 "button",
                 {
                   class: "tdt-search-route__close",
-                  attrs: { type: "button", "aria-label": "返回搜索" },
+                  attrs: { type: "button", "aria-label": messages.value.common.back },
                   on: {
                     click: () => {
                       state.showRoute = false;
@@ -111,7 +131,11 @@ export const TdtSearch = defineComponent({
             ]
           : [
               h(SearchBox, {
-                props: { value: state.keyword, modelValue: state.keyword, placeholder: props.placeholder },
+                props: {
+                  value: state.keyword,
+                  modelValue: state.keyword,
+                  placeholder: props.placeholder ?? messages.value.search.placeholder
+                },
                 on: {
                   input: methods.onInput,
                   "update:modelValue": methods.onInput,
@@ -124,7 +148,7 @@ export const TdtSearch = defineComponent({
                         "button",
                         {
                           class: "tdt-search-box__btn",
-                          attrs: { type: "button", "aria-label": "搜索" },
+                          attrs: { type: "button", "aria-label": messages.value.common.search },
                           on: { click: () => methods.search(1) }
                         },
                         [h(IconSearch)]
@@ -134,7 +158,7 @@ export const TdtSearch = defineComponent({
                         "button",
                         {
                           class: "tdt-search-box__btn",
-                          attrs: { type: "button", "aria-label": "路线规划" },
+                          attrs: { type: "button", "aria-label": messages.value.common.route },
                           on: { click: enterRoute }
                         },
                         [h(IconRoute)]
@@ -146,7 +170,7 @@ export const TdtSearch = defineComponent({
                 ? h(
                     "div",
                     { class: "tdt-search-status", attrs: { role: "status" } },
-                    slots.loading?.({ keyword: state.keyword }) || "搜索中…"
+                    slots.loading?.({ keyword: state.keyword }) || messages.value.search.loading
                   )
                 : null,
               !state.loading &&
@@ -157,7 +181,7 @@ export const TdtSearch = defineComponent({
                 ? h(
                     "div",
                     { class: "tdt-search-status" },
-                    slots.empty?.({ keyword: state.keyword }) || "未找到匹配结果"
+                    slots.empty?.({ keyword: state.keyword }) || messages.value.search.empty
                   )
                 : null,
               state.error

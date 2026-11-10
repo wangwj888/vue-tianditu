@@ -1,5 +1,6 @@
 import { markRaw, onBeforeUnmount } from "vue";
 import { toLngLat } from "../../../utils";
+import type { LocaleMessages } from "../../../locale";
 import { coordinates, escapeHtml, pageCapacity, requestTimeout, toServiceError } from "../../utils";
 import type { PageProps } from "../components";
 import type { SearchState } from "../types";
@@ -8,6 +9,7 @@ interface SearchOptions {
   pageCapacity(): number;
   adminCode(): number;
   timeout(): number;
+  messages(): LocaleMessages;
 }
 export function useMethods(state: SearchState, emit: (event: any, ...args: any[]) => void, options: SearchOptions) {
   let generation = 0;
@@ -80,7 +82,7 @@ export function useMethods(state: SearchState, emit: (event: any, ...args: any[]
           onSearchComplete(result) {
             if (disposed || id !== generation) return;
             try {
-              if (!result) throw new Error("搜索服务没有返回结果。");
+              if (!result) throw new Error(options.messages().search.invalidResult);
               if (needsPage) {
                 needsPage = false;
                 const pages = Math.max(
@@ -114,7 +116,7 @@ export function useMethods(state: SearchState, emit: (event: any, ...args: any[]
       state.localSearch = instance;
       instance.setSpecifyAdminCode(adminCode);
       timer = setTimeout(
-        () => fail(new Error("搜索请求超时，请检查网络和天地图服务权限。")),
+        () => fail(new Error(options.messages().search.timeoutError)),
         requestTimeout(options.timeout())
       );
       instance.search(keyword, type);
@@ -136,9 +138,11 @@ export function useMethods(state: SearchState, emit: (event: any, ...args: any[]
     const point = coordinates(poi.lonlat);
     if (point.length) {
       state.tdtMap?.panTo(toLngLat(point));
-      state.target = point;
+      state.target = [point[0], point[1]];
     }
-    state.content = `<strong>${escapeHtml(poi.name)}</strong><div>地址：${escapeHtml(poi.address)}</div>`;
+    state.content = `<strong>${escapeHtml(poi.name)}</strong><div>${escapeHtml(
+      options.messages().search.address
+    )}${escapeHtml(poi.address)}</div>`;
     emit("poi-click", poi);
   }
   function onSuggestClick(suggest: T.LocalSearchSuggest) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, shallowRef } from "vue";
 import {
   TdtMap,
   TdtHeatmap,
@@ -7,8 +7,14 @@ import {
   TdtControl,
   TdtMarker,
   TdtLayerGroup,
-  TdtLayerSwitcher
+  TdtLayerSwitcher,
+  TdtImageOverlay,
+  TdtSvgOverlay,
+  TdtBufferTool,
+  TdtPolygon,
+  TdtContextMenu
 } from "vue-map-tianditu";
+import type { ContextMenuItem } from "vue-map-tianditu";
 
 const tk = import.meta.env.VITE_TDT_KEY as string | undefined;
 const visible = ref(true);
@@ -31,6 +37,30 @@ function refresh() {
   heatmap.value?.refresh();
   overlay.value?.refresh();
 }
+const imageUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120"><rect width="200" height="120" fill="#1677ff" fill-opacity=".35"/><text x="100" y="66" text-anchor="middle" fill="white" font-size="18">Image</text></svg>'
+)}`;
+const imageBounds = [
+  [116.35, 39.88],
+  [116.45, 39.93]
+] as [[number, number], [number, number]];
+const menuItems: ContextMenuItem[] = [
+  { key: "zoom-in", label: "放大一级" },
+  { key: "zoom-out", label: "缩小一级" }
+];
+function onMenuSelect(item: ContextMenuItem) {
+  const instance = map.value?.getMap();
+  if (item.key === "zoom-in") instance?.zoomIn();
+  else if (item.key === "zoom-out") instance?.zoomOut();
+}
+const polygon = shallowRef<T.Polygon>();
+const bufferLayers = computed(() => (polygon.value ? [polygon.value] : []));
+const polygonPath = [
+  [116.36, 39.89],
+  [116.42, 39.9],
+  [116.4, 39.94]
+] as [number, number][];
+const svgOverlay = ref<TdtSvgOverlay>();
 </script>
 
 <template>
@@ -46,6 +76,11 @@ function refresh() {
         <template #loading>正在加载地图…</template>
         <template #error="{ error }">{{ error?.message }}</template>
         <TdtLayerSwitcher />
+        <TdtImageOverlay :url="imageUrl" :bounds="imageBounds" :opacity="0.35" :z-index="1" />
+        <TdtPolygon :path="polygonPath" color="#f59e0b" :fill-opacity="0.15" @init="polygon = $event" />
+        <TdtBufferTool :layers="bufferLayers" :active="false" />
+        <TdtSvgOverlay ref="svgOverlay" :z-index="3" />
+        <TdtContextMenu :items="menuItems" @select="onMenuSelect" />
         <TdtControl><button @click="refresh">刷新覆盖物</button></TdtControl>
         <TdtLayerGroup id="business" name="业务覆盖物">
           <TdtMarker :position="position" />

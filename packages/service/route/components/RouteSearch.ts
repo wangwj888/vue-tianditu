@@ -1,11 +1,13 @@
 import { defineComponent } from "vue";
 import { SearchBox, SearchPois } from "../../search/components";
 import { h } from "../../../utils";
+import { useLocale } from "../../../locale";
 import { useState, useMethods } from "../use";
 
 export const RouteSearch = defineComponent({
   setup() {
     const state = useState();
+    const messages = useLocale();
     const { onSearch, onPoiClick, onPageChange, onFocus } = useMethods(state);
 
     return () =>
@@ -15,7 +17,7 @@ export const RouteSearch = defineComponent({
           props: {
             value: state.startKeyword,
             modelValue: state.startKeyword,
-            placeholder: "请输入起点"
+            placeholder: messages.value.route.startPlaceholder
           },
           on: {
             focus: () => onFocus("start"),
@@ -28,7 +30,7 @@ export const RouteSearch = defineComponent({
           props: {
             value: state.endKeyword,
             modelValue: state.endKeyword,
-            placeholder: "请输入终点"
+            placeholder: messages.value.route.endPlaceholder
           },
           on: {
             focus: () => onFocus("end"),

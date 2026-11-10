@@ -1,14 +1,15 @@
 import { defineComponent, computed } from "vue";
 import { IconClose } from "./icons";
 import { h, slot, isVue2 } from "../../../utils";
+import { useLocale } from "../../../locale";
 import "../styles/search-box.scss";
 
 export const SearchBox = defineComponent({
   props: {
     value: { type: String, default: "" },
     modelValue: { type: String, default: "" },
-    /** 显示在输入框的提示 */
-    placeholder: { type: String, default: "输入关键字搜索" },
+    /** 显示在输入框的提示；未传时使用当前语言配置 */
+    placeholder: { type: String, default: undefined },
     /** 是否显示搜索按钮 */
     searchBtn: { type: Boolean, default: true },
     /** 是否显示导航按钮 */
@@ -22,6 +23,8 @@ export const SearchBox = defineComponent({
     search: (e: string) => true
   },
   setup(props, { emit, slots }) {
+    const messages = useLocale();
+    const placeholder = computed(() => props.placeholder ?? messages.value.search.placeholder);
     let isComposition = false;
 
     const keyword = computed({
@@ -44,7 +47,7 @@ export const SearchBox = defineComponent({
             class: "tdt-search-box__input",
             attrs: {
               type: "text",
-              placeholder: props.placeholder
+              placeholder: placeholder.value
             },
             domProps: {
               value: keyword.value
@@ -70,6 +73,7 @@ export const SearchBox = defineComponent({
             {
               class: "tdt-search-box__close",
               style: { display: props.value || props.modelValue ? "block" : "none" },
+              attrs: { role: "button", tabindex: "0", "aria-label": messages.value.common.clear },
               on: {
                 click: () => (keyword.value = "")
               }

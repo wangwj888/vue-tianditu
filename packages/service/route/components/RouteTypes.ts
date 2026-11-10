@@ -1,5 +1,6 @@
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { h } from "../../../utils";
+import { useLocale } from "../../../locale";
 import { useState } from "../use";
 import "../styles/route-types.scss";
 import type { RouteType } from "../types";
@@ -7,7 +8,12 @@ import type { RouteType } from "../types";
 export const RouteTypes = defineComponent({
   setup() {
     const state = useState();
-    const routeTypes = { 0: "驾车", 1: "公交", 2: "步行" };
+    const messages = useLocale();
+    const routeTypes = computed<Record<number, string>>(() => ({
+      0: messages.value.route.types.driving,
+      1: messages.value.route.types.transit,
+      2: messages.value.route.types.walking
+    }));
 
     return () =>
       h(
@@ -16,7 +22,7 @@ export const RouteTypes = defineComponent({
           class: "route-types"
         },
         [
-          ...Object.entries(routeTypes)
+          ...Object.entries(routeTypes.value)
             .filter(([key]) => state.routeTypes.includes(Number(key) as RouteType))
             .map(([key, value]) =>
               h(

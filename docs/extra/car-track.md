@@ -34,3 +34,7 @@
 通过组件 ref 调用 `start()`、`pause()`、`stop()`、`clear()`。Vue 2.7 与 Vue 3 的方法名一致。
 
 通过地图的 `loadConfig.plugins` 加载 `CarTrack` 扩展；默认扩展地址可在加载器中覆盖为自己的 HTTPS 服务。
+
+## API 表
+
+<ApiTable component="TdtCarTrack" />

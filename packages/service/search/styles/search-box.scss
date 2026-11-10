@@ -1,8 +1,9 @@
 .tdt-search-box {
   display: flex;
-  height: 30px;
+  height: var(--tdt-control-height);
   position: relative;
-  box-shadow: 2px 2px 2px rgb(0 0 0 / 15%);
+  box-shadow: var(--tdt-shadow);
+  font-family: var(--tdt-font-family);
 
   .tdt-search-box__input {
     outline: none;
@@ -10,30 +11,32 @@
     height: 100%;
     border: none;
     text-indent: 10px;
+    background: var(--tdt-color-bg);
+    color: var(--tdt-color-text);
   }
   .tdt-search-box__btn {
     outline: none;
     border: none;
-    width: 30px;
+    width: var(--tdt-control-height);
     height: 100%;
     line-height: 35px;
     font-size: 16px;
-    color: #333;
+    color: var(--tdt-color-text);
     cursor: pointer;
     text-align: center;
-    background-color: #fff;
+    background-color: var(--tdt-color-bg);
   }
   .tdt-search-box__close {
     position: absolute;
     left: 180px;
     top: 0;
     width: 15px;
-    height: 30px;
+    height: var(--tdt-control-height);
     line-height: 35px;
-    font-size: 10px;
-    color: #333;
+    font-size: var(--tdt-font-size-xs);
+    color: var(--tdt-color-text-muted);
     cursor: pointer;
     text-align: center;
-    background-color: #fff;
+    background-color: var(--tdt-color-bg);
   }
 }

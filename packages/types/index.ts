@@ -1,4 +1,4 @@
 import "./tianditu";
-import "./vue-tianditu";
+import "./vue-map-tianditu";
 
 export * from "./helpers";

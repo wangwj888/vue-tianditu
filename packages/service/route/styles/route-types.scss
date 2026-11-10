@@ -4,12 +4,12 @@
   padding: 5px 0;
   .route-types-item {
     width: 100%;
-    color: #333;
+    color: var(--tdt-color-text);
     text-align: center;
     cursor: pointer;
     &:hover,
     &.active {
-      color: #2c64a7;
+      color: var(--tdt-color-primary);
     }
   }
 }

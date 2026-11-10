@@ -108,3 +108,7 @@ mapType 负责切换地图类型的控件
   }
 ];
 ```
+
+## API 表
+
+<ApiTable component="TdtControl" />

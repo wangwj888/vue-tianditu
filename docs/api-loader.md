@@ -26,7 +26,15 @@ try {
 | `pluginUrls` | 扩展名到 URL 或 URL 数组的映射 | 覆盖扩展地址；数组中的脚本依次加载                      |
 | `timeout`    | number                         | 单个脚本加载超时，单位毫秒；默认 15000                  |
 
-扩展名包括 `D3`、`CarTrack`、`HeatmapOverlay`、`BufferTool`、`ImageOverLayer`。新 `TdtHeatmap` 组件无需这些扩展，内核随应用打包。
+扩展名包括 `D3`、`CarTrack`、`HeatmapOverlay`、`BufferTool`、`ImageOverLayer`。新 `TdtHeatmap` 组件无需这些扩展，内核随应用打包。组件会在需要时自动加载对应扩展：
+
+| 组件              | 自动加载的扩展                |
+| ----------------- | ----------------------------- |
+| `TdtCarTrack`     | `CarTrack`（含 D3 依赖）      |
+| `TdtImageOverlay` | `ImageOverLayer`              |
+| `TdtBufferTool`   | `BufferTool`（含 turf 依赖）  |
+| `TdtSvgOverlay`   | 无，使用核心 `T.SVG` 图层     |
+| `TdtContextMenu`  | 无，使用地图 `contextmenu` 事件 |
 
 ## 追加扩展和自托管
 

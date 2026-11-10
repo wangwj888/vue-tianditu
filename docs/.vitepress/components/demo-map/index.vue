@@ -28,7 +28,7 @@ const controls = ref<VT.ControlName[]>(["Zoom"]);
 const message = ref("");
 
 const state = reactive({
-  center: [113.280637, 23.125178],
+  center: [113.280637, 23.125178] as [number, number],
   zoom: 11
 });
 

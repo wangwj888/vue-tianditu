@@ -36,3 +36,7 @@
 | mouseout  | ({type,target,lnglat,containerPoint,extData}) | 鼠标离开折线时触发此事件         |
 | mouseover | ({type,target,lnglat,containerPoint,extData}) | 当鼠标进入折线区域时会触发此事件 |
 | remove    | ({type,target,extData})                       | 移除折线时触发                   |
+
+## API 表
+
+<ApiTable component="TdtPolyline" />

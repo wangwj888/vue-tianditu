@@ -58,3 +58,7 @@ import { TdtMap, TdtCustomOverlay } from "vue-map-tianditu";
 定位外壳由组件控制，插槽内容由使用者控制。请将水波纹缩放等动画放到插槽内部节点或伪元素上，避免覆盖定位外壳的 transform。
 
 示例对 `prefers-reduced-motion` 做了适配。覆盖物随地图平移、缩放自动更新位置，卸载时移除 DOM 和事件监听器。
+
+## API 表
+
+<ApiTable component="TdtCustomOverlay" />

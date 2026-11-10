@@ -19,6 +19,7 @@ jobs:
             examples/vue3-min/yarn.lock
       - run: yarn install --frozen-lockfile
       - run: yarn lint
-      - run: yarn test
+      - run: yarn test:coverage
+      - run: yarn check:api
       - run: yarn check:examples
       - run: yarn docs:build

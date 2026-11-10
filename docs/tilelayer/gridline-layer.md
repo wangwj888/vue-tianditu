@@ -31,3 +31,7 @@
 | ------- | --------------- | ------------------------ |
 | loading | ({type,target}) | 当图层开始加载格网时触发 |
 | load    | ({type,target}) | 当图层加载完格网后触发   |
+
+## API 表
+
+<ApiTable component="TdtGridlineLayer" />
