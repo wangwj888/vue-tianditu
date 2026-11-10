@@ -2,7 +2,17 @@ import { watch } from "vue";
 import { toLngLat } from "../../../utils";
 import { Props } from "./";
 
-export function useWatch({ props, instance }: { props: Props; instance: T.Circle }) {
+export function useWatch({
+  props,
+  instance,
+  visible,
+  manageLayerState = true
+}: {
+  props: Props;
+  manageLayerState?: boolean;
+  visible?: () => boolean;
+  instance: T.Circle;
+}) {
   watch(
     () => props.center,
     val => val != null && instance.setCenter(toLngLat(val)),
@@ -37,13 +47,17 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Circle
     val => val != null && instance.setFillOpacity(val)
   );
   watch(
-    () => props.edit,
-    val => (val ? instance.enableEdit() : instance.disableEdit()),
-    { immediate: true }
+    [() => props.edit, () => visible?.() ?? props.visible],
+    ([edit, shown]) => (edit && shown ? instance.enableEdit() : instance.disableEdit()),
+    { immediate: true, flush: "post" }
   );
-  watch(
-    () => props.visible,
-    val => (val ? instance.show() : instance.hide()),
-    { immediate: true }
-  );
+
+  // Components delegate group visibility and z-index to their layer registration.
+  if (manageLayerState) {
+    watch(
+      () => props.visible,
+      val => (val ? instance.show() : instance.hide()),
+      { immediate: true }
+    );
+  }
 }

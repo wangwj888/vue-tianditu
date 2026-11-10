@@ -22,34 +22,93 @@
 <tdt-map v-model:center="center" v-model:zoom="zoom" />
 ```
 
+Vue 2.7 使用 `:center.sync="center"` 和 `:zoom.sync="zoom"`。
+
+## 地图实例
+
+组件 ref 暴露 `getMap()` 和响应式 `map`。初始化前与卸载后，原生实例均为 `undefined`，调用时应先检查。`init` 事件继续保留。
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import { TdtMap } from "vue-map-tianditu";
+
+const mapRef = ref<TdtMap>();
+function readCenter() {
+  const map = mapRef.value?.getMap();
+  console.log(map?.getCenter());
+  // 组件公开实例上的 ref 会自动解包，也可读取 mapRef.value?.map。
+}
+</script>
+
+<template>
+  <section>
+    <div style="height: 400px">
+      <TdtMap ref="mapRef" :center="[113.28, 23.12]" :zoom="11" />
+    </div>
+    <button @click="readCenter">读取中心</button>
+  </section>
+</template>
+```
+
+## 加载与错误插槽
+
+`loading` 插槽在 API 加载和地图初始化期间显示；`error` 插槽只处理地图初始化失败。未提供相应插槽时不显示额外遮罩。它们不表示瓦片已全部加载。统一任务钩子捕获的子组件初始化错误通过地图的 `error` 事件上报；定位失败、搜索失败等业务错误请监听相应组件自身的事件。
+
+```vue
+<tdt-map :center="[113.28, 23.12]" :zoom="11" @error="onError">
+  <template #loading>正在加载地图…</template>
+  <template #error="{ error }">{{ error?.message }}</template>
+  <tdt-marker :position="[113.28, 23.12]" />
+</tdt-map>
+```
+
+| 插槽    | 参数                      | 显示时机                  |
+| ------- | ------------------------- | ------------------------- |
+| default | `{ map, loading, error }` | 地图子组件，保持挂载      |
+| loading | `{ map, loading, error }` | API/实例正在初始化        |
+| error   | `{ map, loading, error }` | 地图 API 或实例初始化失败 |
+
+发生初始化错误后，检查 Key、域名白名单或网络配置，再重新挂载地图（例如修改组件的 `key`）。卸载期间完成的异步加载不会创建地图。
+
+## 动态控件
+
+`controls` 支持数组替换、原地增删和选项更新。组件只管理该 prop 创建的控件；独立的 `TdtControl` 和通过原生 API 添加的控件不受影响。
+
+```vue
+<tdt-map :controls="showZoom ? ['Zoom', { name: 'Scale', position: 'bottomleft' }] : []" />
+```
+
 ## 属性
 
-| 属性            | 类型    | 默认值        | 说明                                                                 |
-| --------------- | ------- | ------------- | -------------------------------------------------------------------- |
-| drag            | boolean | true          | 启用地图拖拽，默认启用                                               |
-| scrollWheelZoom | boolean | true          | 启用滚轮放大缩小，默认启用                                           |
-| doubleClickZoom | boolean | true          | 启用双击放大，默认启用                                               |
-| keyboard        | boolean | true          | 启用键盘操作，默认启用                                               |
-| inertia         | boolean | true          | 启用地图惯性拖拽，默认启用                                           |
-| continuousZoom  | boolean | true          | 启用连续缩放效果，默认启用                                           |
-| pinchToZoom     | boolean | true          | 启用双指操作缩放，默认启用                                           |
-| autoResize      | boolean | true          | 启用自动适应容器尺寸变化，默认启用                                   |
-| maxBounds       | array   |               | 当这个选项被设置后，地图被限制在给定的地理边界内                     |
-| projection      | string  | "EPSG:900913" | EPSG:900913(墨卡托投影)，EPSG:4326(大地平面投影)                     |
-| center          | array   |               | 地图的初始化中心点[lng,lat]                                          |
-| zoom            | number  | 10            | 地图的初始化级别                                                     |
-| minZoom         | number  | 1             | 地图允许展示的最小级别                                               |
-| maxZoom         | number  | 18            | 地图允许展示的最大级别                                               |
-| viewport        | array   |               | 根据提供的坐标点数组设置地图视野，调整后的视野会保证包含提供的坐标点 |
-| mapStyle        | string  |               | 原天地图 api 的 style，地图样式，分别为 black 和 indigo              |
-| mid             | string  | uuid()        | 地图容器 id                                                          |
-| controls        | array   |               | 控件                                                                 |
+| 属性            | 类型       | 默认值        | 说明                                                                 |
+| --------------- | ---------- | ------------- | -------------------------------------------------------------------- |
+| drag            | boolean    | true          | 启用地图拖拽，默认启用                                               |
+| scrollWheelZoom | boolean    | true          | 启用滚轮放大缩小，默认启用                                           |
+| doubleClickZoom | boolean    | true          | 启用双击放大，默认启用                                               |
+| keyboard        | boolean    | true          | 启用键盘操作，默认启用                                               |
+| inertia         | boolean    | true          | 启用地图惯性拖拽，默认启用                                           |
+| continuousZoom  | boolean    | true          | 启用连续缩放效果，默认启用                                           |
+| pinchToZoom     | boolean    | true          | 启用双指操作缩放，默认启用                                           |
+| autoResize      | boolean    | true          | 启用自动适应容器尺寸变化，默认启用                                   |
+| maxBounds       | array      |               | 当这个选项被设置后，地图被限制在给定的地理边界内                     |
+| projection      | string     | "EPSG:900913" | EPSG:900913(墨卡托投影)，EPSG:4326(大地平面投影)                     |
+| center          | array      | [0, 0]        | 地图中心点[lng,lat]，支持动态更新与双向绑定                          |
+| zoom            | number     | 1             | 地图缩放级别，支持动态更新与双向绑定                                 |
+| minZoom         | number     | 1             | 地图允许展示的最小级别                                               |
+| maxZoom         | number     | 18            | 地图允许展示的最大级别                                               |
+| viewport        | array      |               | 根据提供的坐标点数组设置地图视野，调整后的视野会保证包含提供的坐标点 |
+| mapStyle        | string     |               | 原天地图 api 的 style，地图样式，分别为 black 和 indigo              |
+| mid             | string     | uuid()        | 地图容器 id                                                          |
+| controls        | array      | []            | 控件名称/选项数组，支持动态增删与配置更新                            |
+| loadConfig      | LoadConfig |               | API 加载配置，详见[加载器](../api-loader.md)                         |
 
 ## 事件
 
 | 事件 | 参数 | 描述 |
 | --- | --- | --- |
 | init | map | 地图初始化完成触发此事件 |
+| error | Error | API、地图初始化或地图子组件出错 |
 | update:center | [lng, lat] | 地图中心点变化时触发（moveend），支持 `v-model:center` |
 | update:zoom | number | 地图缩放级别变化时触发（zoomend），支持 `v-model:zoom` |
 | click | ({type,target,lnglat,containerPoint}) | 左键单击地图时触发此事件 |

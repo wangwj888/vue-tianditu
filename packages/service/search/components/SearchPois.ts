@@ -17,7 +17,7 @@ export const SearchPois = defineComponent({
     "poi-click": (e: T.LocalSearchPoi) => true,
     "update:page": (e: PageProps) => true
   },
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     return () =>
       h(
         "div",
@@ -27,7 +27,7 @@ export const SearchPois = defineComponent({
         },
         [
           // 点信息
-          ...props.pois.map(item => {
+          ...props.pois.map((item, index) => {
             return h(
               "div",
               {
@@ -36,7 +36,7 @@ export const SearchPois = defineComponent({
                   click: () => emit("poi-click", item)
                 }
               },
-              [
+              slots["result-item"]?.({ poi: item, index, select: () => emit("poi-click", item) }) || [
                 h("strong", { class: "search-pois-item__name" }, item.name),
                 h("br"),
                 h("span", { class: "search-pois-item__address" }, item.address)

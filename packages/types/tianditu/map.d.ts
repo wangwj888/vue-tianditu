@@ -111,6 +111,10 @@ declare namespace T {
     setViewport(view: Array<LngLat>): void;
     /** 设置地图样式 */
     setStyle(style: "black" | "indigo"): void;
+    /** 切换当前基础地图类型 */
+    setMapType(type: MapType): void;
+    /** 获取当前基础地图类型 */
+    getMapType(): MapType;
     /** 移除地图样式 */
     removeStyle(): void;
 

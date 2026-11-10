@@ -32,6 +32,8 @@ export default defineConfig({
       {
         text: "图层",
         items: [
+          { text: "图层分组", link: "/tilelayer/layer-group" },
+          { text: "图层切换", link: "/tilelayer/layer-switcher" },
           { text: "自定义图层", link: "/tilelayer/tilelayer" },
           { text: "天地图矢量图层", link: "/tilelayer/tilelayer-tdt" },
           { text: "WMS 服务图层", link: "/tilelayer/tilelayer-wms" },
@@ -57,8 +59,10 @@ export default defineConfig({
       {
         text: "服务",
         items: [
+          { text: "定位", link: "/service/geolocation" },
           { text: "搜索", link: "/service/search" },
-          { text: "导航", link: "/service/route" }
+          { text: "导航", link: "/service/route" },
+          { text: "公交线路查询", link: "/service/bus-line-search" }
         ]
       },
       { text: "扩展", items: [{ text: "车辆轨迹", link: "/extra/car-track" }] }

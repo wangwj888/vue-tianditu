@@ -20,3 +20,13 @@ export * from "./extra/cartrack";
 
 export * from "./overlay/heatmap";
 export * from "./overlay/custom";
+export * from "./layerGroup";
+export * from "./layerSwitcher";
+export { TdtGeolocation } from "./service/geolocation";
+export type {
+  GeolocationErrorCode,
+  GeolocationResult,
+  GeolocationHandle,
+  GeolocationSlotProps
+} from "./service/geolocation";
+export * from "./service/busLineSearch";

@@ -26,5 +26,9 @@ declare module "vue" {
     TdtSearch: typeof import("../../service/search").TdtSearch;
     TdtRoute: typeof import("../../service/route").TdtRoute;
     TdtCarTrack: typeof import("../../extra/cartrack").TdtCarTrack;
+    TdtLayerGroup: typeof import("../../layerGroup").TdtLayerGroup;
+    TdtLayerSwitcher: typeof import("../../layerSwitcher").TdtLayerSwitcher;
+    TdtGeolocation: typeof import("../../service/geolocation").TdtGeolocation;
+    TdtBusLineSearch: typeof import("../../service/busLineSearch").TdtBusLineSearch;
   }
 }

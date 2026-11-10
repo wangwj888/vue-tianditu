@@ -1,3 +1,4 @@
+import { useLayerRegistration, useLayerVisibility } from "../../use/layerHost";
 import { defineComponent, effectScope, onBeforeUnmount, onMounted, watch, type PropType } from "vue";
 import { useMapRoot } from "../../use";
 import { createDomOverlay, isAbortError, toOverlayError, type DomOverlay } from "../dom-overlay";
@@ -50,7 +51,14 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit, expose }) {
+    const registerLayer = useLayerRegistration();
+    const layerVisible = useLayerVisibility(() => props.visible);
     const controller = new AbortController();
+    const mapResult = useMapRoot({ signal: controller.signal }).then(
+      value => ({ value }),
+      error => ({ error })
+    );
+    let unregisterLayer: (() => void) | undefined;
     const scope = effectScope();
     let disposed = false;
     let overlay: DomOverlay | undefined;
@@ -65,13 +73,16 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
       disposed = true;
       controller.abort();
       scope.stop();
+      unregisterLayer?.();
       overlay?.destroy();
       renderer?.clear();
     });
 
     onMounted(async () => {
       try {
-        const map = await useMapRoot({ signal: controller.signal });
+        const result = await mapResult;
+        if ("error" in result) throw result.error;
+        const map = result.value;
         if (disposed) return;
         const core = await loadHeatmapCore();
         if (disposed) return;
@@ -81,7 +92,7 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
         element.style.left = "0";
         element.style.top = "0";
         element.style.pointerEvents = "none";
-        renderer = createHeatmapRenderer(element, core, () => props);
+        renderer = createHeatmapRenderer(element, core, () => ({ ...props, visible: layerVisible.value }));
         overlay = createDomOverlay({
           element,
           events: ["moveend", "zoomend", "resize"],
@@ -94,7 +105,12 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
           },
           onRemove: () => renderer?.clear()
         });
-        map.addOverLay(overlay.overlay);
+        unregisterLayer = scope.run(() =>
+          registerLayer(map, overlay!.overlay, {
+            visible: () => layerVisible.value,
+            setVisible: () => overlay?.refresh()
+          })
+        );
         scope.run(() => {
           watch(
             () => [
@@ -105,7 +121,7 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
               props.blur,
               props.minOpacity,
               props.maxOpacity,
-              props.visible
+              layerVisible.value
             ],
             () => overlay?.requestUpdate(),
             { deep: true }
@@ -113,6 +129,7 @@ export const TdtHeatmap: SharedComponent<typeof PROPS, typeof EVENTS, HeatmapExp
         });
         emit("init", { overlay: overlay.overlay, getElement: () => element, refresh });
       } catch (error) {
+        unregisterLayer?.();
         overlay?.destroy();
         renderer?.clear();
         if (!disposed && !isAbortError(error)) emit("error", toOverlayError(error));

@@ -6,7 +6,7 @@ import { useState, useMethods } from "../use";
 export const RouteSearch = defineComponent({
   setup() {
     const state = useState();
-    const { onSearch, onPoiClick, onPageChange } = useMethods(state);
+    const { onSearch, onPoiClick, onPageChange, onFocus } = useMethods(state);
 
     return () =>
       h("div", { class: "route-search" }, [
@@ -18,7 +18,7 @@ export const RouteSearch = defineComponent({
             placeholder: "请输入起点"
           },
           on: {
-            focus: () => (state.poiType = "start"),
+            focus: () => onFocus("start"),
             input: (val: string) => onSearch(1, val, "start"),
             "update:modelValue": (val: string) => onSearch(1, val, "start")
           }
@@ -31,7 +31,7 @@ export const RouteSearch = defineComponent({
             placeholder: "请输入终点"
           },
           on: {
-            focus: () => (state.poiType = "end"),
+            focus: () => onFocus("end"),
             input: (val: string) => onSearch(1, val, "end"),
             "update:modelValue": (val: string) => onSearch(1, val, "end")
           }

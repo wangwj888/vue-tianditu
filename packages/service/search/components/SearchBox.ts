@@ -17,6 +17,7 @@ export const SearchBox = defineComponent({
   emits: {
     input: (e: string) => true,
     "update:modelValue": (e: string) => true,
+    focus: (_event: FocusEvent) => true,
     // 点击搜索按钮或回车时触发
     search: (e: string) => true
   },
@@ -50,11 +51,18 @@ export const SearchBox = defineComponent({
             },
             on: {
               compositionstart: () => (isComposition = true),
-              compositionend: () => (isComposition = false),
-              input: (e: any) => setTimeout(() => !isComposition && (keyword.value = e.target.value)),
-              // input: debounce((e: any) => !isComposition && (keyword.value = e.target.value), 100),
-              // input: (e: any) => (keyword.value = e.target.value),
-              keyup: (e: KeyboardEvent) => e.code === "Enter" && emit("search", keyword.value)
+              compositionend: (e: CompositionEvent) => {
+                isComposition = false;
+                keyword.value = (e.target as HTMLInputElement).value;
+              },
+              input: (e: InputEvent) => {
+                if (!isComposition && !e.isComposing) keyword.value = (e.target as HTMLInputElement).value;
+              },
+              focus: (e: FocusEvent) => emit("focus", e),
+              keyup: (e: KeyboardEvent) => {
+                if (e.code === "Enter" && !isComposition && !e.isComposing)
+                  emit("search", (e.target as HTMLInputElement).value);
+              }
             }
           }),
           h(

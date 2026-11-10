@@ -2,7 +2,15 @@ import { watch } from "vue";
 import { toLngLat, toPoint } from "../../../utils";
 import { Props } from "./";
 
-export function useWatch({ props, instance }: { props: Props; instance: T.Label }) {
+export function useWatch({
+  props,
+  instance,
+  manageLayerState = true
+}: {
+  props: Props;
+  manageLayerState?: boolean;
+  instance: T.Label;
+}) {
   watch(
     () => props.position,
     val => val != null && instance.setLngLat(toLngLat(val)),
@@ -22,11 +30,7 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Label 
     val => val && instance.setTitle(val),
     { immediate: true }
   );
-  watch(
-    () => props.zIndex,
-    val => val != null && instance.setZIndex(val),
-    { immediate: true }
-  );
+
   watch(
     () => props.fontSize,
     val => val != null && instance.setFontSize(val),
@@ -57,9 +61,18 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Label 
     val => val != null && instance.setOpacity(val),
     { immediate: true }
   );
-  watch(
-    () => props.visible,
-    val => (val ? instance.show() : instance.hide()),
-    { immediate: true }
-  );
+
+  // Components delegate group visibility and z-index to their layer registration.
+  if (manageLayerState) {
+    watch(
+      () => props.zIndex,
+      val => val != null && instance.setZIndex(val),
+      { immediate: true }
+    );
+    watch(
+      () => props.visible,
+      val => (val ? instance.show() : instance.hide()),
+      { immediate: true }
+    );
+  }
 }

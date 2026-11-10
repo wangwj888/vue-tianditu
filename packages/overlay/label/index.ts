@@ -1,3 +1,4 @@
+import { useLayerRegistration } from "../../use/layerHost";
 import type { SharedComponent } from "../../types";
 import { defineComponent } from "vue";
 import { useMapTask, useEvent } from "../../use";
@@ -8,12 +9,12 @@ export const TdtLabel = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit }) {
+    const registerLayer = useLayerRegistration();
     useMapTask((tdtMap, onCleanup) => {
       const tdtComponent = useInit(props);
-      onCleanup(() => { tdtMap.removeOverLay(tdtComponent); });
-      tdtMap.addOverLay(tdtComponent);
+      onCleanup(registerLayer(tdtMap, tdtComponent, { visible: () => props.visible, zIndex: () => props.zIndex }));
       useEvent({ events: NATIVE_EVENTS, emit, instance: tdtComponent, extData: props.extData });
-      useWatch({ props, instance: tdtComponent });
+      useWatch({ props, instance: tdtComponent, manageLayerState: false });
       emit("init", tdtComponent);
     });
 

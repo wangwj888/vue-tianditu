@@ -1,3 +1,13 @@
+# 未发布
+
+- 修复公交列表查询调用 SDK 旧 `/search` 接口失败的问题，改用 V2 搜索；数字线路号自动补“路”，无线路结果正常结束查询。
+- 新增 TdtLayerGroup 与 TdtLayerSwitcher，提供图层分组、显隐与底图/业务图层切换。
+- TdtMap 支持动态 controls，通过组件 ref 暴露 getMap()/map，并新增 loading/error 作用域插槽。
+- 新增 TdtGeolocation，提供手动定位、精度圈、定位错误反馈和自动回中配置。
+- 增强 TdtSearch 的关键字、分页、行政区、路线按钮配置及结果/空状态/加载插槽。
+- TdtRoute 支持起终点、出行方式和策略配置，以及规划完成、失败和方案切换事件。
+- 新增 TdtBusLineSearch，并同步补齐组件类型、文档和交互示例。
+
 # 3.0.0
 
 - Vue 2 支持范围调整为 2.7.x，Vue 3 最低版本为 3.2.47；移除 vue-demi 和 Composition API 插件依赖。

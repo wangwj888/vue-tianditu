@@ -14,6 +14,7 @@ export function abortError(): Error {
 export function useMapRoot({ signal }: { signal?: AbortSignal } = {}): Promise<T.Map> {
   const mapRoot = inject<Ref<T.Map | undefined>>("mapRoot");
   const emitter = inject<MapEmitter>("mapEmitter");
+  const mapError = inject<Ref<Error | undefined> | undefined>("mapError", undefined);
   return new Promise((resolve, reject) => {
     const cleanup = () => {
       emitter?.off("mapInit", ready);
@@ -21,13 +22,21 @@ export function useMapRoot({ signal }: { signal?: AbortSignal } = {}): Promise<T
       emitter?.off("mapDisposed", cancelled);
       signal?.removeEventListener("abort", cancelled);
     };
-    const ready = (map: T.Map) => { cleanup(); resolve(map); };
-    const failed = (error: Error) => { cleanup(); reject(error); };
+    const ready = (map: T.Map) => {
+      cleanup();
+      resolve(map);
+    };
+    const failed = (error: Error) => {
+      cleanup();
+      reject(error);
+    };
     const cancelled = () => failed(abortError());
     if (getCurrentScope()) onScopeDispose(cancelled);
     if (signal?.aborted) return cancelled();
     if (!mapRoot || !emitter) return failed(new Error("This component must be placed inside TdtMap."));
     if (mapRoot.value) return ready(mapRoot.value);
+    // A conditional slot may mount a child after initialization already failed.
+    if (mapError?.value) return failed(mapError.value);
     emitter.on("mapInit", ready);
     emitter.on("mapError", failed);
     emitter.on("mapDisposed", cancelled);
@@ -51,20 +60,32 @@ export function useComponentScope() {
   onBeforeUnmount(dispose);
   if (getCurrentScope()) onScopeDispose(dispose);
   return {
-    get active() { return active; },
+    get active() {
+      return active;
+    },
     signal: controller.signal,
-    run<R>(task: () => R): R | undefined { return active ? scope.run(task) : undefined; },
-    onCleanup(cleanup: () => void) { active ? cleanups.push(cleanup) : cleanup(); }
+    run<R>(task: () => R): R | undefined {
+      return active ? scope.run(task) : undefined;
+    },
+    onCleanup(cleanup: () => void) {
+      active ? cleanups.push(cleanup) : cleanup();
+    }
   };
 }
 
 /** Run synchronous SDK initialization/watchers inside a component owned scope. */
-export function useMapTask(task: (map: T.Map, onCleanup: (cleanup: () => void) => void) => void, { mounted = false, plugins = [] }: { mounted?: boolean; plugins?: PluginName[] } = {}): void {
+export function useMapTask(
+  task: (map: T.Map, onCleanup: (cleanup: () => void) => void) => void,
+  { mounted = false, plugins = [] }: { mounted?: boolean; plugins?: PluginName[] } = {}
+): void {
   const lifecycle = useComponentScope();
   const emitter = inject<MapEmitter>("mapEmitter");
   const map = useMapRoot({ signal: lifecycle.signal });
   // Handle rejection immediately, including components that never mount.
-  const result = map.then(value => ({ value }), error => ({ error }));
+  const result = map.then(
+    value => ({ value }),
+    error => ({ error })
+  );
   const report = (reason: unknown) => {
     const error = reason instanceof Error ? reason : new Error(String(reason));
     emitter?.emit("componentError", error);

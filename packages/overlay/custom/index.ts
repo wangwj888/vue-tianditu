@@ -1,3 +1,4 @@
+import { useLayerRegistration, useLayerVisibility, useLayerZIndex } from "../../use/layerHost";
 import { defineComponent, effectScope, onBeforeUnmount, onMounted, ref, watch, type PropType } from "vue";
 import { useMapRoot } from "../../use";
 import { h } from "../../utils";
@@ -72,7 +73,15 @@ export const TdtCustomOverlay: SharedComponent<typeof PROPS, typeof EVENTS, Cust
     const emitMouse = emit as (type: (typeof MOUSE_EVENTS)[number], event: CustomOverlayEvent) => void;
     const content = ref<HTMLElement>();
     const source = ref<HTMLElement>();
+    const registerLayer = useLayerRegistration();
+    const layerVisible = useLayerVisibility(() => props.visible);
+    const layerZIndex = useLayerZIndex(() => props.zIndex);
     const controller = new AbortController();
+    const mapResult = useMapRoot({ signal: controller.signal }).then(
+      value => ({ value }),
+      error => ({ error })
+    );
+    let unregisterLayer: (() => void) | undefined;
     const scope = effectScope();
     let disposed = false;
     let overlay: DomOverlay | undefined;
@@ -95,13 +104,16 @@ export const TdtCustomOverlay: SharedComponent<typeof PROPS, typeof EVENTS, Cust
       if (source.value && content.value && outer?.contains(content.value)) {
         source.value.appendChild(content.value);
       }
+      unregisterLayer?.();
       overlay?.destroy();
       map = undefined;
     });
 
     onMounted(async () => {
       try {
-        const readyMap = await useMapRoot({ signal: controller.signal });
+        const result = await mapResult;
+        if ("error" in result) throw result.error;
+        const readyMap = result.value;
         if (disposed || !content.value) return;
         map = readyMap;
         const element = (outer = document.createElement("div"));
@@ -118,8 +130,8 @@ export const TdtCustomOverlay: SharedComponent<typeof PROPS, typeof EVENTS, Cust
           update(currentMap) {
             const [lng, lat] = props.position ?? [];
             const valid = Number.isFinite(lng) && Number.isFinite(lat) && Math.abs(lng) <= 180 && Math.abs(lat) <= 90;
-            element.style.display = props.visible && valid ? "" : "none";
-            element.style.zIndex = String(props.zIndex);
+            element.style.display = layerVisible.value && valid ? "" : "none";
+            element.style.zIndex = String(layerZIndex.value ?? props.zIndex);
             element.style.pointerEvents = props.interactive ? "auto" : "none";
             if (!valid) return;
             const point = currentMap.lngLatToLayerPoint(new T.LngLat(lng, lat));
@@ -159,16 +171,23 @@ export const TdtCustomOverlay: SharedComponent<typeof PROPS, typeof EVENTS, Cust
           listeners.push(() => element.removeEventListener(type, listener));
         });
 
-        map.addOverLay(overlay.overlay);
+        unregisterLayer = scope.run(() =>
+          registerLayer(map!, overlay!.overlay, {
+            visible: () => layerVisible.value,
+            setVisible: () => overlay?.refresh(),
+            zIndex: () => layerZIndex.value
+          })
+        );
         scope.run(() => {
           watch(
-            () => [props.position, props.offset, props.visible, props.zIndex, props.interactive],
+            () => [props.position, props.offset, layerVisible.value, layerZIndex.value, props.interactive],
             () => overlay?.requestUpdate(),
             { deep: true }
           );
         });
         emit("init", { overlay: overlay.overlay, getElement: () => element, refresh });
       } catch (error) {
+        unregisterLayer?.();
         overlay?.destroy();
         if (!disposed && !isAbortError(error)) emit("error", toOverlayError(error));
       }

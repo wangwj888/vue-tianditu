@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import { h } from "../../../utils";
 import { useState } from "../use";
 import "../styles/route-policies.scss";
+import type { DrivingPolicy, TransitPolicy } from "../types";
 
 export const RoutePolicies = defineComponent({
   setup() {
@@ -23,7 +24,7 @@ export const RoutePolicies = defineComponent({
                   {
                     class: "route-policies-item" + (state.drivingPolicy == Number(key) ? " active" : ""),
                     on: {
-                      click: () => (state.drivingPolicy = Number(key))
+                      click: () => (state.drivingPolicy = Number(key) as DrivingPolicy)
                     }
                   },
                   value
@@ -37,7 +38,7 @@ export const RoutePolicies = defineComponent({
                   {
                     class: "route-policies-item" + (state.transitPolicy == Number(key) ? " active" : ""),
                     on: {
-                      click: () => (state.transitPolicy = Number(key))
+                      click: () => (state.transitPolicy = Number(key) as TransitPolicy)
                     }
                   },
                   value

@@ -1,0 +1,40 @@
+.tdt-layer-switcher {
+  min-width: 150px;
+  max-width: 280px;
+  padding: 10px 12px;
+  background: white;
+  color: #222;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px #0003;
+  font: 13px/1.6 sans-serif;
+  fieldset {
+    margin: 6px 0 0;
+    padding: 4px 0 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+  }
+  legend {
+    padding: 0 4px 0 0;
+    color: #666;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin: 0;
+  }
+  .tdt-layer-switcher-z-index {
+    width: 52px;
+    margin-left: auto;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+  }
+  .tdt-layer-switcher-empty {
+    display: block;
+    color: #666;
+  }
+}

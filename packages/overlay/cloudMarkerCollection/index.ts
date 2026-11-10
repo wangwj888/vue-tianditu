@@ -1,3 +1,4 @@
+import { useLayerRegistration } from "../../use/layerHost";
 import type { SharedComponent } from "../../types";
 import { defineComponent } from "vue";
 import { useMapTask, useEvent } from "../../use";
@@ -8,10 +9,11 @@ export const TdtCloudMarkerCollection = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit }) {
+    const registerLayer = useLayerRegistration();
     useMapTask((tdtMap, onCleanup) => {
       const tdtComponent = useInit(props);
-      onCleanup(() => { tdtComponent.clear(); tdtMap.removeOverLay(tdtComponent); });
-      tdtMap.addOverLay(tdtComponent);
+      onCleanup(registerLayer(tdtMap, tdtComponent, {}));
+      onCleanup(() => tdtComponent.clear());
       useEvent({ events: NATIVE_EVENTS, emit, instance: tdtComponent });
       useWatch({ props, instance: tdtComponent });
       emit("init", tdtComponent);

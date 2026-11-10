@@ -2,7 +2,17 @@ import { watch } from "vue";
 import { toBounds } from "../../../utils";
 import { Props } from "./";
 
-export function useWatch({ props, instance }: { props: Props; instance: T.Rectangle }) {
+export function useWatch({
+  props,
+  instance,
+  visible,
+  manageLayerState = true
+}: {
+  props: Props;
+  manageLayerState?: boolean;
+  visible?: () => boolean;
+  instance: T.Rectangle;
+}) {
   watch(
     () => props.bounds,
     val => val != null && instance.setBounds(toBounds(val)),
@@ -33,13 +43,17 @@ export function useWatch({ props, instance }: { props: Props; instance: T.Rectan
     val => val != null && instance.setFillOpacity(val)
   );
   watch(
-    () => props.edit,
-    val => (val ? instance.enableEdit() : instance.disableEdit()),
-    { immediate: true }
+    [() => props.edit, () => visible?.() ?? props.visible],
+    ([edit, shown]) => (edit && shown ? instance.enableEdit() : instance.disableEdit()),
+    { immediate: true, flush: "post" }
   );
-  watch(
-    () => props.visible,
-    val => (val ? instance.show() : instance.hide()),
-    { immediate: true }
-  );
+
+  // Components delegate group visibility and z-index to their layer registration.
+  if (manageLayerState) {
+    watch(
+      () => props.visible,
+      val => (val ? instance.show() : instance.hide()),
+      { immediate: true }
+    );
+  }
 }

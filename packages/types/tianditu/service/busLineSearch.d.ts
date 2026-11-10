@@ -1,5 +1,6 @@
 declare namespace T {
   class BusLineSearch {
+    /** 官方参考：http://lbs.tianditu.gov.cn/api/js4.0/pages-class/service/BusLineSearch.html */
     /** 创建一个公交导航实例，用于获取公交路线规划方案*/
     constructor(map: Map, opts: BusLineSearchOptions);
 

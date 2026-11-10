@@ -1,66 +1,158 @@
-import { toLngLat, debounce } from "../../../utils";
-import { PageProps } from "../components";
-import { SearchState } from "../types";
+import { markRaw, onBeforeUnmount } from "vue";
+import { toLngLat } from "../../../utils";
+import { coordinates, escapeHtml, pageCapacity, requestTimeout, toServiceError } from "../../utils";
+import type { PageProps } from "../components";
+import type { SearchState } from "../types";
 
-export function useMethods(state: SearchState, emit: any) {
-  function onSearch(type = state.queryType, keyword = state.keyword, gbCode = 0) {
-    state.queryType = type;
+interface SearchOptions {
+  pageCapacity(): number;
+  adminCode(): number;
+  timeout(): number;
+}
+export function useMethods(state: SearchState, emit: (event: any, ...args: any[]) => void, options: SearchOptions) {
+  let generation = 0;
+  let disposed = false;
+  let activeAdminCode = options.adminCode();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let inputTimer: ReturnType<typeof setTimeout> | undefined;
+  const cancel = () => {
+    clearTimeout(timer);
+    clearTimeout(inputTimer);
+    generation++;
+    state.localSearch?.setSearchCompleteCallback(() => {});
+  };
+  const reset = () => {
+    state.target = null;
+    state.pois = false;
+    state.suggests = false;
+    state.statistics = false;
+    state.area = false;
+    state.prompt = false;
+    state.lineData = false;
+    state.total = 0;
+  };
+  function setKeyword(keyword: string) {
+    if (state.keyword === keyword) return;
     state.keyword = keyword;
+    emit("update:keyword", keyword);
+  }
+  function clear() {
+    cancel();
+    state.localSearch?.clearResults();
+    setKeyword("");
+    reset();
     state.current = 1;
-    state.localSearch?.setSpecifyAdminCode(gbCode);
-    if (state.keyword) {
-      state.localSearch?.search(state.keyword, state.queryType);
-    } else {
-      state.localSearch?.clearResults();
-      state.target = null;
-      state.pois = false;
-      state.statistics = false;
-      state.area = false;
-      state.suggests = false;
-      state.prompt = false;
-      state.lineData = false;
+    state.loading = false;
+    state.hasSearched = false;
+    state.error = null;
+    emit("update:page", 1);
+  }
+  function search(type = state.queryType, keyword = state.keyword, adminCode = options.adminCode(), page = 1) {
+    cancel();
+    setKeyword(keyword);
+    state.queryType = type;
+    activeAdminCode = adminCode;
+    if (!keyword.trim()) {
+      clear();
+      return;
+    }
+    if (!state.tdtMap || disposed) return;
+    const id = generation;
+    reset();
+    state.loading = true;
+    state.hasSearched = true;
+    state.error = null;
+    state.current = Math.max(1, Math.floor(Number.isFinite(page) ? page : 1));
+    emit("update:page", state.current);
+    let needsPage = state.current > 1;
+    const fail = (reason: unknown) => {
+      if (disposed || id !== generation) return;
+      generation++;
+      clearTimeout(timer);
+      state.loading = false;
+      state.error = toServiceError(reason);
+      emit("search-error", state.error);
+    };
+    try {
+      const instance = markRaw(
+        new T.LocalSearch(state.tdtMap, {
+          pageCapacity: pageCapacity(options.pageCapacity()),
+          onSearchComplete(result) {
+            if (disposed || id !== generation) return;
+            try {
+              if (!result) throw new Error("搜索服务没有返回结果。");
+              if (needsPage) {
+                needsPage = false;
+                const pages = Math.max(
+                  1,
+                  Math.ceil((Number(result.count) || 0) / pageCapacity(options.pageCapacity()))
+                );
+                state.current = Math.min(state.current, pages);
+                emit("update:page", state.current);
+                if (state.current > 1) {
+                  instance.gotoPage(state.current);
+                  return;
+                }
+              }
+              clearTimeout(timer);
+              generation++;
+              state.loading = false;
+              state.pois = result.pois || false;
+              state.suggests = result.suggests || false;
+              state.statistics = result.statistics || false;
+              state.area = result.area || false;
+              state.prompt = result.prompt || false;
+              state.lineData = result.lineData || false;
+              state.total = Math.max(0, Number(result.count) || 0);
+              emit("search-complete", result);
+            } catch (reason) {
+              fail(reason);
+            }
+          }
+        })
+      );
+      state.localSearch = instance;
+      instance.setSpecifyAdminCode(adminCode);
+      timer = setTimeout(
+        () => fail(new Error("搜索请求超时，请检查网络和天地图服务权限。")),
+        requestTimeout(options.timeout())
+      );
+      instance.search(keyword, type);
+    } catch (reason) {
+      fail(reason);
     }
   }
-
-  function onSearchComplete(result: T.LocalSearchResult) {
-    state.target = null;
-    state.pois = result.pois;
-    state.statistics = result.statistics;
-    state.area = result.area;
-    state.suggests = result.suggests;
-    state.prompt = result.prompt;
-    state.lineData = result.lineData;
-    state.total = Number(result.count);
-    emit("search-complete", result);
+  function onInput(keyword: string) {
+    if (keyword === state.keyword) return;
+    cancel();
+    setKeyword(keyword);
+    if (!keyword.trim()) {
+      clear();
+      return;
+    }
+    inputTimer = setTimeout(() => search(4, keyword), 100);
   }
-
   function onPoiClick(poi: T.LocalSearchPoi) {
-    const position = poi.lonlat.split(" ").map(Number);
-    state.tdtMap?.panTo(toLngLat(position));
-    state.target = position;
-    state.content = `
-      <strong>${poi.name}</strong>
-      <div>地址：${poi.address}</div>
-      <div>坐标：${poi.lonlat}</div>
-      `;
+    const point = coordinates(poi.lonlat);
+    if (point.length) {
+      state.tdtMap?.panTo(toLngLat(point));
+      state.target = point;
+    }
+    state.content = `<strong>${escapeHtml(poi.name)}</strong><div>地址：${escapeHtml(poi.address)}</div>`;
     emit("poi-click", poi);
   }
-
   function onSuggestClick(suggest: T.LocalSearchSuggest) {
-    onSearch(1, suggest.name, Number(suggest.gbCode));
+    search(1, suggest.name, Number(suggest.gbCode) || options.adminCode());
     emit("suggest-click", suggest);
   }
-
   function onPageChange(page: PageProps) {
-    state.current = page.current || 1;
-    state.localSearch?.gotoPage(state.current);
+    search(state.queryType, state.keyword, activeAdminCode, page.current || 1);
   }
-
-  return {
-    onSearch: debounce(onSearch, 100),
-    onSearchComplete,
-    onPoiClick,
-    onSuggestClick,
-    onPageChange
-  };
+  onBeforeUnmount(() => {
+    disposed = true;
+    cancel();
+    state.localSearch?.clearResults();
+    state.localSearch = null;
+  });
+  return { search, clear, onInput, onPoiClick, onSuggestClick, onPageChange };
 }

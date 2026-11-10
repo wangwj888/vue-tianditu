@@ -4,10 +4,16 @@
 
 3.x 新增 **热力图 `TdtHeatmap`** 和 **自定义 DOM 覆盖物 `TdtCustomOverlay`**。自定义覆盖物可通过插槽编写水波纹点、标签、按钮和 Vue 组件。
 
+组件能力补全包括图层分组与切换、动态控件、定位、公交线路查询，以及搜索和路线规划的受控参数与自定义界面。地图组件支持通过 ref 读取原生实例，并提供加载和初始化错误插槽。
+
 - [在线文档](https://soullyoko.github.io/vue-tianditu/)
 - [3.x 迁移指南](docs/migration.md)
 - [热力图](docs/overlay/heatmap.md)
 - [自定义 DOM 覆盖物](docs/overlay/custom-overlay.md)
+- [图层分组](docs/tilelayer/layer-group.md) / [图层切换](docs/tilelayer/layer-switcher.md)
+- [定位](docs/service/geolocation.md) / [公交线路查询](docs/service/bus-line-search.md)
+- [搜索](docs/service/search.md) / [路线规划](docs/service/route.md)
+- [地图实例与状态插槽](docs/map/map.md)
 
 ## 安装与支持范围
 

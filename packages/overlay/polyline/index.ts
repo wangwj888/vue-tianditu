@@ -1,3 +1,4 @@
+import { useLayerRegistration, useLayerVisibility } from "../../use/layerHost";
 import type { SharedComponent } from "../../types";
 import { defineComponent } from "vue";
 import { useMapTask, useEvent } from "../../use";
@@ -8,12 +9,13 @@ export const TdtPolyline = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit }) {
+    const registerLayer = useLayerRegistration();
+    const visible = useLayerVisibility(() => props.visible);
     useMapTask((tdtMap, onCleanup) => {
       const tdtComponent = useInit(props);
-      onCleanup(() => { tdtMap.removeOverLay(tdtComponent); });
-      tdtMap.addOverLay(tdtComponent);
+      onCleanup(registerLayer(tdtMap, tdtComponent, { visible: () => props.visible }));
       useEvent({ events: NATIVE_EVENTS, emit, instance: tdtComponent, extData: props.extData });
-      useWatch({ props, instance: tdtComponent });
+      useWatch({ props, instance: tdtComponent, manageLayerState: false, visible: () => visible.value });
       emit("init", tdtComponent);
     });
 

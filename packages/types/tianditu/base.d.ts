@@ -58,28 +58,30 @@ declare namespace T {
     distanceTo(point: Point): number;
   }
 
+  type GroupLayer = Overlay | OverlayBase<any> | TileLayer | LayerGroup;
+
   class LayerGroup {
     /**
      * 构建一个存储图层的容器。
      * @param layers 叠加层数组
      */
-    constructor(layers: Overlay[]);
+    constructor(layers?: GroupLayer[]);
     /** 从容器中增加一个图层 */
-    addLayer(layer: Overlay): void;
+    addLayer(layer: GroupLayer): void;
     /** 从容器中移除一个图层 */
-    removeLayer(layer: Overlay): void;
+    removeLayer(layer: GroupLayer): void;
     /** 判断图层是否在容器中 */
-    hasLayer(layer: Overlay): boolean;
+    hasLayer(layer: GroupLayer): boolean;
     /** 得到容器中的所有图层 */
-    getLayers(): Overlay[];
+    getLayers(): GroupLayer[];
     /** 清除容器中的所有图层 */
     clearLayers(): void;
     /**设置容器z-index值 */
-    setZIndex(): void;
+    setZIndex(zIndex: number): void;
     /**通过ID获取其对应的图层 */
-    getLayer(id: string): Overlay;
+    getLayer(id: string | number): GroupLayer | undefined;
     /** 获取容器中存在图层的唯一ID */
-    getLayerId(layer: Overlay): string;
+    getLayerId(layer: GroupLayer): string;
   }
 
   class MapType {

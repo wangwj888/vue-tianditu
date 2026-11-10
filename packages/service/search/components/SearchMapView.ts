@@ -2,6 +2,7 @@ import { defineComponent, computed, watch, PropType } from "vue";
 import { TdtMarker, TdtInfowindow } from "../../../components";
 import { toLngLats, h } from "../../../utils";
 import { useMapTask } from "../../../use";
+import { coordinates } from "../../utils";
 
 export const SearchMapView = defineComponent({
   props: {
@@ -19,18 +20,24 @@ export const SearchMapView = defineComponent({
   },
   setup(props, { emit }) {
     const markers = computed(() => {
-      return props.pois.map(poi => {
-        return {
-          position: poi.lonlat.split(" ").map(Number),
-          extData: poi
-        };
-      });
+      return props.pois
+        .map(poi => {
+          return {
+            position: coordinates(poi.lonlat),
+            extData: poi
+          };
+        })
+        .filter(marker => marker.position.length === 2);
     });
 
     useMapTask(tdtMap => {
-      watch(markers, () => {
-        tdtMap?.setViewport(toLngLats(markers.value.map(e => e.position)));
-      });
+      watch(
+        markers,
+        value => {
+          if (value.length) tdtMap.setViewport(toLngLats(value.map(marker => marker.position)));
+        },
+        { immediate: true }
+      );
     });
 
     return () =>

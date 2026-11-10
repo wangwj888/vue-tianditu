@@ -6,6 +6,11 @@ VueTianditu 将天地图 JavaScript API 4.0 封装为 Vue 组件，同时支持 
 
 - [热力图](/overlay/heatmap)：按经纬度和权重绘制 Canvas 热力图，支持动态数据和样式。
 - [自定义 DOM 覆盖物](/overlay/custom-overlay)：通过插槽编写水波纹、动态标签、卡片、按钮和 Vue 组件。
+- [图层分组](/tilelayer/layer-group)与[图层切换](/tilelayer/layer-switcher)：统一控制图层显隐，切换底图并管理业务图层。
+- [定位](/service/geolocation)：用户触发定位、精度圈、错误反馈和自动回中。
+- [搜索](/service/search)与[路线规划](/service/route)：受控查询参数、自定义搜索结果和规划事件。
+- [公交线路查询](/service/bus-line-search)：查询公交候选线路及站点、轨迹。
+- [地图实例与状态插槽](/map/map)：通过 ref 读取地图实例，自定义加载与初始化错误界面。
 - [API 加载器](/api-loader)：共享加载请求、按顺序加载扩展、配置自托管地址。
 - [3.x 迁移指南](/migration)：支持范围、导入方式、双向绑定和类型工具的变化。
 

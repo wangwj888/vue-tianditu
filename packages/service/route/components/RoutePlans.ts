@@ -31,7 +31,7 @@ export const RoutePlans = defineComponent({
                     },
                     [
                       h("summary", null, `方案${planIndex + 1}: ${plan.duration} 秒 | ${plan.distance} 公里`),
-                      ...plan.routes.item.map((item, itemIndex) => {
+                      ...(plan.routes?.item || []).map((item, itemIndex) => {
                         return h("div", null, `${itemIndex + 1}.${item.strguide}`);
                       })
                     ]
@@ -40,7 +40,7 @@ export const RoutePlans = defineComponent({
               )
             : "",
           // 公交方案
-          state.drivingPlans.length
+          state.transitPlans.length
             ? h(
                 "div",
                 null,
@@ -57,11 +57,12 @@ export const RoutePlans = defineComponent({
                     },
                     [
                       h("summary", null, `方案${planIndex + 1}: ${plan.lineName}`),
-                      plan.segments
+                      (plan.segments || [])
                         .map((segment, segmentIndex) => {
-                          const segmentLine = segment.segmentLine[0];
+                          const segmentLine = segment.segmentLine?.[0];
 
                           //经过的公交或地铁的站数
+                          if (!segmentLine) return "";
                           const stationCount = segmentLine.segmentStationCount
                             ? "，经过" + segmentLine.segmentStationCount + "站"
                             : "";

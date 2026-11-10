@@ -25,12 +25,10 @@ for (const name of Object.keys(packEnvironment)) {
   if (name.toLowerCase().startsWith("npm_config_")) delete packEnvironment[name];
 }
 run("npm", ["pack", "--silent", "--pack-destination", ".artifacts", "--ignore-scripts"], { env: packEnvironment });
-// GNU tar treats "E:/path" as a remote host on Windows unless --force-local is set,
-// and MSYS tar needs forward slashes. bsdtar (macOS) does not support the flag,
-// so only add it on win32.
-const forceLocal = process.platform === "win32" ? ["--force-local"] : [];
-const tarPath = value => (process.platform === "win32" ? value.replaceAll("\\", "/") : value);
-const listing = spawnSync("tar", [...forceLocal, "-tzf", tarPath(archive)], { encoding: "utf8" });
+// Use relative paths from the artifact directory: GNU tar treats drive letters
+// as remote hosts, while Windows/macOS bsdtar does not accept --force-local.
+const archiveName = path.basename(archive);
+const listing = spawnSync("tar", ["-tzf", archiveName], { cwd: artifacts, encoding: "utf8" });
 if (listing.error) throw listing.error;
 if (listing.status !== 0) throw new Error(listing.stderr);
 const entries = listing.stdout.trim().split(/\r?\n/);
@@ -53,7 +51,7 @@ for (const version of [2, 3, "3-min"]) {
   const destination = path.join(modules, pkg.name);
   removeGenerated(destination, modules);
   const staging = mkdtempSync(path.join(artifacts, `vue${version}-`));
-  run("tar", [...forceLocal, "-xzf", tarPath(archive), "-C", tarPath(staging)]);
+  run("tar", ["-xzf", archiveName, "-C", path.basename(staging)], { cwd: artifacts });
   renameSync(path.join(staging, "package"), destination);
   removeGenerated(staging, artifacts);
 

@@ -2,6 +2,7 @@ import { defineComponent } from "vue";
 import { h } from "../../../utils";
 import { useState } from "../use";
 import "../styles/route-types.scss";
+import type { RouteType } from "../types";
 
 export const RouteTypes = defineComponent({
   setup() {
@@ -15,18 +16,20 @@ export const RouteTypes = defineComponent({
           class: "route-types"
         },
         [
-          ...Object.entries(routeTypes).map(([key, value]) =>
-            h(
-              "div",
-              {
-                class: "route-types-item" + (state.routeType == Number(key) ? " active" : ""),
-                on: {
-                  click: () => (state.routeType = Number(key))
-                }
-              },
-              value
+          ...Object.entries(routeTypes)
+            .filter(([key]) => state.routeTypes.includes(Number(key) as RouteType))
+            .map(([key, value]) =>
+              h(
+                "div",
+                {
+                  class: "route-types-item" + (state.routeType == Number(key) ? " active" : ""),
+                  on: {
+                    click: () => (state.routeType = Number(key) as RouteType)
+                  }
+                },
+                value
+              )
             )
-          )
         ]
       );
   }

@@ -1,6 +1,11 @@
 .tdt-route {
   width: min-content;
   background-color: #fff;
+  .tdt-route-status {
+    padding: 10px;
+    color: #555;
+    font-size: 13px;
+  }
   .tdt-search-box__input {
     width: 260px;
   }

@@ -1,3 +1,4 @@
+import { useLayerRegistration } from "../../use/layerHost";
 import type { SharedComponent } from "../../types";
 import { defineComponent } from "vue";
 import { useMapTask, useEvent } from "../../use";
@@ -8,12 +9,12 @@ export const TdtTilelayerTdt = defineComponent({
   props: PROPS,
   emits: EVENTS,
   setup(props, { emit, attrs }) {
+    const registerLayer = useLayerRegistration();
     useMapTask((tdtMap, onCleanup) => {
       const tdtComponent = useInit(props, attrs);
-      onCleanup(() => { tdtMap.removeLayer(tdtComponent); });
-      tdtMap.addLayer(tdtComponent);
+      onCleanup(registerLayer(tdtMap, tdtComponent, { kind: "tile", zIndex: () => props.zIndex }));
       useEvent({ events: NATIVE_EVENTS, emit, instance: tdtComponent });
-      useWatch({ props, instance: tdtComponent });
+      useWatch({ props, instance: tdtComponent, manageLayerState: false });
       emit("init", tdtComponent);
     });
 

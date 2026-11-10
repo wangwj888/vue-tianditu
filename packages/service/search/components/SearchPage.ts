@@ -17,7 +17,7 @@ export const SearchPage = defineComponent({
   setup(props, { emit }) {
     // 总页数
     const pageCount = computed(() => {
-      return Math.ceil(Number(props.total) / Number(props.size));
+      return Math.max(1, Math.ceil(Number(props.total) / Math.max(1, Number(props.size))));
     });
 
     const pageCurrent = computed({

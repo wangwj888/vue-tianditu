@@ -22,6 +22,7 @@ const adaptOnsV3 = (ons: object) => {
   }, {});
 };
 
+/** Use h(type, data, children); text and array children belong in the third argument. */
 export const h = (type: string | any, options?: Options | any, chidren?: any) => {
   if (isVue2) return hDemi(type, options, chidren) as VNode;
 

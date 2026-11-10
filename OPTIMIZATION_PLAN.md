@@ -1,15 +1,15 @@
 # vue-tianditu 优化计划
 
-> 基于 3.0.0 当前代码库的全面分析。第一批已完成，其余按批次推进。
+> 基于 3.0.0 当前代码库的全面分析。第一、二批已完成，第三批待开始。
 >
-> 最后更新：2026-10-17
+> 最后更新：2026-11-07
 
 ## 项目现状
 
 - 技术栈：TypeScript + Vue 组合式 API，同时支持 Vue 2.7.x 与 Vue 3.2.47+
 - 运行时依赖：仅 `mitt`
-- ESM 产物：87.45 kB（gzip 22.21 kB），CSS 2.74 kB
-- 已覆盖：地图、控件、绘图工具、8 类覆盖物、4 类图层、搜索、路线规划、车辆轨迹
+- 构建产物：ESM、UMD、独立 CSS 与 TypeScript 声明
+- 已覆盖：地图、控件、绘图工具、覆盖物（含热力图和自定义 DOM）、图层与分组、定位、搜索、路线规划、公交线路查询、车辆轨迹
 - 工程化：ESLint、Prettier、Vitest、Playwright、Husky、CI（lint/test/examples/docs build）
 
 ---
@@ -140,13 +140,13 @@
 
 ### 第一批验证结果
 
-| 检查项 | 结果 |
-| --- | --- |
-| `yarn typecheck` | 通过 |
-| `yarn test` | 23/23 通过（新增 8 个回归测试） |
-| `yarn lint` | 0 error（12 个既有 warning） |
-| `yarn build` | 通过 |
-| `yarn docs:build` | 通过 |
+| 检查项                | 结果                                |
+| --------------------- | ----------------------------------- |
+| `yarn typecheck`      | 通过                                |
+| `yarn test`           | 23/23 通过（新增 8 个回归测试）     |
+| `yarn lint`           | 0 error（12 个既有 warning）        |
+| `yarn build`          | 通过                                |
+| `yarn docs:build`     | 通过                                |
 | `yarn check:examples` | 通过（Vue 2.7 / Vue 3 / Vue 3-min） |
 
 新增回归测试文件：`tests/regressions.test.ts`，覆盖：
@@ -159,31 +159,48 @@
 
 ---
 
-## 第二批：组件能力补全（待开始）
+## 第二批：组件能力补全（已完成）
 
 ### 8. 图层分组与显隐控制
 
-- [ ] `TdtLayerGroup`：基于已类型化的 `T.LayerGroup`（`packages/types/tianditu/base.d.ts`）
-- [ ] 图层控制面板 `TdtLayerSwitcher`：底图与业务图层切换、分组显隐、ZIndex 管理
-- [ ] `TdtMap` 的 `controls` prop 支持动态增删（当前仅在初始化时读取一次）
+- [x] `TdtLayerGroup`：基于 `T.LayerGroup`，支持嵌套、动态成员与继承显隐/层级
+- [x] 图层控制面板 `TdtLayerSwitcher`：底图与业务图层切换、分组显隐、ZIndex 管理、候选项失效回退
+- [x] `TdtMap` 的 `controls` prop 支持动态增删与配置更新，清理自身控件、监听器和等待计时器
 
 ### 9. 定位组件
 
-- [ ] 补充 `T.Geolocation` 类型声明
-- [ ] `TdtGeolocation`：浏览器定位、精度圈、定位失败处理、自动回中
+- [x] 补充 `T.Geolocation` 类型声明
+- [x] `TdtGeolocation`：浏览器定位、精度圈、定位失败处理、自动回中；默认手动触发
 
 ### 10. 搜索与路线组件增强
 
-- [ ] `TdtSearch` 增加受控 props：初始关键字、分页大小、行政区域、是否显示路线按钮的细粒度控制
-- [ ] `TdtSearch` 增加插槽：结果项、空状态、加载状态
-- [ ] `TdtRoute` 增加 props：初始起终点、默认出行方式、默认策略
-- [ ] `TdtRoute` 增加事件：`route-complete`、`route-error`、`plan-change`
-- [ ] 公交线路查询 `TdtBusLineSearch`（`busLineSearch.d.ts` 已有类型）
+- [x] `TdtSearch` 增加受控 props：初始关键字、分页大小、行政区域、是否显示路线按钮的细粒度控制
+- [x] `TdtSearch` 增加插槽：结果项、空状态、加载状态
+- [x] `TdtRoute` 增加 props：初始起终点、默认出行方式、默认策略
+- [x] `TdtRoute` 增加事件：`route-complete`、`route-error`、`plan-change`
+- [x] 公交线路查询 `TdtBusLineSearch`：候选线路、详情和地图展示，并补正 SDK 类型
 
 ### 11. 地图实例访问方式
 
-- [ ] `TdtMap` 通过 `expose` 暴露 `getMap()` / `map` ref，减少对 `init` 事件的依赖
-- [ ] `TdtMap` 增加 `loading` / `error` 作用域插槽
+- [x] `TdtMap` 通过 `expose` 暴露 `getMap()` / `map` ref，减少对 `init` 事件的依赖
+- [x] `TdtMap` 增加 `loading` / `error` 作用域插槽
+
+### 第二批文档与验证
+
+- [x] 补齐新组件与增强服务的 API 文档、交互演示、导航、README 和 CHANGELOG
+- [x] 补齐组件导出、全局组件类型；三个消费示例接入图层分组、切换面板及地图 ref/插槽
+- [x] 修正控件清理函数的声明推导，兼容 Vue 2.7；发布包脚本使用相对归档路径，兼容 GNU tar 和系统 bsdtar
+
+| 检查项                         | 结果                                                                         |
+| ------------------------------ | ---------------------------------------------------------------------------- |
+| 类型检查（`vue-tsc --noEmit`） | 通过                                                                         |
+| ESLint                         | 0 error，14 warning                                                          |
+| 库构建及声明生成               | 通过                                                                         |
+| 文档构建                       | 通过                                                                         |
+| `yarn check:examples`          | 通过：发布包内容检查，以及 Vue 2.7.16 / 3.2.47 / 3.5.44 的类型检查与生产构建 |
+| 单元测试、浏览器测试           | 本批未新增、未运行                                                           |
+
+显隐、层级、定位权限和 SDK 服务的使用边界已写入各组件文档。上述静态检查与构建结果不代表真实地图接口或浏览器交互已验证。
 
 ---
 
